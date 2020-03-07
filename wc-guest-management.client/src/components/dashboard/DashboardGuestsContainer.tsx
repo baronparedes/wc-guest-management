@@ -47,7 +47,6 @@ const DashboardGuestsContainer = (props: Props) => {
                             onPrint={handleOnPrint}
                         />
                     </RoundedPanel>
-                    <span className="p-3" />
                 </>
             )}
         </>

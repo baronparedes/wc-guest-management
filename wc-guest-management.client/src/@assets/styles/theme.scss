@@ -47,7 +47,12 @@ $body-bg: #E9EBEE;
 
 .form-label {
     font-weight: bold;
-    text-transform: uppercase;
+    text-transform: lowercase;
+}
+
+.modal-header {
+    background-color: $dark;
+    color: $light
 }
 
 @import "node_modules/bootstrap/scss/bootstrap";

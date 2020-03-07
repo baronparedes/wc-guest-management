@@ -4,7 +4,7 @@ import { guestMetadataService } from './guest-metadata.service';
 
 const timeout = 1000;
 const today = getCurrentDateFormatted();
-let guests: Models.GuestInfo[] = [
+let list: Models.GuestInfo[] = [
     {
         id: 1,
         tableNumber: 1,
@@ -34,12 +34,12 @@ let guests: Models.GuestInfo[] = [
         visitDate: today
     }
 ];
-let nextId = guests.length;
+let nextId = list.length;
 
 const get = async () => {
     return new Promise<Models.GuestInfo[]>(resolve => {
         setTimeout(() => {
-            resolve(guests);
+            resolve(list);
         }, timeout);
     });
 };
@@ -67,7 +67,7 @@ const addGuest = async (infoSlip: Models.InfoSlip) => {
     return new Promise<Models.GuestInfo[]>(resolve => {
         setTimeout(() => {
             const data = splitInfoSlip(infoSlip);
-            guests = guests.concat(data);
+            list = data.concat(data);
             resolve(data);
         }, timeout);
     });
@@ -76,13 +76,13 @@ const addGuest = async (infoSlip: Models.InfoSlip) => {
 const print = async (id: number) => {
     return new Promise<boolean>(resolve => {
         setTimeout(() => {
-            const info = guests.find(_ => _.id === id);
+            const info = list.find(_ => _.id === id);
             if (info) {
                 const metadata: Models.GuestMetadata = {
                     ...info
                 };
                 guestMetadataService.push(metadata);
-                guests = guests.filter(_ => _.id !== id);
+                list = list.filter(_ => _.id !== id);
             }
             resolve(true);
         }, timeout);

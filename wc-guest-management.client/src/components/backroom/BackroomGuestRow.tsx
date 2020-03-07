@@ -1,25 +1,32 @@
 import React from 'react';
+import { FaIdCard } from 'react-icons/fa';
 import { Models } from '../../@types/models';
 import DisplayText from '../@ui/DisplayText';
+import ToggleModal from '../@ui/ToggleModal';
 
-type Props = {
-    info: Models.GuestMetadata;
-};
-
-const BackroomGuestRow = (props: Props) => {
-    const { info } = props;
+const BackroomGuestRow: React.FC<Models.GuestMetadata> = props => {
     return (
         <tr>
             <td>
-                <h2>{info.id}</h2>
+                <h2>{props.tableNumber}</h2>
+            </td>
+            <td>{props.id}</td>
+            <td>
+                <DisplayText>{props.guest}</DisplayText>
             </td>
             <td>
-                <DisplayText>{info.guest}</DisplayText>
+                <DisplayText>{props.volunteer}</DisplayText>
             </td>
             <td>
-                <DisplayText>{info.volunteer}</DisplayText>
+                <ToggleModal
+                    modalSize="xl"
+                    modalTitle="guest info form"
+                    variant="warning"
+                    type="button"
+                    content={<FaIdCard />}>
+                    {props.children}
+                </ToggleModal>
             </td>
-            <td>Actions</td>
         </tr>
     );
 };

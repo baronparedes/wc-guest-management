@@ -52,7 +52,7 @@ export const dashboardSlice = createSlice({
             );
             return state;
         },
-        addGuestsCompleted: (
+        queuedGuestsCompleted: (
             state,
             action: PayloadAction<Models.GuestInfo[]>
         ) => {
@@ -68,6 +68,7 @@ const get = (): AppThunk => async dispatch => {
         dispatch(actions.getStarted());
         const data = await guestService.get();
         dispatch(actions.getCompleted(data));
+        dispatch(print(data[0])); //TODO REMOVE THIS
     } catch (err) {
         dispatch(actions.getFailed(err));
     }
@@ -83,12 +84,14 @@ const print = (info: Models.GuestInfo): AppThunk => async dispatch => {
     }
 };
 
-const addGuests = (
-    info: Models.InfoSlip
+const queueGuests = (
+    info: Models.InfoSlip,
+    onSuccess?: (guests: Models.GuestInfo[]) => void
 ): AppThunk => async dispatch => {
     const data = await guestService.addGuest(info);
     if (data) {
-        dispatch(actions.addGuestsCompleted(data));
+        dispatch(actions.queuedGuestsCompleted(data));
+        onSuccess && onSuccess(data);
     }
 };
 
@@ -97,6 +100,6 @@ export const dashboardActions = {
     // ...actions,
     get,
     print,
-    addGuest: addGuests
+    queueGuests: queueGuests
 };
 export default reducer;

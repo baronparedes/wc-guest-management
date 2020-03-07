@@ -29,7 +29,6 @@ const DashboardGuestRow = (props: Props) => {
             </td>
             <td>
                 <Button
-                    size="lg"
                     onClick={handleOnPrint}
                     disabled={props.info.status === 'printing'}>
                     <FaPrint />

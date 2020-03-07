@@ -2,6 +2,7 @@ import React from 'react';
 import { Table } from 'react-bootstrap';
 import { Models } from '../../@types/models';
 import BackroomGuestRow from './BackroomGuestRow';
+import GuestMetadataForm from './GuestMetadataForm';
 
 type Props = {
     guests?: Models.GuestMetadata[];
@@ -12,6 +13,7 @@ const BackroomGuestTable = (props: Props) => {
         <Table responsive hover size="lg">
             <thead className="thead-primary">
                 <tr>
+                    <th>table</th>
                     <th>id</th>
                     <th>guest</th>
                     <th>volunteer</th>
@@ -22,10 +24,9 @@ const BackroomGuestTable = (props: Props) => {
                 {props.guests &&
                     props.guests.map(guest => {
                         return (
-                            <BackroomGuestRow
-                                key={guest.id}
-                                info={guest}
-                            />
+                            <BackroomGuestRow key={guest.id} {...guest}>
+                                <GuestMetadataForm metadata={guest} />
+                            </BackroomGuestRow>
                         );
                     })}
             </tbody>

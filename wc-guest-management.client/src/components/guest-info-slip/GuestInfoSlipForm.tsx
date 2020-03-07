@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Col, Form } from 'react-bootstrap';
 import useForm from 'react-hook-form';
 import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router';
+import { useHistory } from 'react-router-dom';
 import { Models } from '../../@types/models';
 import { getCurrentDateFormatted } from '../../@utils/dates';
 import routes from '../../@utils/routes';
 import { dashboardActions } from '../../store/reducers/dashboard.reducer';
+import ConfirmedGuests from './ConfirmedGuests';
 
 const initialState: Models.InfoSlip = {
     visitDate: getCurrentDateFormatted(),
@@ -15,21 +16,25 @@ const initialState: Models.InfoSlip = {
     tableNumber: undefined
 };
 
-const GuestInfoForm = () => {
-    const dispatch = useDispatch();
+const GuestInfoSlipForm = () => {
     const history = useHistory();
+    const [queued, setQueued] = useState<Models.GuestInfo[]>();
+    const dispatch = useDispatch();
     const { handleSubmit, register, reset } = useForm<Models.InfoSlip>({
         defaultValues: initialState
     });
     const onSubmit = (data: Models.InfoSlip) => {
-        dispatch(dashboardActions.addGuest(data));
-        history.push(routes.ROOT); //TODO: for demo only, remove after
-        //if save succeded
-        // handleOnReset();
+        dispatch(dashboardActions.queueGuests(data, setQueued));
     };
     const handleOnReset = () => {
         reset(initialState);
+        setQueued(undefined);
+        //TODO: Remove, for demo only
+        history.push(routes.DASHBOARD);
     };
+    if (queued) {
+        return <ConfirmedGuests guests={queued} ok={handleOnReset} />;
+    }
     return (
         <Form onSubmit={handleSubmit(onSubmit)}>
             <Form.Row>
@@ -106,4 +111,4 @@ const GuestInfoForm = () => {
     );
 };
 
-export default GuestInfoForm;
+export default GuestInfoSlipForm;

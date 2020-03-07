@@ -1,9 +1,10 @@
 import React from 'react';
-import { Col, Container, Image, Row } from 'react-bootstrap';
+import { Col, Container, Form, Image, Row } from 'react-bootstrap';
 import styled from 'styled-components';
 import logo from '../../@assets/img/wc-logo-transparent.png';
+import { Models } from '../../@types/models';
 
-const GuestMetadataFormCol = styled(Col)`
+const BlackCol = styled(Col)`
     background-color: #000000;
     color: #ffffff;
 `;
@@ -12,7 +13,7 @@ const BoxStack = styled('div')`
     height: 110px;
     width: 110px;
     position: absolute;
-    background-color: orange;
+    background-color: #ffc107;
     z-index: 1;
     margin: 1em;
     margin-left: 0.5em;
@@ -22,25 +23,38 @@ const IndentedContainer = styled('div')`
     margin-left: 150px;
 `;
 
-const GuestMetadataForm = () => {
+type Props = {
+    metadata: Models.GuestMetadata;
+};
+
+const GuestMetadataForm = (props: Props) => {
     return (
         <Container>
             <BoxStack className="text-center rounded-lg">
-                <label className="m-auto display-2 text-bold">72</label>
+                <label className="m-auto display-2 text-bold">
+                    {props.metadata.tableNumber}
+                </label>
             </BoxStack>
             <Row>
-                <GuestMetadataFormCol className="text-right">
+                <BlackCol className="text-right">
                     <Image src={logo} height="80px" />
-                </GuestMetadataFormCol>
+                </BlackCol>
             </Row>
             <Row>
                 <Col>
-                    <IndentedContainer>Data</IndentedContainer>
+                    <IndentedContainer>
+                        <Form.Label>service</Form.Label>
+                    </IndentedContainer>
                 </Col>
-                <Col>Data</Col>
+                <Col className="text-right ">
+                    <Form.Label>visit date</Form.Label>
+                    <h5 className="text-bold">
+                        {props.metadata.visitDate}
+                    </h5>
+                </Col>
             </Row>
             <Row>
-                <GuestMetadataFormCol className="p-3"></GuestMetadataFormCol>
+                <BlackCol className="p-2"></BlackCol>
             </Row>
         </Container>
     );
