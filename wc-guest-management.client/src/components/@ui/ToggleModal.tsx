@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { Button, ButtonProps } from 'react-bootstrap';
-import ModalContainer from './ModalContainer';
+import ModalContainer, { ModalProps } from './ModalContainer';
 
 type Props = {
     content: React.ReactNode;
-    modalTitle: React.ReactNode;
-    modalSize?: 'sm' | 'lg' | 'xl' | undefined;
 };
 
-const ToggleModal: React.FC<ButtonProps & Props> = props => {
+const ToggleModal: React.FC<ButtonProps &
+    Props &
+    ModalProps> = props => {
     const [toggle, setToggle] = useState(false);
     const handleOnShowModal = () => setToggle(true);
     const handleOnClose = () => setToggle(false);
@@ -22,8 +22,8 @@ const ToggleModal: React.FC<ButtonProps & Props> = props => {
                 {props.content}
             </Button>
             <ModalContainer
-                size={props.modalSize}
-                title={props.modalTitle}
+                modalSize={props.modalSize}
+                modalTitle={props.modalTitle}
                 toggle={toggle}
                 onAction={handleOnAction}
                 onClose={handleOnClose}>

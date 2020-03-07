@@ -1,23 +1,26 @@
 import React from 'react';
 import { Button, Modal } from 'react-bootstrap';
 
-export type Props = {
-    title?: React.ReactNode;
+export type ModalProps = {
+    modalTitle?: React.ReactNode;
+    modalSize?: 'sm' | 'lg' | 'xl';
+};
+
+type Props = {
     toggle?: boolean;
     onClose?: () => void;
     onAction?: () => void;
     actionText?: string;
-    size?: 'sm' | 'lg' | 'xl' | undefined;
 };
 
-const ModalContainer: React.FC<Props> = props => {
+const ModalContainer: React.FC<Props & ModalProps> = props => {
     return (
         <Modal
             show={props.toggle}
             onHide={props.onClose}
-            size={props.size}>
+            size={props.modalSize}>
             <Modal.Header>
-                <Modal.Title>{props.title}</Modal.Title>
+                <Modal.Title>{props.modalTitle}</Modal.Title>
             </Modal.Header>
             <Modal.Body>{props.children}</Modal.Body>
             <Modal.Footer>
