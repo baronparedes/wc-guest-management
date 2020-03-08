@@ -1,7 +1,6 @@
 import React from 'react';
 import { Button, Col, Row } from 'react-bootstrap';
 import { connect, useDispatch } from 'react-redux';
-import { Models } from '../../@types/models';
 import { RootState } from '../../store/reducers';
 import { dashboardActions } from '../../store/reducers/dashboard.reducer';
 import Loading from '../@ui/Loading';
@@ -17,9 +16,6 @@ type Props = ReturnType<typeof mapState>;
 
 const DashboardGuestsContainer = (props: Props) => {
     const dispatch = useDispatch();
-    const handleOnPrint = (info: Models.GuestInfo) => {
-        dispatch(dashboardActions.print(info));
-    };
     return (
         <>
             <h4 className="text-muted">{new Date().toDateString()}</h4>
@@ -42,10 +38,7 @@ const DashboardGuestsContainer = (props: Props) => {
                         </Col>
                     </Row>
                     <RoundedPanel>
-                        <DashboardGuestTable
-                            guests={props.guests}
-                            onPrint={handleOnPrint}
-                        />
+                        <DashboardGuestTable guests={props.guests} />
                     </RoundedPanel>
                 </>
             )}

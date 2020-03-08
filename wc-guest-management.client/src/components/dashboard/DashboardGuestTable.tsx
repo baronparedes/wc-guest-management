@@ -5,7 +5,6 @@ import DashboardGuestRow from './DashboardGuestRow';
 
 type Props = {
     guests?: Models.GuestInfo[];
-    onPrint?: (info: Models.GuestInfo) => void;
 };
 
 const DashboardGuestTable = (props: Props) => {
@@ -26,7 +25,6 @@ const DashboardGuestTable = (props: Props) => {
                             <DashboardGuestRow
                                 key={guest.id}
                                 info={guest}
-                                onPrint={props.onPrint}
                             />
                         );
                     })}

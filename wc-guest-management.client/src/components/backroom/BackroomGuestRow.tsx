@@ -1,5 +1,6 @@
 import React from 'react';
-import { FaIdCard } from 'react-icons/fa';
+import { Button, ButtonGroup } from 'react-bootstrap';
+import { FaIdCard, FaPrint } from 'react-icons/fa';
 import { Models } from '../../@types/models';
 import DisplayText from '../@ui/DisplayText';
 import ToggleModal from '../@ui/ToggleModal';
@@ -18,14 +19,20 @@ const BackroomGuestRow: React.FC<Models.GuestMetadata> = props => {
                 <DisplayText>{props.volunteer}</DisplayText>
             </td>
             <td>
-                <ToggleModal
-                    modalSize="xl"
-                    modalTitle="guest info form"
-                    variant="warning"
-                    type="button"
-                    content={<FaIdCard />}>
-                    {props.children}
-                </ToggleModal>
+                <ButtonGroup>
+                    <Button>
+                        <FaPrint />
+                    </Button>
+                    <ToggleModal
+                        actionText="save"
+                        modalSize="xl"
+                        modalTitle="guest info form"
+                        variant="warning"
+                        type="button"
+                        content={<FaIdCard />}>
+                        {props.children}
+                    </ToggleModal>
+                </ButtonGroup>
             </td>
         </tr>
     );

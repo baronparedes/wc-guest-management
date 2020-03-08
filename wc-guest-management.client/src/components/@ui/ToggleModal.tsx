@@ -4,6 +4,7 @@ import ModalContainer, { ModalProps } from './ModalContainer';
 
 type Props = {
     content: React.ReactNode;
+    onClick?: () => void;
 };
 
 const ToggleModal: React.FC<ButtonProps &
@@ -13,7 +14,7 @@ const ToggleModal: React.FC<ButtonProps &
     const handleOnShowModal = () => setToggle(true);
     const handleOnClose = () => setToggle(false);
     const handleOnAction = () => {
-        // TODO: Add Action
+        props.onClick && props.onClick();
         handleOnClose();
     };
     return (
@@ -24,6 +25,7 @@ const ToggleModal: React.FC<ButtonProps &
             <ModalContainer
                 modalSize={props.modalSize}
                 modalTitle={props.modalTitle}
+                actionText={props.actionText}
                 toggle={toggle}
                 onAction={handleOnAction}
                 onClose={handleOnClose}>

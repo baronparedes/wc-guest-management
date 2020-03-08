@@ -4,13 +4,13 @@ import { Button, Modal } from 'react-bootstrap';
 export type ModalProps = {
     modalTitle?: React.ReactNode;
     modalSize?: 'sm' | 'lg' | 'xl';
+    onAction?: () => void;
+    actionText?: string;
 };
 
 type Props = {
     toggle?: boolean;
     onClose?: () => void;
-    onAction?: () => void;
-    actionText?: string;
 };
 
 const ModalContainer: React.FC<Props & ModalProps> = props => {
