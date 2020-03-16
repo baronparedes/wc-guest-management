@@ -1,15 +1,46 @@
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 import * as express from 'express';
-import requestLogger from './middlewares/requestLogger';
+import * as morgan from 'morgan';
+import * as swaggerUi from 'swagger-ui-express';
+import './controllers/todo.controller';
+import { RegisterRoutes } from './routes';
 
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
-app.use(requestLogger);
+app.use(morgan('dev'));
 
-app.get('/', (_, res) => {
-    res.send('Hello World!');
+try {
+    const swaggerDocument = require('../swagger.json');
+    app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+} catch (err) {
+    console.error(err);
+}
+
+RegisterRoutes(app);
+
+app.use((req, res, next) => {
+    const notFound = {
+        message: 'Resource not found',
+        status: 404
+    };
+    next(notFound);
 });
+
+app.use(
+    (
+        err: any,
+        req: express.Request,
+        res: express.Response,
+        next: express.NextFunction
+    ) => {
+        res.status(err.status || 500).json({
+            error: {
+                message: err.message
+            }
+        });
+    }
+);
 
 export default app;
