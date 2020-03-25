@@ -3,17 +3,41 @@
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { Controller, ValidationService, FieldErrors, ValidateError, TsoaRoute } from 'tsoa';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-import { TodoControler } from './controllers/todo.controller';
+import { GuestController } from './controllers/guest.controller';
 import * as express from 'express';
 
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
 const models: TsoaRoute.Models = {
-    "Todo": {
+    "Guest": {
         "dataType": "refObject",
         "properties": {
-            "_id": { "dataType": "string", "required": true },
-            "description": { "dataType": "string", "required": true },
+            "_id": { "dataType": "string" },
+            "visitDate": { "dataType": "datetime", "required": true },
+            "tableNumber": { "dataType": "double", "required": true },
+            "volunteer": { "dataType": "string", "required": true },
+            "guest": { "dataType": "string", "required": true },
+            "age": { "dataType": "double" },
+            "birthDate": { "dataType": "string" },
+            "mobile": { "dataType": "string" },
+            "email": { "dataType": "string" },
+            "civilStatus": { "dataType": "string" },
+            "cityOfResidence": { "dataType": "string" },
+            "cityOfWorkplace": { "dataType": "string" },
+            "category": { "dataType": "string" },
+            "series": { "dataType": "double" },
+            "createdDate": { "dataType": "datetime" },
+        },
+        "additionalProperties": true,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "InfoSlip": {
+        "dataType": "refObject",
+        "properties": {
+            "visitDate": { "dataType": "datetime", "required": true },
+            "tableNumber": { "dataType": "double" },
+            "volunteer": { "dataType": "string", "required": true },
+            "guests": { "dataType": "string", "required": true },
         },
         "additionalProperties": true,
     },
@@ -28,9 +52,11 @@ export function RegisterRoutes(app: express.Express) {
     //  NOTE: If you do not see routes for all of your controllers in this file, then you might not have informed tsoa of where to look
     //      Please look into the "controllerPathGlobs" config option described in the readme: https://github.com/lukeautry/tsoa
     // ###########################################################################################################
-    app.get('/api/todo',
+    app.get('/api/guest',
         function(request: any, response: any, next: any) {
             const args = {
+                byVisitDate: { "in": "query", "name": "byVisitDate", "dataType": "datetime" },
+                byVolunteer: { "in": "query", "name": "byVolunteer", "dataType": "string" },
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -42,17 +68,18 @@ export function RegisterRoutes(app: express.Express) {
                 return next(err);
             }
 
-            const controller = new TodoControler();
+            const controller = new GuestController();
 
 
             const promise = controller.getAll.apply(controller, validatedArgs as any);
             promiseHandler(controller, promise, response, next);
         });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    app.get('/api/todo/:id',
+    app.post('/api/guest/welcome',
         function(request: any, response: any, next: any) {
             const args = {
-                id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
+                infoSlip: { "in": "body-prop", "name": "infoSlip", "required": true, "ref": "InfoSlip" },
+                print: { "in": "body-prop", "name": "print", "dataType": "boolean" },
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -64,77 +91,10 @@ export function RegisterRoutes(app: express.Express) {
                 return next(err);
             }
 
-            const controller = new TodoControler();
+            const controller = new GuestController();
 
 
-            const promise = controller.get.apply(controller, validatedArgs as any);
-            promiseHandler(controller, promise, response, next);
-        });
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    app.post('/api/todo',
-        function(request: any, response: any, next: any) {
-            const args = {
-                description: { "in": "body-prop", "name": "description", "required": true, "dataType": "string" },
-            };
-
-            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = getValidatedArgs(args, request);
-            } catch (err) {
-                return next(err);
-            }
-
-            const controller = new TodoControler();
-
-
-            const promise = controller.create.apply(controller, validatedArgs as any);
-            promiseHandler(controller, promise, response, next);
-        });
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    app.put('/api/todo/:id',
-        function(request: any, response: any, next: any) {
-            const args = {
-                id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
-                description: { "in": "body-prop", "name": "description", "required": true, "dataType": "string" },
-            };
-
-            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = getValidatedArgs(args, request);
-            } catch (err) {
-                return next(err);
-            }
-
-            const controller = new TodoControler();
-
-
-            const promise = controller.update.apply(controller, validatedArgs as any);
-            promiseHandler(controller, promise, response, next);
-        });
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    app.delete('/api/todo/:id',
-        function(request: any, response: any, next: any) {
-            const args = {
-                id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
-            };
-
-            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = getValidatedArgs(args, request);
-            } catch (err) {
-                return next(err);
-            }
-
-            const controller = new TodoControler();
-
-
-            const promise = controller.delete.apply(controller, validatedArgs as any);
+            const promise = controller.welcome.apply(controller, validatedArgs as any);
             promiseHandler(controller, promise, response, next);
         });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa

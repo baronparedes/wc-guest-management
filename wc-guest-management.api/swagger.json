@@ -4,18 +4,101 @@
 		"application/json"
 	],
 	"definitions": {
-		"Todo": {
+		"Guest": {
 			"properties": {
 				"_id": {
+					"type": "string",
+					"x-nullable": true
+				},
+				"visitDate": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"tableNumber": {
+					"type": "number",
+					"format": "double"
+				},
+				"volunteer": {
 					"type": "string"
 				},
-				"description": {
+				"guest": {
+					"type": "string"
+				},
+				"age": {
+					"type": "number",
+					"format": "double",
+					"x-nullable": true
+				},
+				"birthDate": {
+					"type": "string",
+					"x-nullable": true
+				},
+				"mobile": {
+					"type": "string",
+					"x-nullable": true
+				},
+				"email": {
+					"type": "string",
+					"x-nullable": true
+				},
+				"civilStatus": {
+					"type": "string",
+					"x-nullable": true
+				},
+				"cityOfResidence": {
+					"type": "string",
+					"x-nullable": true
+				},
+				"cityOfWorkplace": {
+					"type": "string",
+					"x-nullable": true
+				},
+				"category": {
+					"type": "string",
+					"x-nullable": true
+				},
+				"series": {
+					"type": "number",
+					"format": "double",
+					"x-nullable": true
+				},
+				"createdDate": {
+					"type": "string",
+					"format": "date-time",
+					"x-nullable": true
+				}
+			},
+			"required": [
+				"visitDate",
+				"tableNumber",
+				"volunteer",
+				"guest"
+			],
+			"type": "object",
+			"additionalProperties": true
+		},
+		"InfoSlip": {
+			"properties": {
+				"visitDate": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"tableNumber": {
+					"type": "number",
+					"format": "double",
+					"x-nullable": true
+				},
+				"volunteer": {
+					"type": "string"
+				},
+				"guests": {
 					"type": "string"
 				}
 			},
 			"required": [
-				"_id",
-				"description"
+				"visitDate",
+				"volunteer",
+				"guests"
 			],
 			"type": "object",
 			"additionalProperties": true
@@ -29,7 +112,7 @@
 		}
 	},
 	"paths": {
-		"/api/todo": {
+		"/api/guest": {
 			"get": {
 				"operationId": "GetAll",
 				"produces": [
@@ -40,52 +123,33 @@
 						"description": "Ok",
 						"schema": {
 							"items": {
-								"$ref": "#/definitions/Todo"
+								"$ref": "#/definitions/Guest"
 							},
 							"type": "array"
 						}
 					}
 				},
 				"security": [],
-				"parameters": []
-			},
-			"post": {
-				"operationId": "Create",
-				"produces": [
-					"application/json"
-				],
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"schema": {
-							"$ref": "#/definitions/Todo"
-						}
-					}
-				},
-				"security": [],
 				"parameters": [
 					{
-						"in": "body",
-						"name": "body",
-						"schema": {
-							"properties": {
-								"description": {
-									"type": "string"
-								}
-							},
-							"title": "CreateBody",
-							"type": "object",
-							"required": [
-								"description"
-							]
-						}
+						"in": "query",
+						"name": "byVisitDate",
+						"required": false,
+						"format": "date-time",
+						"type": "string"
+					},
+					{
+						"in": "query",
+						"name": "byVolunteer",
+						"required": false,
+						"type": "string"
 					}
 				]
 			}
 		},
-		"/api/todo/{id}": {
-			"get": {
-				"operationId": "Get",
+		"/api/guest/welcome": {
+			"post": {
+				"operationId": "Welcome",
 				"produces": [
 					"application/json"
 				],
@@ -93,73 +157,33 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"$ref": "#/definitions/Todo"
+							"items": {
+								"$ref": "#/definitions/Guest"
+							},
+							"type": "array"
 						}
 					}
 				},
 				"security": [],
 				"parameters": [
-					{
-						"in": "path",
-						"name": "id",
-						"required": true,
-						"type": "string"
-					}
-				]
-			},
-			"put": {
-				"operationId": "Update",
-				"produces": [
-					"application/json"
-				],
-				"responses": {
-					"204": {
-						"description": "No content"
-					}
-				},
-				"security": [],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "id",
-						"required": true,
-						"type": "string"
-					},
 					{
 						"in": "body",
 						"name": "body",
 						"schema": {
 							"properties": {
-								"description": {
-									"type": "string"
+								"infoSlip": {
+									"$ref": "#/definitions/InfoSlip"
+								},
+								"print": {
+									"type": "boolean"
 								}
 							},
-							"title": "UpdateBody",
+							"title": "WelcomeBody",
 							"type": "object",
 							"required": [
-								"description"
+								"infoSlip"
 							]
 						}
-					}
-				]
-			},
-			"delete": {
-				"operationId": "Delete",
-				"produces": [
-					"application/json"
-				],
-				"responses": {
-					"204": {
-						"description": "No content"
-					}
-				},
-				"security": [],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "id",
-						"required": true,
-						"type": "string"
 					}
 				]
 			}

@@ -40,5 +40,7 @@ export module Models {
         cityOfResidence?: string;
         cityOfWorkplace?: string;
         category?: GuestCategory;
+        series?: number;
+        createdDate?: Date;
     };
 }

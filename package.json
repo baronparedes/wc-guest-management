@@ -1,0 +1,25 @@
+{
+    "name": "wc-guest-management",
+    "version": "1.0.0",
+    "description": "WC guest management",
+    "main": "",
+    "scripts": {
+        "client": "cd wc-guest-management.client && npm start",
+        "server": "cd wc-guest-management.api && npm start",
+        "start": "concurrently \"npm run server\" \"npm run client\""
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/baronparedes/wc-guest-management.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/baronparedes/wc-guest-management/issues"
+    },
+    "homepage": "https://github.com/baronparedes/wc-guest-management#readme",
+    "devDependencies": {
+        "concurrently": "^5.1.0"
+    }
+}

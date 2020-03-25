@@ -1,21 +1,19 @@
 import * as http from 'http';
 import * as mongoose from 'mongoose';
 import app from './app';
+import config from './config';
 
-const MONGODB_URI = 'mongodb://localhost:27017/todo?authSource=admin';
-const MONGODB_URI_LIVE =
-    'mongodb+srv://root:YukwsCsKvTKqGB7y@cluster0-psvh0.mongodb.net/test?retryWrites=true&w=majority';
-const PORT = 3001;
 const server = http.createServer(app);
-server.listen(PORT);
+server.listen(config.PORT);
 server.on('listening', async () => {
-    console.info(`Listening on port ${PORT}`);
+    console.info(`Listening on port ${config.PORT}`);
     mongoose
-        .connect(MONGODB_URI, {
+        .connect(config.MONGODB_URI, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
-            user: 'root',
-            pass: 'password',
+            useFindAndModify: true,
+            user: config.MONGODB_USER,
+            pass: config.MONGODB_PWD,
             connectTimeoutMS: 3000
         })
         .catch(err => {

@@ -9,7 +9,7 @@ const TodoSchema = new mongoose.Schema({
     description: { type: String, required: true }
 });
 
-export default mongoose.model<Todo & mongoose.Document>(
-    'Todo',
+export const TodoModel = mongoose.model<Todo & mongoose.Document>(
+    'todo',
     TodoSchema
 );

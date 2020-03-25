@@ -7,7 +7,7 @@ import {
     Put,
     Route
 } from 'tsoa';
-import TodoModel, { Todo } from '../models/todo';
+import { Todo, TodoModel } from '../@models/todo';
 
 @Route('/api/todo')
 export class TodoControler extends Controller {
