@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
-import { Button, Col, Form } from 'react-bootstrap';
+import { Alert, Button, Col, Form } from 'react-bootstrap';
 import useForm from 'react-hook-form';
-import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import { Models } from '../../@types/models';
 import { getCurrentDateFormatted } from '../../@utils/dates';
-import routes from '../../@utils/routes';
-import { dashboardActions } from '../../store/reducers/dashboard.reducer';
+import {
+    Guest,
+    InfoSlip,
+    useWelcome,
+    WelcomeRequestBody
+} from '../../Api';
 import ConfirmedGuests from './ConfirmedGuests';
 
-const initialState: Models.InfoSlip = {
+const initialState: InfoSlip = {
     visitDate: getCurrentDateFormatted(),
     guests: '',
     volunteer: '',
@@ -17,23 +18,32 @@ const initialState: Models.InfoSlip = {
 };
 
 const GuestInfoSlipForm = () => {
-    const history = useHistory();
-    const [queued, setQueued] = useState<Models.GuestInfo[]>();
-    const dispatch = useDispatch();
-    const { handleSubmit, register, reset } = useForm<Models.InfoSlip>({
+    const [queued, setQueued] = useState<Guest[]>();
+    const [name, setName] = useState<string>('');
+    const { loading, error, mutate } = useWelcome({});
+    const { handleSubmit, register, reset } = useForm<InfoSlip>({
         defaultValues: initialState
     });
-    const onSubmit = (data: Models.InfoSlip) => {
-        dispatch(dashboardActions.queueGuests(data, setQueued));
+    const onSubmit = (formData: InfoSlip) => {
+        const body: WelcomeRequestBody = {
+            print: false,
+            infoSlip: formData
+        };
+        setName(formData.volunteer);
+        mutate(body).then(setQueued);
     };
     const handleOnReset = () => {
         reset(initialState);
         setQueued(undefined);
-        //TODO: Remove, for demo only
-        history.push(routes.DASHBOARD);
     };
     if (queued) {
-        return <ConfirmedGuests guests={queued} ok={handleOnReset} />;
+        return (
+            <ConfirmedGuests
+                guests={queued}
+                ok={handleOnReset}
+                volunteer={name}
+            />
+        );
     }
     return (
         <Form onSubmit={handleSubmit(onSubmit)}>
@@ -94,16 +104,24 @@ const GuestInfoSlipForm = () => {
                     You can write multiple guests in each line
                 </Form.Text>
             </Form.Group>
+            {error && (
+                <Alert variant="danger">{error.data as string}</Alert>
+            )}
             <Form.Group as={Col} className="text-right">
                 <Button
                     onClick={handleOnReset}
                     variant="secondary"
                     type="button"
                     size="lg"
-                    className="mr-2">
+                    className="mr-2"
+                    disabled={loading}>
                     Clear
                 </Button>
-                <Button variant="primary" type="submit" size="lg">
+                <Button
+                    variant="primary"
+                    type="submit"
+                    size="lg"
+                    disabled={loading}>
                     Submit
                 </Button>
             </Form.Group>

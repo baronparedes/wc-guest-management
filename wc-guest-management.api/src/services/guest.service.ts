@@ -15,29 +15,41 @@ export default class GuestService {
         return result;
     }
 
-    public async welcomeGuests(infoSlip: InfoSlip): Promise<Guest[]> {
+    private printWelcomeLetters(guests: Guest[]) {
+        guests.forEach(g => {
+            console.log(g._id);
+        });
+    }
+
+    public async welcomeGuests(
+        infoSlip: InfoSlip,
+        print?: boolean
+    ): Promise<Guest[]> {
         if (!infoSlip.guests || infoSlip.guests === '') {
-            throw new Error('Guest name(s) is required');
+            throw new Error('Guest name(s) must be provided.');
         }
 
-        const guestBag: Guest[] = [];
-        const guests = infoSlip.guests.split(/\n/);
+        const guests: Guest[] = [];
+        const guestInfos = infoSlip.guests.split(/\n/);
 
         // array.forEach does not work with await
-        for (let index = 0; index < guests.length; index++) {
-            const guest = guests[index];
-            const seq = await getNextSequence('guest');
-            guestBag.push({
-                visitDate: infoSlip.visitDate,
-                tableNumber: infoSlip.tableNumber,
-                volunteer: infoSlip.volunteer,
-                guest: guest,
-                series: seq,
-                createdDate: new Date()
-            });
+        for (let index = 0; index < guestInfos.length; index++) {
+            const guest = guestInfos[index];
+            if (guest && guest !== '') {
+                const seq = await getNextSequence('guest');
+                guests.push({
+                    visitDate: new Date(infoSlip.visitDate),
+                    tableNumber: infoSlip.tableNumber,
+                    volunteer: infoSlip.volunteer,
+                    guest: guest,
+                    series: seq,
+                    createdDate: new Date()
+                });
+            }
         }
 
-        const result = GuestModel.insertMany(guestBag);
-        return result;
+        const inserted = await GuestModel.insertMany(guests);
+        print && this.printWelcomeLetters(inserted);
+        return inserted;
     }
 }

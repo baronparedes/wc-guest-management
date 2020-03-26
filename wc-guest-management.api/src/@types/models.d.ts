@@ -1,5 +1,5 @@
 export interface InfoSlip {
-    visitDate: Date;
+    visitDate: string;
     tableNumber?: number;
     volunteer: string;
     guests: string;

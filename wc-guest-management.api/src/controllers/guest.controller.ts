@@ -28,7 +28,11 @@ export class GuestController extends Controller {
         @BodyProp() infoSlip: InfoSlip,
         @BodyProp() print?: boolean
     ) {
-        const result = await this.guestService.welcomeGuests(infoSlip);
+        const result = await this.guestService.welcomeGuests(
+            infoSlip,
+            print
+        );
+
         return result;
     }
 }

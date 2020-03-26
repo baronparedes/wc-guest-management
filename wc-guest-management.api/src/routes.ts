@@ -34,7 +34,7 @@ const models: TsoaRoute.Models = {
     "InfoSlip": {
         "dataType": "refObject",
         "properties": {
-            "visitDate": { "dataType": "datetime", "required": true },
+            "visitDate": { "dataType": "string", "required": true },
             "tableNumber": { "dataType": "double" },
             "volunteer": { "dataType": "string", "required": true },
             "guests": { "dataType": "string", "required": true },

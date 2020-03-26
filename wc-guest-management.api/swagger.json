@@ -80,8 +80,7 @@
 		"InfoSlip": {
 			"properties": {
 				"visitDate": {
-					"type": "string",
-					"format": "date-time"
+					"type": "string"
 				},
 				"tableNumber": {
 					"type": "number",

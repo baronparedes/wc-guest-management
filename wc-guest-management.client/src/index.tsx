@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import { RestfulProvider } from 'restful-react';
 import './@assets/styles/theme.scss';
 import App from './App';
 import AppRouter from './AppRouter';
@@ -9,11 +10,13 @@ import * as serviceWorker from './serviceWorker';
 import store from './store';
 
 ReactDOM.render(
-    <Provider store={store}>
-        <App>
-            <AppRouter />
-        </App>
-    </Provider>,
+    <RestfulProvider base="http://localhost:3001">
+        <Provider store={store}>
+            <App>
+                <AppRouter />
+            </App>
+        </Provider>
+    </RestfulProvider>,
     document.getElementById('root')
 );
 

@@ -35,11 +35,8 @@ app.use(
         res: express.Response,
         next: express.NextFunction
     ) => {
-        res.status(err.status || 500).json({
-            error: {
-                message: err.message
-            }
-        });
+        console.log('server error', err);
+        res.status(err.status || 500).send(err.message);
     }
 );
 
