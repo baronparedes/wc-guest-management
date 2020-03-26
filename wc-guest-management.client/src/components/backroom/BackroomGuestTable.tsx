@@ -1,11 +1,11 @@
 import React from 'react';
 import { Table } from 'react-bootstrap';
-import { Models } from '../../@types/models';
+import { Guest } from '../../Api';
 import BackroomGuestRow from './BackroomGuestRow';
 import GuestMetadataForm from './GuestMetadataForm';
 
 type Props = {
-    guests?: Models.GuestMetadata[];
+    guests?: Guest[];
 };
 
 const BackroomGuestTable = (props: Props) => {
@@ -24,7 +24,9 @@ const BackroomGuestTable = (props: Props) => {
                 {props.guests &&
                     props.guests.map(guest => {
                         return (
-                            <BackroomGuestRow key={guest.id} {...guest}>
+                            <BackroomGuestRow
+                                key={guest._id as string}
+                                {...guest}>
                                 <GuestMetadataForm metadata={guest} />
                             </BackroomGuestRow>
                         );

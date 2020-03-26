@@ -1,34 +1,69 @@
 import React from 'react';
-import { Button, Col, Form, InputGroup, Row } from 'react-bootstrap';
+import { Button, Col, Form, InputGroup } from 'react-bootstrap';
+import useForm from 'react-hook-form';
 import { getCurrentDateFormatted } from '../../@utils/dates';
 
-const BackroomFilter = () => {
+type Props = {
+    onRefresh?: (criteria?: string, visitDate?: string) => void;
+    criteria?: string;
+    visitDate?: string;
+};
+
+const BackroomFilter = (props: Props) => {
+    const now = getCurrentDateFormatted();
+    const { handleSubmit, register } = useForm<Props>({
+        defaultValues: {
+            criteria: props.criteria,
+            visitDate: props.visitDate
+        }
+    });
+
+    const onSubmit = (formData: Props) => {
+        props.onRefresh &&
+            props.onRefresh(formData.criteria, formData.visitDate);
+    };
+
     return (
-        <div>
-            <Row>
-                <InputGroup as={Col} sm={12} md={3} className="pb-3">
+        <Form onSubmit={handleSubmit(onSubmit)}>
+            <Form.Row>
+                <Form.Group
+                    as={Col}
+                    sm={12}
+                    md={4}
+                    controlId="visitDate">
                     <Form.Control
                         required
+                        ref={register}
                         name="visitDate"
                         size="lg"
                         type="date"
-                        value={getCurrentDateFormatted()}
-                        max={getCurrentDateFormatted()}
+                        max={now}
                     />
-                </InputGroup>
-                <InputGroup as={Col} sm={12} md={9} className="pb-3">
-                    <Form.Control
-                        required
-                        name="search"
-                        size="lg"
-                        placeholder="search"
-                    />
-                    <InputGroup.Append>
-                        <Button>search</Button>
-                    </InputGroup.Append>
-                </InputGroup>
-            </Row>
-        </div>
+                </Form.Group>
+                <Form.Group
+                    as={Col}
+                    sm={12}
+                    md={8}
+                    controlId="criteria">
+                    <InputGroup>
+                        <Form.Control
+                            ref={register}
+                            name="criteria"
+                            size="lg"
+                            placeholder="search"
+                        />
+                        <InputGroup.Append>
+                            <Button
+                                variant="primary"
+                                type="submit"
+                                size="lg">
+                                Submit
+                            </Button>
+                        </InputGroup.Append>
+                    </InputGroup>
+                </Form.Group>
+            </Form.Row>
+        </Form>
     );
 };
 

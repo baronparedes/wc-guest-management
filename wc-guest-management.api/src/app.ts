@@ -7,7 +7,11 @@ import './controllers/guest.controller';
 import { RegisterRoutes } from './routes';
 
 const app = express();
-app.use(cors());
+app.use(
+    cors({
+        origin: 'http://localhost:3000'
+    })
+);
 app.use(bodyParser.json());
 app.use(morgan('dev'));
 

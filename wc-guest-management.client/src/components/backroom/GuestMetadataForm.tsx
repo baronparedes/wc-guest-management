@@ -2,7 +2,7 @@ import React from 'react';
 import { Col, Container, Form, Image, Row } from 'react-bootstrap';
 import styled from 'styled-components';
 import logo from '../../@assets/img/wc-logo-transparent.png';
-import { Models } from '../../@types/models';
+import { Guest } from '../../Api';
 import FieldContainer from '../@ui/FieldContainer';
 
 const DarkCol = styled(Col)`
@@ -29,7 +29,7 @@ const IndentedContainer = styled('div')`
 `;
 
 type Props = {
-    metadata: Models.GuestMetadata;
+    metadata: Guest;
 };
 
 const GuestMetadataForm = (props: Props) => {

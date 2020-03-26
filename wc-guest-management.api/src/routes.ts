@@ -56,7 +56,7 @@ export function RegisterRoutes(app: express.Express) {
         function(request: any, response: any, next: any) {
             const args = {
                 byVisitDate: { "in": "query", "name": "byVisitDate", "dataType": "datetime" },
-                byVolunteer: { "in": "query", "name": "byVolunteer", "dataType": "string" },
+                byCriteria: { "in": "query", "name": "byCriteria", "dataType": "string" },
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -71,7 +71,7 @@ export function RegisterRoutes(app: express.Express) {
             const controller = new GuestController();
 
 
-            const promise = controller.getAll.apply(controller, validatedArgs as any);
+            const promise = controller.fetchGuests.apply(controller, validatedArgs as any);
             promiseHandler(controller, promise, response, next);
         });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa

@@ -19,13 +19,15 @@ const ToggleModal: React.FC<ButtonProps &
     };
     return (
         <>
-            <Button {...props} onClick={handleOnShowModal}>
+            <Button
+                {...(props as ButtonProps)}
+                onClick={handleOnShowModal}>
                 {props.content}
             </Button>
             <ModalContainer
                 modalSize={props.modalSize}
-                modalTitle={props.modalTitle}
-                actionText={props.actionText}
+                title={props.title}
+                label={props.label}
                 toggle={toggle}
                 onAction={handleOnAction}
                 onClose={handleOnClose}>

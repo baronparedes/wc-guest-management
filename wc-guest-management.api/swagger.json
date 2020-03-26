@@ -113,7 +113,7 @@
 	"paths": {
 		"/api/guest": {
 			"get": {
-				"operationId": "GetAll",
+				"operationId": "FetchGuests",
 				"produces": [
 					"application/json"
 				],
@@ -139,7 +139,7 @@
 					},
 					{
 						"in": "query",
-						"name": "byVolunteer",
+						"name": "byCriteria",
 						"required": false,
 						"type": "string"
 					}

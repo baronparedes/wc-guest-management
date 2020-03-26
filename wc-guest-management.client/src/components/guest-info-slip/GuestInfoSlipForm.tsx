@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Alert, Button, Col, Form } from 'react-bootstrap';
+import { Button, Col, Form } from 'react-bootstrap';
 import useForm from 'react-hook-form';
 import { getCurrentDateFormatted } from '../../@utils/dates';
 import {
@@ -8,6 +8,7 @@ import {
     useWelcome,
     WelcomeRequestBody
 } from '../../Api';
+import ErrorInfo from '../@ui/ErrorInfo';
 import ConfirmedGuests from './ConfirmedGuests';
 
 const initialState: InfoSlip = {
@@ -104,9 +105,7 @@ const GuestInfoSlipForm = () => {
                     You can write multiple guests in each line
                 </Form.Text>
             </Form.Group>
-            {error && (
-                <Alert variant="danger">{error.data as string}</Alert>
-            )}
+            {error && <ErrorInfo>{error.data as string}</ErrorInfo>}
             <Form.Group as={Col} className="text-right">
                 <Button
                     onClick={handleOnReset}

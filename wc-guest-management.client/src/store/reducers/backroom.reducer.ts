@@ -1,72 +1,36 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { AppThunk } from '..';
-import { Models } from '../../@types/models';
-import { guestMetadataService } from '../../services/guest-metadata.service';
-import { dashboardSlice } from './dashboard.reducer';
+import { getCurrentDateFormatted } from '../../@utils/dates';
+import { FetchGuestsQueryParams, Guest } from '../../Api';
 
 const initialState = {
-    guestMetadata: [] as Models.GuestMetadata[],
-    criteria: '',
-    loading: false,
-    error: '',
-    date: new Date().getDate()
+    guestMetadata: [] as Guest[] | null,
+    query: {
+        byVisitDate: getCurrentDateFormatted()
+    } as FetchGuestsQueryParams
 };
 
 export const backroomSlice = createSlice({
     name: 'backroom',
     initialState,
     reducers: {
-        getStarted: state => {
-            state.loading = true;
-            state.error = '';
-        },
-        getCompleted: (
+        refreshQueue: (
             state,
-            action: PayloadAction<Models.GuestMetadata[]>
+            action: PayloadAction<Guest[] | null>
         ) => {
-            state.loading = false;
-            state.error = '';
             state.guestMetadata = action.payload;
         },
-        getFailed: (state, action: PayloadAction<string>) => {
-            state.loading = false;
-            state.error = action.payload;
-        }
-    },
-    extraReducers: {
-        [dashboardSlice.actions.printCompleted.toString()]: (
+        query: (
             state,
-            action: PayloadAction<Models.GuestInfo>
+            action: PayloadAction<FetchGuestsQueryParams>
         ) => {
-            if (state.guestMetadata) {
-                const guestMetadata: Models.GuestMetadata = {
-                    ...action.payload
-                };
-                state.guestMetadata.push(guestMetadata);
-            }
+            state.query = action.payload;
+            state.guestMetadata = null;
         }
     }
 });
 
-const get = (
-    criteria: string,
-    targetDate: Date
-): AppThunk => async dispatch => {
-    try {
-        dispatch(actions.getStarted());
-        const data = await guestMetadataService.get(
-            criteria,
-            targetDate
-        );
-        dispatch(actions.getCompleted(data));
-    } catch (err) {
-        dispatch(actions.getFailed(err));
-    }
-};
-
 const { actions, reducer } = backroomSlice;
 export const backroomActions = {
-    ...actions,
-    get
+    ...actions
 };
 export default reducer;

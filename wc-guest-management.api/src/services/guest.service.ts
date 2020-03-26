@@ -5,14 +5,19 @@ import { InfoSlip } from '../@types/models';
 export default class GuestService {
     public async fetchGuests(
         byVisitDate?: Date,
-        byVolunteer?: string
+        byCriteria?: string
     ): Promise<Guest[]> {
-        let query = {};
-        if (byVisitDate) query['visitDate'] = byVisitDate;
-        if (byVolunteer)
-            query['volunteer'] = new RegExp('^' + byVolunteer, 'i');
-        const result = GuestModel.find(query);
-        return result;
+        const query = GuestModel.find();
+        if (byVisitDate)
+            query.where({ visitDate: new Date(byVisitDate) });
+        if (byCriteria) {
+            const expression = new RegExp(byCriteria, 'i');
+            query.or([
+                { volunteer: expression },
+                { guest: expression }
+            ]);
+        }
+        return query;
     }
 
     private printWelcomeLetters(guests: Guest[]) {

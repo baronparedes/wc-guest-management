@@ -2,10 +2,10 @@ import React from 'react';
 import { Button, Modal } from 'react-bootstrap';
 
 export type ModalProps = {
-    modalTitle?: React.ReactNode;
+    title?: React.ReactNode;
     modalSize?: 'sm' | 'lg' | 'xl';
     onAction?: () => void;
-    actionText?: string;
+    label?: string;
 };
 
 type Props = {
@@ -20,7 +20,7 @@ const ModalContainer: React.FC<Props & ModalProps> = props => {
             onHide={props.onClose}
             size={props.modalSize}>
             <Modal.Header>
-                <Modal.Title>{props.modalTitle}</Modal.Title>
+                <Modal.Title>{props.title}</Modal.Title>
             </Modal.Header>
             <Modal.Body>{props.children}</Modal.Body>
             <Modal.Footer>
@@ -28,7 +28,7 @@ const ModalContainer: React.FC<Props & ModalProps> = props => {
                     close
                 </Button>
                 <Button variant="primary" onClick={props.onAction}>
-                    {props.actionText ? props.actionText : 'ok'}
+                    {props.label ? props.label : 'ok'}
                 </Button>
             </Modal.Footer>
         </Modal>

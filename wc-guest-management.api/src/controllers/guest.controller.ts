@@ -12,13 +12,13 @@ export class GuestController extends Controller {
     }
 
     @Get('/')
-    public async getAll(
+    public async fetchGuests(
         @Query() byVisitDate?: Date,
-        @Query() byVolunteer?: string
+        @Query() byCriteria?: string
     ) {
         const result = await this.guestService.fetchGuests(
             byVisitDate,
-            byVolunteer
+            byCriteria
         );
         return result;
     }
