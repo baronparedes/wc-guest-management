@@ -9,7 +9,7 @@ import {
 } from 'tsoa';
 import { Guest } from '../@models/guest';
 import { InfoSlip } from '../@types/models';
-import GuestService from '../services/guest.service';
+import GuestService from '../services/guest-service';
 
 @Route('/api/guest')
 export class GuestController extends Controller {

@@ -3,7 +3,7 @@ import * as cors from 'cors';
 import * as express from 'express';
 import * as morgan from 'morgan';
 import * as swaggerUi from 'swagger-ui-express';
-import './controllers/guest.controller';
+import './controllers/guest-controller';
 import { RegisterRoutes } from './routes';
 
 const app = express();
