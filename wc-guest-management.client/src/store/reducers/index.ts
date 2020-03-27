@@ -1,10 +1,8 @@
 import { combineReducers } from '@reduxjs/toolkit';
-import backroomReducer from './backroom.reducer';
 import dashboardReducer from './dashboard.reducer';
 
 const rootReducer = combineReducers({
-    dashboard: dashboardReducer,
-    backroom: backroomReducer
+    dashboard: dashboardReducer
 });
 
 export default rootReducer;

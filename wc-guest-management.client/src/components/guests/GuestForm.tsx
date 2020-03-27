@@ -110,12 +110,21 @@ const GuestForm = (props: Props) => {
                     sm={6}
                     label="visit date"
                     className="text-left m-0">
-                    <h4 className="text-bold">
-                        {formatDate(new Date(props.guest.visitDate))}
-                    </h4>
+                    <div>
+                        <h4 className="font-weight-bold float-left">
+                            {formatDate(
+                                new Date(props.guest.visitDate)
+                            )}
+                        </h4>
+                        <span className="text-muted float-right">
+                            {props.guest.series}
+                        </span>
+                    </div>
+
                     <input hidden name="visitDate" ref={register} />
                     <input hidden name="tableNumber" ref={register} />
                     <input hidden name="_id" ref={register} />
+                    <input hidden name="series" ref={register} />
                 </FieldContainer>
             </Row>
             <Row>
@@ -129,6 +138,7 @@ const GuestForm = (props: Props) => {
                         name="guest"
                         id="formGuest"
                         placeholder="guest"
+                        size="lg"
                     />
                 </FieldContainer>
                 <FieldContainer as={Col} md={3} label="birthdate">
@@ -137,6 +147,7 @@ const GuestForm = (props: Props) => {
                         name="birthDate"
                         id="formBirthDate"
                         placeholder="birthdate"
+                        size="lg"
                     />
                 </FieldContainer>
                 <FieldContainer as={Col} md={3} label="age">
@@ -146,6 +157,7 @@ const GuestForm = (props: Props) => {
                         id="formAge"
                         type="number"
                         placeholder="age"
+                        size="lg"
                     />
                 </FieldContainer>
             </Row>
@@ -156,6 +168,7 @@ const GuestForm = (props: Props) => {
                         name="mobile"
                         id="formMobile"
                         placeholder="mobile"
+                        size="lg"
                     />
                 </FieldContainer>
                 <FieldContainer as={Col} md={6} label="email">
@@ -165,11 +178,12 @@ const GuestForm = (props: Props) => {
                         id="formEmail"
                         type="email"
                         placeholder="email"
+                        size="lg"
                     />
                 </FieldContainer>
             </Row>
             <Row>
-                <FieldContainer as={Col} label="civil status">
+                <FieldContainer as={Col} md={9} label="civil status">
                     <br />
                     <FieldChecklist
                         checklist={[
@@ -185,6 +199,16 @@ const GuestForm = (props: Props) => {
                         name="civilStatus"
                     />
                 </FieldContainer>
+                <FieldContainer as={Col} md={3} label="gender">
+                    <br />
+                    <FieldChecklist
+                        checklist={['Male', 'Female']}
+                        register={register}
+                        inline
+                        type="radio"
+                        name="gender"
+                    />
+                </FieldContainer>
             </Row>
             <Row>
                 <FieldContainer
@@ -196,6 +220,7 @@ const GuestForm = (props: Props) => {
                         name="cityOfResidence"
                         id="formCityOfResidence"
                         placeholder="city of residence"
+                        size="lg"
                     />
                 </FieldContainer>
                 <FieldContainer as={Col} md={6} label="city of work">
@@ -204,6 +229,7 @@ const GuestForm = (props: Props) => {
                         name="cityOfWorkplace"
                         id="formCityOfWorkplace"
                         placeholder="city of work"
+                        size="lg"
                     />
                 </FieldContainer>
             </Row>
@@ -214,7 +240,6 @@ const GuestForm = (props: Props) => {
                 <FieldContainer as={Col} label="welcome notes...">
                     <br />
                     <FieldChecklist
-                        required
                         checklist={['A', 'DNA', 'Prayed', 'Counseled']}
                         inline
                         type="radio"
@@ -230,6 +255,7 @@ const GuestForm = (props: Props) => {
                         name="volunteer"
                         id="formVolunteer"
                         placeholder="volunteer"
+                        size="lg"
                     />
                 </FieldContainer>
             </Row>
@@ -239,7 +265,7 @@ const GuestForm = (props: Props) => {
                 </Row>
             )}
             <Row>
-                <FieldContainer as={Col} md={12} className="text-right">
+                <FieldContainer as={Col} className="text-right">
                     <Button
                         variant="primary"
                         type="submit"

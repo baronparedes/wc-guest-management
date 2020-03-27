@@ -24,6 +24,7 @@ export interface Guest {
   worshipDay?: string | null;
   worshipTime?: string | null;
   action?: string | null;
+  gender?: string | null;
   [key: string]: any;
 }
 

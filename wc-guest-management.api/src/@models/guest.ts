@@ -20,6 +20,7 @@ export interface Guest {
     worshipDay?: string;
     worshipTime?: string;
     action?: string;
+    gender?: string;
 }
 
 const GuestSchema = new mongoose.Schema({
@@ -38,6 +39,7 @@ const GuestSchema = new mongoose.Schema({
     worshipDay: String,
     worshipTime: String,
     action: String,
+    gender: String,
     createdDate: { type: Date, required: true },
     series: { type: Number, required: true }
 });

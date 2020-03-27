@@ -9,7 +9,7 @@ type Props = {
     visitDate?: string;
 };
 
-const BackroomFilter = (props: Props) => {
+const GuestFilter = (props: Props) => {
     const now = getCurrentDateFormatted();
     const { handleSubmit, register } = useForm<Props>({
         defaultValues: {
@@ -67,4 +67,4 @@ const BackroomFilter = (props: Props) => {
     );
 };
 
-export default BackroomFilter;
+export default GuestFilter;

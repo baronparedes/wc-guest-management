@@ -1,6 +1,6 @@
 const routes = {
     ROOT: '/',
-    BACKROOM: '/backroom',
+    GUESTS: '/guests',
     DASHBOARD: '/dashboard',
     GUEST_INFO_SLIP: '/'
 };

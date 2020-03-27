@@ -18,19 +18,16 @@ const Navigation: React.FC = () => {
                             as={NavLink}
                             to={routes.DASHBOARD}
                             exact>
-                            Dashboard
+                            dashboard
                         </Nav.Link>
-                        <Nav.Link
-                            as={NavLink}
-                            to={routes.BACKROOM}
-                            exact>
-                            Backroom
+                        <Nav.Link as={NavLink} to={routes.GUESTS} exact>
+                            guests
                         </Nav.Link>
                         <Nav.Link
                             as={NavLink}
                             to={routes.GUEST_INFO_SLIP}
                             exact>
-                            Guest Info
+                            guest info slip
                         </Nav.Link>
                     </Nav>
                 </Navbar.Collapse>

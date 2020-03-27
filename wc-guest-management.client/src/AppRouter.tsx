@@ -3,9 +3,9 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import routes from './@utils/routes';
 import Header from './components/@ui/Header';
 import NotFound from './components/@ui/NotFound';
-import BackroomView from './components/backroom/BackroomView';
 import DashboardView from './components/dashboard/DashboardView';
 import GuestInfoSlipView from './components/guest-info-slip/GuestInfoSlipView';
+import GuestView from './components/guests/GuestView';
 
 const AppRouter: React.FC = () => {
     return (
@@ -25,9 +25,9 @@ const AppRouter: React.FC = () => {
                             component={DashboardView}
                         />
                         <Route
-                            path={routes.BACKROOM}
+                            path={routes.GUESTS}
                             exact
-                            component={BackroomView}
+                            component={GuestView}
                         />
                         <Route component={NotFound} />
                     </Switch>

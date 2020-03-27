@@ -4,10 +4,10 @@ import { FetchGuestsQueryParams, useFetchGuests } from '../../Api';
 import ErrorInfo from '../@ui/ErrorInfo';
 import Loading from '../@ui/Loading';
 import RoundedPanel from '../@ui/RoundedPanel';
-import BackroomFilter from './BackroomFilter';
-import BackroomGuestTable from './BackroomGuestTable';
+import GuestFilter from './GuestFilter';
+import GuestGuestTable from './GuestTable';
 
-const BackroomGuestsContainer = () => {
+const GuestGuestsContainer = () => {
     const [query, setQuery] = useState<FetchGuestsQueryParams>({
         byVisitDate: getCurrentDateFormatted()
     });
@@ -33,7 +33,7 @@ const BackroomGuestsContainer = () => {
     }
     return (
         <>
-            <BackroomFilter
+            <GuestFilter
                 onRefresh={handleOnRefresh}
                 criteria={query.byCriteria}
                 visitDate={query.byVisitDate}
@@ -41,11 +41,11 @@ const BackroomGuestsContainer = () => {
             {error && <ErrorInfo>{error.data as string}</ErrorInfo>}
             {data && (
                 <RoundedPanel>
-                    <BackroomGuestTable guests={data} />
+                    <GuestGuestTable guests={data} />
                 </RoundedPanel>
             )}
         </>
     );
 };
 
-export default BackroomGuestsContainer;
+export default GuestGuestsContainer;

@@ -30,6 +30,7 @@ const models: TsoaRoute.Models = {
             "worshipDay": { "dataType": "string" },
             "worshipTime": { "dataType": "string" },
             "action": { "dataType": "string" },
+            "gender": { "dataType": "string" },
         },
         "additionalProperties": true,
     },

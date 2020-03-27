@@ -6,7 +6,7 @@ import DashboardGuestsContainer from './DashboardGuestsContainer';
 const DashboardView = () => {
     return (
         <Container>
-            <DisplayLabel>Dashboard</DisplayLabel>
+            <DisplayLabel>dashboard</DisplayLabel>
             <DashboardGuestsContainer />
         </Container>
     );
