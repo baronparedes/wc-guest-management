@@ -10,7 +10,7 @@ import * as serviceWorker from './serviceWorker';
 import store from './store';
 
 ReactDOM.render(
-    <RestfulProvider base="http://localhost:3001">
+    <RestfulProvider base={process.env.REACT_APP_API_URI}>
         <Provider store={store}>
             <App>
                 <AppRouter />

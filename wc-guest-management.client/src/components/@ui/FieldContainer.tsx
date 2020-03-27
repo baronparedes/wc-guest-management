@@ -1,13 +1,15 @@
 import React from 'react';
-import { Form } from 'react-bootstrap';
+import { ColProps, Form } from 'react-bootstrap';
 
 type Props = {
     label: React.ReactNode;
+    as?: React.ElementType;
+    className?: string;
 };
 
-const FieldContainer: React.FC<Props> = props => {
+const FieldContainer: React.FC<Props & ColProps> = props => {
     return (
-        <Form.Group>
+        <Form.Group {...props}>
             <Form.Label className="text-muted">
                 {props.label}
             </Form.Label>

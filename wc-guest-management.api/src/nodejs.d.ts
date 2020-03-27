@@ -1,8 +1,9 @@
-/// <reference types="react-scripts" />
 declare namespace NodeJS {
     export interface ProcessEnv {
         NODE_ENV: 'development' | 'production' | 'test';
-        REACT_APP_API_URI: string;
-        REACT_APP_VERSION: string;
+        PORT: number;
+        MONGODB_URI: string;
+        MONGODB_USER: string;
+        MONGODB_PWD: string;
     }
 }

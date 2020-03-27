@@ -2,6 +2,7 @@ import React from 'react';
 import { Col, Container, Form, Image, Row } from 'react-bootstrap';
 import styled from 'styled-components';
 import logo from '../../@assets/img/wc-logo-transparent.png';
+import { formatDate } from '../../@utils/dates';
 import { Guest } from '../../Api';
 import FieldContainer from '../@ui/FieldContainer';
 
@@ -49,7 +50,6 @@ const GuestMetadataForm = (props: Props) => {
                 <Col md={5} sm={12}>
                     <IndentedContainer>
                         <FieldContainer label="worship service attended">
-                            <br />
                             <Form.Check
                                 inline
                                 type="radio"
@@ -93,10 +93,14 @@ const GuestMetadataForm = (props: Props) => {
                         />
                     </FieldContainer>
                 </Col>
-                <BorderedLeftCol md={3} sm={6} className="text-left">
-                    <FieldContainer label="visit date">
+                <BorderedLeftCol md={3} sm={6}>
+                    <FieldContainer
+                        label="visit date"
+                        className="text-left">
                         <h4 className="text-bold">
-                            {props.metadata.visitDate}
+                            {formatDate(
+                                new Date(props.metadata.visitDate)
+                            )}
                         </h4>
                     </FieldContainer>
                 </BorderedLeftCol>
@@ -105,177 +109,159 @@ const GuestMetadataForm = (props: Props) => {
                 <DarkCol className="p-2 mb-3"></DarkCol>
             </Row>
             <Row>
-                <Col md={6}>
-                    <FieldContainer label="guest">
-                        <Form.Control
-                            required
-                            // ref={register}
-                            name="guest"
-                            id="formGuest"
-                            placeholder="guest"
-                            value={props.metadata.guest}
-                        />
-                    </FieldContainer>
-                </Col>
-                <Col md={3}>
-                    <FieldContainer label="birthdate">
-                        <Form.Control
-                            // ref={register}
-                            name="birthdate"
-                            id="formBirthdate"
-                            placeholder="birthdate"
-                        />
-                    </FieldContainer>
-                </Col>
-                <Col md={3}>
-                    <FieldContainer label="age">
-                        <Form.Control
-                            // ref={register}
-                            name="age"
-                            id="formAge"
-                            type="number"
-                            placeholder="age"
-                        />
-                    </FieldContainer>
-                </Col>
+                <FieldContainer as={Col} md={6} label="guest">
+                    <Form.Control
+                        required
+                        // ref={register}
+                        name="guest"
+                        id="formGuest"
+                        placeholder="guest"
+                        value={props.metadata.guest}
+                    />
+                </FieldContainer>
+                <FieldContainer as={Col} md={3} label="birthdate">
+                    <Form.Control
+                        // ref={register}
+                        name="birthdate"
+                        id="formBirthdate"
+                        placeholder="birthdate"
+                    />
+                </FieldContainer>
+                <FieldContainer as={Col} md={3} label="age">
+                    <Form.Control
+                        // ref={register}
+                        name="age"
+                        id="formAge"
+                        type="number"
+                        placeholder="age"
+                    />
+                </FieldContainer>
             </Row>
             <Row>
-                <Col md={6}>
-                    <FieldContainer label="mobile">
-                        <Form.Control
-                            // ref={register}
-                            name="mobile"
-                            id="formMobile"
-                            placeholder="mobile"
-                        />
-                    </FieldContainer>
-                </Col>
-                <Col md={6}>
-                    <FieldContainer label="email">
-                        <Form.Control
-                            // ref={register}
-                            name="email"
-                            id="formEmail"
-                            placeholder="email"
-                        />
-                    </FieldContainer>
-                </Col>
+                <FieldContainer as={Col} md={6} label="mobile">
+                    <Form.Control
+                        // ref={register}
+                        name="mobile"
+                        id="formMobile"
+                        placeholder="mobile"
+                    />
+                </FieldContainer>
+                <FieldContainer as={Col} md={6} label="email">
+                    <Form.Control
+                        // ref={register}
+                        name="email"
+                        id="formEmail"
+                        placeholder="email"
+                    />
+                </FieldContainer>
             </Row>
             <Row>
-                <Col>
-                    <FieldContainer label="civil status">
-                        <br />
-                        <Form.Check
-                            inline
-                            type="radio"
-                            label="Single"
-                            name="formCivilStatus"
-                            id="formCivilStatus1"
-                        />
-                        <Form.Check
-                            inline
-                            type="radio"
-                            label="Married"
-                            name="formCivilStatus"
-                            id="formCivilStatus2"
-                        />
-                        <Form.Check
-                            inline
-                            type="radio"
-                            label="Single Parent"
-                            name="formCivilStatus"
-                            id="formCivilStatus3"
-                        />
-                        <Form.Check
-                            inline
-                            type="radio"
-                            label="Annulled / Divorced"
-                            name="formCivilStatus"
-                            id="formCivilStatus4"
-                        />
-                        <Form.Check
-                            inline
-                            type="radio"
-                            label="Widower"
-                            name="formCivilStatus"
-                            id="formCivilStatus5"
-                        />
-                    </FieldContainer>
-                </Col>
+                <FieldContainer as={Col} label="civil status">
+                    <br />
+                    <Form.Check
+                        inline
+                        type="radio"
+                        label="Single"
+                        name="formCivilStatus"
+                        id="formCivilStatus1"
+                    />
+                    <Form.Check
+                        inline
+                        type="radio"
+                        label="Married"
+                        name="formCivilStatus"
+                        id="formCivilStatus2"
+                    />
+                    <Form.Check
+                        inline
+                        type="radio"
+                        label="Single Parent"
+                        name="formCivilStatus"
+                        id="formCivilStatus3"
+                    />
+                    <Form.Check
+                        inline
+                        type="radio"
+                        label="Annulled / Divorced"
+                        name="formCivilStatus"
+                        id="formCivilStatus4"
+                    />
+                    <Form.Check
+                        inline
+                        type="radio"
+                        label="Widower"
+                        name="formCivilStatus"
+                        id="formCivilStatus5"
+                    />
+                </FieldContainer>
             </Row>
             <Row>
-                <Col md={6}>
-                    <FieldContainer label="city of residence">
-                        <Form.Control
-                            // ref={register}
-                            name="residence"
-                            id="formResidence"
-                            placeholder="residence"
-                        />
-                    </FieldContainer>
-                </Col>
-                <Col md={6}>
-                    <FieldContainer label="city of work">
-                        <Form.Control
-                            // ref={register}
-                            name="work"
-                            id="formWork"
-                            placeholder="work"
-                        />
-                    </FieldContainer>
-                </Col>
+                <FieldContainer
+                    as={Col}
+                    md={6}
+                    label="city of residence">
+                    <Form.Control
+                        // ref={register}
+                        name="residence"
+                        id="formResidence"
+                        placeholder="residence"
+                    />
+                </FieldContainer>
+                <FieldContainer as={Col} md={6} label="city of work">
+                    <Form.Control
+                        // ref={register}
+                        name="work"
+                        id="formWork"
+                        placeholder="work"
+                    />
+                </FieldContainer>
             </Row>
             <Row>
                 <DarkCol className="p-2 mb-3"></DarkCol>
             </Row>
-
             <Row>
-                <Col>
-                    <FieldContainer label="welcome notes...">
-                        <br />
-                        <Form.Check
-                            inline
-                            type="radio"
-                            label="A"
-                            name="formWelcomeAction"
-                            id="formWelcomeAction1"
-                        />
-                        <Form.Check
-                            inline
-                            type="radio"
-                            label="DNA"
-                            name="formWelcomeAction"
-                            id="formWelcomeAction2"
-                        />
-                        <Form.Check
-                            inline
-                            type="radio"
-                            label="Prayed"
-                            name="formWelcomeAction"
-                            id="formWelcomeAction3"
-                        />
-                        <Form.Check
-                            inline
-                            type="radio"
-                            label="Counseled"
-                            name="formWelcomeAction"
-                            id="formWelcomeAction4"
-                        />
-                    </FieldContainer>
-                </Col>
+                <FieldContainer as={Col} label="welcome notes...">
+                    <br />
+                    <Form.Check
+                        inline
+                        type="radio"
+                        label="A"
+                        name="formWelcomeAction"
+                        id="formWelcomeAction1"
+                    />
+                    <Form.Check
+                        inline
+                        type="radio"
+                        label="DNA"
+                        name="formWelcomeAction"
+                        id="formWelcomeAction2"
+                    />
+                    <Form.Check
+                        inline
+                        type="radio"
+                        label="Prayed"
+                        name="formWelcomeAction"
+                        id="formWelcomeAction3"
+                    />
+                    <Form.Check
+                        inline
+                        type="radio"
+                        label="Counseled"
+                        name="formWelcomeAction"
+                        id="formWelcomeAction4"
+                    />
+                </FieldContainer>
             </Row>
             <Row>
-                <Col>
-                    <FieldContainer label="volunteer">
-                        <Form.Control
-                            // ref={register}
-                            name="volunteer"
-                            id="formVolunteer"
-                            placeholder="volunteer"
-                            value={props.metadata.volunteer}
-                        />
-                    </FieldContainer>
-                </Col>
+                <FieldContainer as={Col} label="volunteer">
+                    <Form.Control
+                        // ref={register}
+                        name="volunteer"
+                        id="formVolunteer"
+                        placeholder="volunteer"
+                        value={props.metadata.volunteer}
+                    />
+                </FieldContainer>
             </Row>
         </Container>
     );

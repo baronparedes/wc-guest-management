@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { getCurrentDateFormatted } from '../../@utils/dates';
-import { useFetchGuests } from '../../Api';
+import { FetchGuestsQueryParams, useFetchGuests } from '../../Api';
 import ErrorInfo from '../@ui/ErrorInfo';
 import Loading from '../@ui/Loading';
 import RoundedPanel from '../@ui/RoundedPanel';
@@ -8,23 +8,26 @@ import BackroomFilter from './BackroomFilter';
 import BackroomGuestTable from './BackroomGuestTable';
 
 const BackroomGuestsContainer = () => {
-    console.log('render');
-    const [criteria, setCriteria] = useState<string>();
-    const [visitDate, setVisitDate] = useState<string | undefined>(
-        getCurrentDateFormatted()
-    );
+    const [query, setQuery] = useState<FetchGuestsQueryParams>({
+        byVisitDate: getCurrentDateFormatted()
+    });
     const { loading, error, data, refetch } = useFetchGuests({
-        queryParams: {
+        queryParams: query
+    });
+    const handleOnRefresh = (criteria?: string, visitDate?: string) => {
+        setQuery({
             byCriteria: criteria,
             byVisitDate: visitDate
-        }
-    });
-
-    const handleOnRefresh = (criteria?: string, visitDate?: string) => {
-        setCriteria(criteria);
-        setVisitDate(visitDate);
+        });
     };
-
+    useEffect(() => {
+        const interval = setInterval(() => {
+            refetch();
+        }, 10000);
+        return () => {
+            interval && clearInterval(interval);
+        };
+    }, []);
     if (loading) {
         return <Loading />;
     }
@@ -32,8 +35,8 @@ const BackroomGuestsContainer = () => {
         <>
             <BackroomFilter
                 onRefresh={handleOnRefresh}
-                criteria={criteria}
-                visitDate={visitDate}
+                criteria={query.byCriteria}
+                visitDate={query.byVisitDate}
             />
             {error && <ErrorInfo>{error.data as string}</ErrorInfo>}
             {data && (

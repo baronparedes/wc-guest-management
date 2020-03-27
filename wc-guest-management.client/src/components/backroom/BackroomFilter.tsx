@@ -50,14 +50,14 @@ const BackroomFilter = (props: Props) => {
                             ref={register}
                             name="criteria"
                             size="lg"
-                            placeholder="search"
+                            placeholder="search criteria"
                         />
                         <InputGroup.Append>
                             <Button
                                 variant="primary"
                                 type="submit"
                                 size="lg">
-                                Submit
+                                Refresh
                             </Button>
                         </InputGroup.Append>
                     </InputGroup>
