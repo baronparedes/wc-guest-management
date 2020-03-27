@@ -21,9 +21,11 @@ const BackroomGuestsContainer = () => {
         });
     };
     useEffect(() => {
+        console.log('starting polling');
         const interval = setInterval(() => {
+            console.log('refreshing');
             refetch();
-        }, 10000);
+        }, 60000);
         return () => {
             interval && clearInterval(interval);
         };

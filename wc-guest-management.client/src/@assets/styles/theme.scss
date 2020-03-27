@@ -52,7 +52,12 @@ $body-bg: #E9EBEE;
 
 .modal-header {
     background-color: $dark;
-    color: $light
+    color: $light;
+
+    button.close {
+        color: $light
+    }
+
 }
 
 @import "node_modules/bootstrap/scss/bootstrap";

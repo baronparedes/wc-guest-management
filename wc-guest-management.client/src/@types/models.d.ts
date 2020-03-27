@@ -1,17 +1,18 @@
 export module Models {
     export type PrintStatus = 'printing' | 'printed' | '';
     export type CivilStatus =
-        | 'single'
-        | 'married'
-        | 'annuleled / divorced'
-        | 'widower'
-        | 'single parent'
+        | 'Single'
+        | 'Married'
+        | 'Annulled / Divorced'
+        | 'Widower'
+        | 'Single parent'
         | '';
     export type GuestCategory =
-        | 'shared a'
-        | 'shared dna'
-        | 'prayed'
-        | 'counseled';
+        | 'A'
+        | 'DNA'
+        | 'Prayed'
+        | 'Counseled'
+        | '';
     export type GuestInfo = {
         id: number;
         visitDate: string;

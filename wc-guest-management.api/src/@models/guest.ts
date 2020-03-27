@@ -7,7 +7,7 @@ export interface Guest {
     tableNumber: number;
     volunteer: string;
     guest: string;
-    age?: number;
+    age?: string;
     birthDate?: string;
     mobile?: string;
     email?: string;
@@ -17,6 +17,9 @@ export interface Guest {
     category?: string;
     series?: number;
     createdDate?: Date;
+    worshipDay?: string;
+    worshipTime?: string;
+    action?: string;
 }
 
 const GuestSchema = new mongoose.Schema({
@@ -24,14 +27,17 @@ const GuestSchema = new mongoose.Schema({
     tableNumber: { type: Number, required: true },
     volunteer: { type: String, required: true },
     guest: { type: String, required: true },
-    age: Number,
-    birthDate: Date,
+    age: String,
+    birthDate: String,
     mobile: String,
     email: String,
     civilStatus: String,
     cityOfResidence: String,
     cityOfWorkplace: String,
     category: String,
+    worshipDay: String,
+    worshipTime: String,
+    action: String,
     createdDate: { type: Date, required: true },
     series: { type: Number, required: true }
 });

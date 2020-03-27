@@ -17,7 +17,7 @@ const models: TsoaRoute.Models = {
             "tableNumber": { "dataType": "double", "required": true },
             "volunteer": { "dataType": "string", "required": true },
             "guest": { "dataType": "string", "required": true },
-            "age": { "dataType": "double" },
+            "age": { "dataType": "string" },
             "birthDate": { "dataType": "string" },
             "mobile": { "dataType": "string" },
             "email": { "dataType": "string" },
@@ -27,6 +27,9 @@ const models: TsoaRoute.Models = {
             "category": { "dataType": "string" },
             "series": { "dataType": "double" },
             "createdDate": { "dataType": "datetime" },
+            "worshipDay": { "dataType": "string" },
+            "worshipTime": { "dataType": "string" },
+            "action": { "dataType": "string" },
         },
         "additionalProperties": true,
     },
@@ -72,6 +75,29 @@ export function RegisterRoutes(app: express.Express) {
 
 
             const promise = controller.fetchGuests.apply(controller, validatedArgs as any);
+            promiseHandler(controller, promise, response, next);
+        });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    app.put('/api/guest/:id',
+        function(request: any, response: any, next: any) {
+            const args = {
+                id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
+                guestData: { "in": "body-prop", "name": "guestData", "required": true, "ref": "Guest" },
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new GuestController();
+
+
+            const promise = controller.updateGuestData.apply(controller, validatedArgs as any);
             promiseHandler(controller, promise, response, next);
         });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa

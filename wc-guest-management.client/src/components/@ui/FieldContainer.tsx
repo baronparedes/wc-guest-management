@@ -2,7 +2,7 @@ import React from 'react';
 import { ColProps, Form } from 'react-bootstrap';
 
 type Props = {
-    label: React.ReactNode;
+    label?: React.ReactNode;
     as?: React.ElementType;
     className?: string;
 };

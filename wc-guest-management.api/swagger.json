@@ -25,8 +25,7 @@
 					"type": "string"
 				},
 				"age": {
-					"type": "number",
-					"format": "double",
+					"type": "string",
 					"x-nullable": true
 				},
 				"birthDate": {
@@ -65,6 +64,18 @@
 				"createdDate": {
 					"type": "string",
 					"format": "date-time",
+					"x-nullable": true
+				},
+				"worshipDay": {
+					"type": "string",
+					"x-nullable": true
+				},
+				"worshipTime": {
+					"type": "string",
+					"x-nullable": true
+				},
+				"action": {
+					"type": "string",
 					"x-nullable": true
 				}
 			},
@@ -142,6 +153,47 @@
 						"name": "byCriteria",
 						"required": false,
 						"type": "string"
+					}
+				]
+			}
+		},
+		"/api/guest/{id}": {
+			"put": {
+				"operationId": "UpdateGuestData",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/Guest"
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"in": "body",
+						"name": "body",
+						"schema": {
+							"properties": {
+								"guestData": {
+									"$ref": "#/definitions/Guest"
+								}
+							},
+							"title": "UpdateGuestDataBody",
+							"type": "object",
+							"required": [
+								"guestData"
+							]
+						}
 					}
 				]
 			}

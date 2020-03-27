@@ -2,7 +2,6 @@ import React from 'react';
 import { Table } from 'react-bootstrap';
 import { Guest } from '../../Api';
 import BackroomGuestRow from './BackroomGuestRow';
-import GuestMetadataForm from './GuestMetadataForm';
 
 type Props = {
     guests?: Guest[];
@@ -26,9 +25,7 @@ const BackroomGuestTable = (props: Props) => {
                         return (
                             <BackroomGuestRow
                                 key={guest._id as string}
-                                {...guest}>
-                                <GuestMetadataForm metadata={guest} />
-                            </BackroomGuestRow>
+                                {...guest}></BackroomGuestRow>
                         );
                     })}
             </tbody>

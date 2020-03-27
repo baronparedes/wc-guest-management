@@ -11,7 +11,7 @@ export interface Guest {
   tableNumber: number;
   volunteer: string;
   guest: string;
-  age?: number | null;
+  age?: string | null;
   birthDate?: string | null;
   mobile?: string | null;
   email?: string | null;
@@ -21,6 +21,9 @@ export interface Guest {
   category?: string | null;
   series?: number | null;
   createdDate?: string | null;
+  worshipDay?: string | null;
+  worshipTime?: string | null;
+  action?: string | null;
   [key: string]: any;
 }
 
@@ -49,6 +52,25 @@ export const FetchGuests = (props: FetchGuestsProps) => (
 export type UseFetchGuestsProps = Omit<UseGetProps<Guest[], FetchGuestsQueryParams>, "path">;
 
 export const useFetchGuests = (props: UseFetchGuestsProps) => useGet<Guest[], unknown, FetchGuestsQueryParams>(`/api/guest`, props);
+
+
+export interface UpdateGuestDataRequestBody {
+  guestData: Guest;
+}
+
+export type UpdateGuestDataProps = Omit<MutateProps<Guest, unknown, void, UpdateGuestDataRequestBody>, "path" | "verb"> & {id: string};
+
+export const UpdateGuestData = ({id, ...props}: UpdateGuestDataProps) => (
+  <Mutate<Guest, unknown, void, UpdateGuestDataRequestBody>
+    verb="PUT"
+    path={`/api/guest/${id}`}
+    {...props}
+  />
+);
+
+export type UseUpdateGuestDataProps = Omit<UseMutateProps<Guest, void, UpdateGuestDataRequestBody>, "path" | "verb"> & {id: string};
+
+export const useUpdateGuestData = ({id, ...props}: UseUpdateGuestDataProps) => useMutate<Guest, unknown, void, UpdateGuestDataRequestBody>("PUT", `/api/guest/${id}`, props);
 
 
 export interface WelcomeRequestBody {

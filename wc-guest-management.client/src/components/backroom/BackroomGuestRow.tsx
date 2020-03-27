@@ -1,9 +1,9 @@
 import React from 'react';
 import { Button, ButtonGroup } from 'react-bootstrap';
-import { FaIdCard, FaPrint } from 'react-icons/fa';
+import { FaPrint } from 'react-icons/fa';
 import { Guest } from '../../Api';
 import DisplayText from '../@ui/DisplayText';
-import ToggleModal from '../@ui/ToggleModal';
+import GuestFormModal from './GuestFormModal';
 
 const BackroomGuestRow: React.FC<Guest> = props => {
     return (
@@ -23,15 +23,7 @@ const BackroomGuestRow: React.FC<Guest> = props => {
                     <Button>
                         <FaPrint />
                     </Button>
-                    <ToggleModal
-                        label="save"
-                        modalSize="xl"
-                        title="guest info form"
-                        variant="warning"
-                        type="button"
-                        content={<FaIdCard />}>
-                        {props.children}
-                    </ToggleModal>
+                    <GuestFormModal {...props} />
                 </ButtonGroup>
             </td>
         </tr>

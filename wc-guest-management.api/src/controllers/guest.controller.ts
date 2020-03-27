@@ -1,4 +1,13 @@
-import { BodyProp, Controller, Get, Post, Query, Route } from 'tsoa';
+import {
+    BodyProp,
+    Controller,
+    Get,
+    Post,
+    Put,
+    Query,
+    Route
+} from 'tsoa';
+import { Guest } from '../@models/guest';
 import { InfoSlip } from '../@types/models';
 import GuestService from '../services/guest.service';
 
@@ -19,6 +28,18 @@ export class GuestController extends Controller {
         const result = await this.guestService.fetchGuests(
             byVisitDate,
             byCriteria
+        );
+        return result;
+    }
+
+    @Put('/{id}')
+    public async updateGuestData(
+        id: string,
+        @BodyProp() guestData: Guest
+    ): Promise<Guest> {
+        const result = await this.guestService.updateGuestData(
+            id,
+            guestData
         );
         return result;
     }
