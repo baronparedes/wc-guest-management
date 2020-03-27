@@ -30,8 +30,6 @@ export default class GuestService {
         id: string,
         guestData: Guest
     ): Promise<Guest> {
-        console.log(guestData, 'saving');
-        console.log(id, 'saving id');
         return GuestModel.updateOne({ _id: id }, { ...guestData });
     }
 

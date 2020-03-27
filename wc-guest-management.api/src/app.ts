@@ -39,7 +39,7 @@ app.use(
         res: express.Response,
         next: express.NextFunction
     ) => {
-        console.log('server error', err);
+        console.error('server error', err);
         res.status(err.status || 500).send(err.message);
     }
 );
