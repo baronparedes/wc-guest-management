@@ -1,49 +1,39 @@
-import React from 'react';
-import { Button, Col, Row } from 'react-bootstrap';
-import { connect, useDispatch } from 'react-redux';
-import { RootState } from '../../store/reducers';
-import { dashboardActions } from '../../store/reducers/dashboard.reducer';
+import React, { useState } from 'react';
+import {
+    GetDashboardReportQueryParams,
+    useGetDashboardReport
+} from '../../Api';
+import ErrorInfo from '../@ui/ErrorInfo';
 import Loading from '../@ui/Loading';
-import RoundedPanel from '../@ui/RoundedPanel';
-import DashboardGuestCount from './DashboardGuestCount';
-import DashboardGuestTable from './DashboardGuestTable';
+import DashboardFilter from './DashboardFilter';
 
-const mapState = (state: RootState) => ({
-    ...state.dashboard
-});
+const DashboardGuestsContainer = () => {
+    const [query, setQuery] = useState<GetDashboardReportQueryParams>();
+    const { loading, error, data, refetch } = useGetDashboardReport({
+        queryParams: query
+    });
 
-type Props = ReturnType<typeof mapState>;
+    const handleOnRefresh = (fromDate: string, toDate?: string) => {
+        console.log(fromDate);
+        console.log(toDate);
+        setQuery({
+            fromDate,
+            toDate: toDate ? toDate : undefined
+        });
+        refetch();
+    };
 
-const DashboardGuestsContainer = (props: Props) => {
-    const dispatch = useDispatch();
     return (
         <>
-            <h4 className="text-muted">{new Date().toDateString()}</h4>
-            {props.loading && <Loading />}
-            {!props.loading && (
-                <>
-                    <Row>
-                        <Col>
-                            <DashboardGuestCount
-                                count={props.guests.length}
-                            />
-                        </Col>
-                        <Col className="text-right">
-                            <Button
-                                onClick={() => {
-                                    dispatch(dashboardActions.get());
-                                }}>
-                                refresh
-                            </Button>
-                        </Col>
-                    </Row>
-                    <RoundedPanel>
-                        <DashboardGuestTable guests={props.guests} />
-                    </RoundedPanel>
-                </>
-            )}
+            <DashboardFilter
+                onRefresh={handleOnRefresh}
+                disabled={loading}
+            />
+            {loading && <Loading />}
+            {error && <ErrorInfo>{error.data as string}</ErrorInfo>}
+            {!loading && data && <p>{JSON.stringify(data)}</p>}
         </>
     );
 };
 
-export default connect(mapState)(DashboardGuestsContainer);
+export default DashboardGuestsContainer;

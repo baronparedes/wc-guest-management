@@ -5,6 +5,27 @@ import { Get, GetProps, useGet, UseGetProps, Mutate, MutateProps, useMutate, Use
 
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
+export interface DashboardMetric {
+  slot: string;
+  count: number;
+  [key: string]: any;
+}
+
+export interface DashboardLineItem {
+  label: string;
+  category: string;
+  metrics: DashboardMetric[];
+  [key: string]: any;
+}
+
+export interface DashboardReport {
+  totalGuests: number;
+  summary: DashboardMetric[];
+  ageCategory: DashboardLineItem[];
+  activityCategory: DashboardLineItem[];
+  [key: string]: any;
+}
+
 export interface Guest {
   _id?: string | null;
   visitDate: string;
@@ -35,6 +56,25 @@ export interface InfoSlip {
   guests: string;
   [key: string]: any;
 }
+
+export interface GetDashboardReportQueryParams {
+  fromDate?: string;
+  toDate?: string;
+}
+
+export type GetDashboardReportProps = Omit<GetProps<DashboardReport, unknown, GetDashboardReportQueryParams>, "path">;
+
+export const GetDashboardReport = (props: GetDashboardReportProps) => (
+  <Get<DashboardReport, unknown, GetDashboardReportQueryParams>
+    path={`/api/dashboard`}
+    {...props}
+  />
+);
+
+export type UseGetDashboardReportProps = Omit<UseGetProps<DashboardReport, GetDashboardReportQueryParams>, "path">;
+
+export const useGetDashboardReport = (props: UseGetDashboardReportProps) => useGet<DashboardReport, unknown, GetDashboardReportQueryParams>(`/api/dashboard`, props);
+
 
 export interface FetchGuestsQueryParams {
   byVisitDate?: string;

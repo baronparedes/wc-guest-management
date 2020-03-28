@@ -3,12 +3,44 @@
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { Controller, ValidationService, FieldErrors, ValidateError, TsoaRoute } from 'tsoa';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+import { DashboardController } from './controllers/dashboard-controller';
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { GuestController } from './controllers/guest-controller';
 import * as express from 'express';
 
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
 const models: TsoaRoute.Models = {
+    "DashboardMetric": {
+        "dataType": "refObject",
+        "properties": {
+            "slot": { "dataType": "string", "required": true },
+            "count": { "dataType": "double", "required": true },
+        },
+        "additionalProperties": true,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "DashboardLineItem": {
+        "dataType": "refObject",
+        "properties": {
+            "label": { "dataType": "string", "required": true },
+            "category": { "dataType": "string", "required": true },
+            "metrics": { "dataType": "array", "array": { "ref": "DashboardMetric" }, "required": true },
+        },
+        "additionalProperties": true,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "DashboardReport": {
+        "dataType": "refObject",
+        "properties": {
+            "totalGuests": { "dataType": "double", "required": true },
+            "summary": { "dataType": "array", "array": { "ref": "DashboardMetric" }, "required": true },
+            "ageCategory": { "dataType": "array", "array": { "ref": "DashboardLineItem" }, "required": true },
+            "activityCategory": { "dataType": "array", "array": { "ref": "DashboardLineItem" }, "required": true },
+        },
+        "additionalProperties": true,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Guest": {
         "dataType": "refObject",
         "properties": {
@@ -56,6 +88,29 @@ export function RegisterRoutes(app: express.Express) {
     //  NOTE: If you do not see routes for all of your controllers in this file, then you might not have informed tsoa of where to look
     //      Please look into the "controllerPathGlobs" config option described in the readme: https://github.com/lukeautry/tsoa
     // ###########################################################################################################
+    app.get('/api/dashboard',
+        function(request: any, response: any, next: any) {
+            const args = {
+                fromDate: { "in": "query", "name": "fromDate", "dataType": "datetime" },
+                toDate: { "in": "query", "name": "toDate", "dataType": "datetime" },
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new DashboardController();
+
+
+            const promise = controller.getDashboardReport.apply(controller, validatedArgs as any);
+            promiseHandler(controller, promise, response, next);
+        });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     app.get('/api/guest',
         function(request: any, response: any, next: any) {
             const args = {

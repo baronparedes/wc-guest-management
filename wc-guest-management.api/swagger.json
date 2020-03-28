@@ -4,6 +4,80 @@
 		"application/json"
 	],
 	"definitions": {
+		"DashboardMetric": {
+			"properties": {
+				"slot": {
+					"type": "string"
+				},
+				"count": {
+					"type": "number",
+					"format": "double"
+				}
+			},
+			"required": [
+				"slot",
+				"count"
+			],
+			"type": "object",
+			"additionalProperties": true
+		},
+		"DashboardLineItem": {
+			"properties": {
+				"label": {
+					"type": "string"
+				},
+				"category": {
+					"type": "string"
+				},
+				"metrics": {
+					"items": {
+						"$ref": "#/definitions/DashboardMetric"
+					},
+					"type": "array"
+				}
+			},
+			"required": [
+				"label",
+				"category",
+				"metrics"
+			],
+			"type": "object",
+			"additionalProperties": true
+		},
+		"DashboardReport": {
+			"properties": {
+				"totalGuests": {
+					"type": "number",
+					"format": "double"
+				},
+				"summary": {
+					"items": {
+						"$ref": "#/definitions/DashboardMetric"
+					},
+					"type": "array"
+				},
+				"ageCategory": {
+					"items": {
+						"$ref": "#/definitions/DashboardLineItem"
+					},
+					"type": "array"
+				},
+				"activityCategory": {
+					"items": {
+						"$ref": "#/definitions/DashboardLineItem"
+					},
+					"type": "array"
+				}
+			},
+			"required": [
+				"totalGuests",
+				"summary",
+				"ageCategory",
+				"activityCategory"
+			],
+			"type": "object",
+			"additionalProperties": true
+		},
 		"Guest": {
 			"properties": {
 				"_id": {
@@ -126,6 +200,39 @@
 		}
 	},
 	"paths": {
+		"/api/dashboard": {
+			"get": {
+				"operationId": "GetDashboardReport",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/DashboardReport"
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "fromDate",
+						"required": false,
+						"format": "date-time",
+						"type": "string"
+					},
+					{
+						"in": "query",
+						"name": "toDate",
+						"required": false,
+						"format": "date-time",
+						"type": "string"
+					}
+				]
+			}
+		},
 		"/api/guest": {
 			"get": {
 				"operationId": "FetchGuests",

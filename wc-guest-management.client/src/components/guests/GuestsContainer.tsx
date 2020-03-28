@@ -19,27 +19,28 @@ const GuestGuestsContainer = () => {
             byCriteria: criteria,
             byVisitDate: visitDate
         });
+        refetch();
     };
     useEffect(() => {
         const interval = setInterval(() => {
-            refetch().then();
+            refetch();
         }, 30000);
         return () => {
             interval && clearInterval(interval);
         };
+        // eslint-disable-next-line
     }, []);
-    if (loading) {
-        return <Loading />;
-    }
     return (
         <>
             <GuestFilter
                 onRefresh={handleOnRefresh}
                 criteria={query.byCriteria}
                 visitDate={query.byVisitDate}
+                disabled={loading}
             />
+            {loading && <Loading />}
             {error && <ErrorInfo>{error.data as string}</ErrorInfo>}
-            {data && (
+            {!loading && data && (
                 <RoundedPanel>
                     <GuestGuestTable guests={data} />
                 </RoundedPanel>

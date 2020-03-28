@@ -5,20 +5,24 @@ import { getCurrentDateFormatted } from '../../@utils/dates';
 
 type Props = {
     onRefresh?: (criteria?: string, visitDate?: string) => void;
+    disabled?: boolean;
+};
+
+type FormProps = {
     criteria?: string;
     visitDate?: string;
 };
 
-const GuestFilter = (props: Props) => {
+const GuestFilter = (props: Props & FormProps) => {
     const now = getCurrentDateFormatted();
-    const { handleSubmit, register } = useForm<Props>({
+    const { handleSubmit, register } = useForm<FormProps>({
         defaultValues: {
             criteria: props.criteria,
             visitDate: props.visitDate
         }
     });
 
-    const onSubmit = (formData: Props) => {
+    const onSubmit = (formData: FormProps) => {
         props.onRefresh &&
             props.onRefresh(formData.criteria, formData.visitDate);
     };
@@ -54,6 +58,7 @@ const GuestFilter = (props: Props) => {
                         />
                         <InputGroup.Append>
                             <Button
+                                disabled={props.disabled}
                                 variant="primary"
                                 type="submit"
                                 size="lg">
