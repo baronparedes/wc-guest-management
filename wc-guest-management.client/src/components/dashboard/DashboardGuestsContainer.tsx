@@ -6,6 +6,7 @@ import {
 import ErrorInfo from '../@ui/ErrorInfo';
 import Loading from '../@ui/Loading';
 import DashboardFilter from './DashboardFilter';
+import DashboardReportView from './DashboardReportView';
 
 const DashboardGuestsContainer = () => {
     const [query, setQuery] = useState<GetDashboardReportQueryParams>();
@@ -31,7 +32,7 @@ const DashboardGuestsContainer = () => {
             />
             {loading && <Loading />}
             {error && <ErrorInfo>{error.data as string}</ErrorInfo>}
-            {!loading && data && <p>{JSON.stringify(data)}</p>}
+            {!loading && data && <DashboardReportView data={data} />}
         </>
     );
 };

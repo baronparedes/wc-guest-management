@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React from 'react';
 import { Container } from 'react-bootstrap';
 import styled from 'styled-components';
@@ -7,8 +8,16 @@ const Panel = styled(Container)`
     padding: 0.5em;
 `;
 
-const RoundedPanel: React.FC = props => {
-    return <Panel className="rounded-lg">{props.children}</Panel>;
+type Props = {
+    className?: string;
+};
+
+const RoundedPanel: React.FC<Props> = props => {
+    return (
+        <Panel className={classNames('rounded-lg', props.className)}>
+            {props.children}
+        </Panel>
+    );
 };
 
 export default RoundedPanel;

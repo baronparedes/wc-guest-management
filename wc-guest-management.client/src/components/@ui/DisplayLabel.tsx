@@ -1,7 +1,16 @@
-import React from "react";
+import classNames from 'classnames';
+import React from 'react';
 
-const DisplayLabel: React.FC = props => {
-  return <label className="display-4">{props.children}</label>;
+type Props = {
+    className?: string;
+};
+
+const DisplayLabel: React.FC<Props> = props => {
+    return (
+        <label className={classNames('display-4', props.className)}>
+            {props.children}
+        </label>
+    );
 };
 
 export default DisplayLabel;

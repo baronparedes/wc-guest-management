@@ -23,7 +23,7 @@ export class DashboardController extends Controller {
                     { slot: 'AM', count: 40 },
                     { slot: 'NN', count: 31 },
                     { slot: 'PM', count: 56 },
-                    { slot: '', count: 20 }
+                    { slot: 'N/A', count: 20 }
                 ]
             };
 
@@ -49,7 +49,7 @@ export class DashboardController extends Controller {
                 { slot: 'AM', count: 40 },
                 { slot: 'NN', count: 31 },
                 { slot: 'PM', count: 56 },
-                { slot: '', count: 20 }
+                { slot: 'N/A', count: 20 }
             ],
             totalGuests: 1120
         };

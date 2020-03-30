@@ -6,7 +6,7 @@ import { Get, GetProps, useGet, UseGetProps, Mutate, MutateProps, useMutate, Use
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export interface DashboardMetric {
-  slot: string;
+  slot: "AM" | "NN" | "PM" | "N/A";
   count: number;
   [key: string]: any;
 }

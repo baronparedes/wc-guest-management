@@ -14,7 +14,7 @@ const models: TsoaRoute.Models = {
     "DashboardMetric": {
         "dataType": "refObject",
         "properties": {
-            "slot": { "dataType": "string", "required": true },
+            "slot": { "dataType": "enum", "enums": ["AM", "NN", "PM", "N/A"], "required": true },
             "count": { "dataType": "double", "required": true },
         },
         "additionalProperties": true,

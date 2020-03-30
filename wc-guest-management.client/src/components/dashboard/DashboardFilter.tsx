@@ -26,8 +26,19 @@ const DashboardFilter = (props: Props) => {
 
     return (
         <Form onSubmit={handleSubmit(onSubmit)}>
+            <Form.Row className="d-print-none">
+                <Col className="text-right">
+                    <Button
+                        variant="primary"
+                        type="submit"
+                        size="lg"
+                        disabled={props.disabled}>
+                        Refresh
+                    </Button>
+                </Col>
+            </Form.Row>
             <Form.Row>
-                <FieldContainer as={Col} sm={12} md={5} label="from">
+                <FieldContainer as={Col} sm={12} md={6} label="from">
                     <Form.Control
                         disabled={props.disabled}
                         required
@@ -38,7 +49,7 @@ const DashboardFilter = (props: Props) => {
                         max={now}
                     />
                 </FieldContainer>
-                <FieldContainer as={Col} sm={12} md={5} label="to">
+                <FieldContainer as={Col} sm={12} md={6} label="to">
                     <Form.Control
                         disabled={props.disabled}
                         ref={register}
@@ -47,15 +58,6 @@ const DashboardFilter = (props: Props) => {
                         type="date"
                         max={now}
                     />
-                </FieldContainer>
-                <FieldContainer as={Col} sm={12} md={2}>
-                    <Button
-                        variant="primary"
-                        type="submit"
-                        size="lg"
-                        disabled={props.disabled}>
-                        Refresh
-                    </Button>
                 </FieldContainer>
             </Form.Row>
         </Form>

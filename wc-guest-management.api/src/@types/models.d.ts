@@ -5,8 +5,10 @@ export interface InfoSlip {
     guests: string;
 }
 
+export type Slot = 'AM' | 'NN' | 'PM' | 'N/A';
+
 export interface DashboardMetric {
-    slot: string;
+    slot: Slot;
     count: number;
 }
 
