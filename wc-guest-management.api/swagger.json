@@ -105,7 +105,8 @@
 					"type": "string"
 				},
 				"age": {
-					"type": "string",
+					"type": "number",
+					"format": "double",
 					"x-nullable": true
 				},
 				"birthDate": {
@@ -152,10 +153,22 @@
 				},
 				"worshipTime": {
 					"type": "string",
+					"enum": [
+						"AM",
+						"NN",
+						"PM",
+						"N/A"
+					],
 					"x-nullable": true
 				},
 				"action": {
 					"type": "string",
+					"enum": [
+						"A",
+						"DNA",
+						"Prayed",
+						"Counseled"
+					],
 					"x-nullable": true
 				},
 				"gender": {

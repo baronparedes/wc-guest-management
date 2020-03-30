@@ -32,7 +32,7 @@ export interface Guest {
   tableNumber: number;
   volunteer: string;
   guest: string;
-  age?: string | null;
+  age?: number | null;
   birthDate?: string | null;
   mobile?: string | null;
   email?: string | null;
@@ -43,8 +43,8 @@ export interface Guest {
   series?: number | null;
   createdDate?: string | null;
   worshipDay?: string | null;
-  worshipTime?: string | null;
-  action?: string | null;
+  worshipTime?: "AM" | "NN" | "PM" | "N/A" | null;
+  action?: "A" | "DNA" | "Prayed" | "Counseled" | null;
   gender?: string | null;
   [key: string]: any;
 }

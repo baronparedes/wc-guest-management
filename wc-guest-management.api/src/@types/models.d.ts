@@ -1,3 +1,5 @@
+import { Guest } from '../@models/guest';
+
 export interface InfoSlip {
     visitDate: string;
     tableNumber?: number;
@@ -6,6 +8,7 @@ export interface InfoSlip {
 }
 
 export type Slot = 'AM' | 'NN' | 'PM' | 'N/A';
+export type Activity = 'A' | 'DNA' | 'Prayed' | 'Counseled';
 
 export interface DashboardMetric {
     slot: Slot;
@@ -23,4 +26,10 @@ export interface DashboardReport {
     summary: DashboardMetric[];
     ageCategory: DashboardLineItem[];
     activityCategory: DashboardLineItem[];
+}
+
+export interface DashboardCategoryCriteria {
+    category: string;
+    label: string;
+    criteria: (guest: Guest) => boolean;
 }

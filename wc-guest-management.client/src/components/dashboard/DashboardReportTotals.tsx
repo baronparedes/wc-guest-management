@@ -50,6 +50,7 @@ const DashboardReportTotals = (props: Props) => {
                     props.data.summary.map(item => {
                         return (
                             <DashboardReportTotal
+                                key={item.slot}
                                 bg="success"
                                 title={item.slot}
                                 total={item.count}

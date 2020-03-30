@@ -1,9 +1,32 @@
 import { Guest, GuestModel } from '../@models/guest';
 import { getNextSequence } from '../@models/sequence';
 import { InfoSlip } from '../@types/models';
+import { getCurrentDateFormatted } from '../@utils/dates';
 
 export default class GuestService {
-    public async fetchGuests(
+    public async fetchGuestsByDateRange(
+        fromDate?: Date,
+        toDate?: Date
+    ): Promise<Guest[]> {
+        const query = GuestModel.find();
+        if (fromDate && toDate)
+            query.where({
+                visitDate: {
+                    $gte: new Date(fromDate),
+                    $lte: new Date(toDate)
+                }
+            });
+        else {
+            const visitDate = fromDate
+                ? fromDate
+                : new Date(getCurrentDateFormatted());
+            console.log(visitDate, 'visitDate');
+            query.where({ visitDate: visitDate });
+        }
+        return query;
+    }
+
+    public async fetchGuestsByCriteria(
         byVisitDate?: Date,
         byCriteria?: string
     ): Promise<Guest[]> {
@@ -26,7 +49,7 @@ export default class GuestService {
         });
     }
 
-    public async updateGuestData(
+    public async updateGuest(
         id: string,
         guestData: Guest
     ): Promise<Guest> {

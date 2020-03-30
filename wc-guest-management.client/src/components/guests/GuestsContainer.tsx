@@ -19,7 +19,6 @@ const GuestGuestsContainer = () => {
             byCriteria: criteria,
             byVisitDate: visitDate
         });
-        refetch();
     };
     useEffect(() => {
         const interval = setInterval(() => {

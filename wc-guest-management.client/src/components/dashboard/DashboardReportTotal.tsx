@@ -38,7 +38,9 @@ const DashboardReportTotal = (props: DashboardReportTotalProps) => {
                         border: 'none'
                     }}>
                     <Card.Text>
-                        <h1>{props.total}</h1>
+                        <strong style={{ fontSize: '2em' }}>
+                            {props.total}
+                        </strong>
                     </Card.Text>
                 </Card.Body>
             </Card>

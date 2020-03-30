@@ -1,10 +1,16 @@
 import { Controller, Get, Query, Route } from 'tsoa';
-import { DashboardLineItem, DashboardReport } from '../@types/models';
+import DashboardService from '../services/dashboard-service';
+import GuestService from '../services/guest-service';
 
 @Route('/api/dashboard')
 export class DashboardController extends Controller {
+    private dashboardService: DashboardService;
+    private guestService: GuestService;
+
     constructor() {
         super();
+        this.dashboardService = new DashboardService();
+        this.guestService = new GuestService();
     }
 
     @Get('/')
@@ -12,48 +18,11 @@ export class DashboardController extends Controller {
         @Query() fromDate?: Date,
         @Query() toDate?: Date
     ) {
-        console.log(fromDate, 'server');
-        console.log(toDate, 'server');
-
-        const generateDummyData = (category: string, label: string) => {
-            const result: DashboardLineItem = {
-                category: category,
-                label: label,
-                metrics: [
-                    { slot: 'AM', count: 40 },
-                    { slot: 'NN', count: 31 },
-                    { slot: 'PM', count: 56 },
-                    { slot: 'N/A', count: 20 }
-                ]
-            };
-
-            return result;
-        };
-        const result: DashboardReport = {
-            activityCategory: [
-                generateDummyData('activity', 'accepted'),
-                generateDummyData('activity', 'not accepted'),
-                generateDummyData('activity', 'prayed'),
-                generateDummyData('activity', 'counseled'),
-                generateDummyData('activity', '')
-            ],
-            ageCategory: [
-                generateDummyData('age group', '< 20'),
-                generateDummyData('age group', '21 - 30'),
-                generateDummyData('age group', '31 - 40'),
-                generateDummyData('age group', '41 - 50'),
-                generateDummyData('age group', '> 50'),
-                generateDummyData('age group', '')
-            ],
-            summary: [
-                { slot: 'AM', count: 40 },
-                { slot: 'NN', count: 31 },
-                { slot: 'PM', count: 56 },
-                { slot: 'N/A', count: 20 }
-            ],
-            totalGuests: 1120
-        };
-
+        const guests = await this.guestService.fetchGuestsByDateRange(
+            fromDate,
+            toDate
+        );
+        const result = this.dashboardService.toDashboardReport(guests);
         return result;
     }
 }

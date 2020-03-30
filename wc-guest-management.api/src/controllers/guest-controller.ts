@@ -25,7 +25,7 @@ export class GuestController extends Controller {
         @Query() byVisitDate?: Date,
         @Query() byCriteria?: string
     ) {
-        const result = await this.guestService.fetchGuests(
+        const result = await this.guestService.fetchGuestsByCriteria(
             byVisitDate,
             byCriteria
         );
@@ -37,7 +37,7 @@ export class GuestController extends Controller {
         id: string,
         @BodyProp() guestData: Guest
     ): Promise<Guest> {
-        const result = await this.guestService.updateGuestData(
+        const result = await this.guestService.updateGuest(
             id,
             guestData
         );

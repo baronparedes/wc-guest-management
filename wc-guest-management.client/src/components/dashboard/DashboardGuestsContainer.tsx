@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     GetDashboardReportQueryParams,
     useGetDashboardReport
@@ -11,18 +11,21 @@ import DashboardReportView from './DashboardReportView';
 const DashboardGuestsContainer = () => {
     const [query, setQuery] = useState<GetDashboardReportQueryParams>();
     const { loading, error, data, refetch } = useGetDashboardReport({
-        queryParams: query
+        queryParams: query,
+        lazy: true
     });
 
     const handleOnRefresh = (fromDate: string, toDate?: string) => {
-        console.log(fromDate);
-        console.log(toDate);
         setQuery({
             fromDate,
             toDate: toDate ? toDate : undefined
         });
-        refetch();
     };
+
+    useEffect(() => {
+        refetch();
+        // eslint-disable-next-line
+    }, [query]);
 
     return (
         <>
