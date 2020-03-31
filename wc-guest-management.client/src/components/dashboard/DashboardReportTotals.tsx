@@ -11,10 +11,13 @@ type Props = {
     query?: GetDashboardReportQueryParams;
 };
 
-const DashboardReportTotalsContainer = (props: Props) => {
+const DashboardReportTotals = (props: Props) => {
     const [criteria, setCriteria] = useState<string | undefined>('');
     const handleOnChange = (e: React.FormEvent<FormControlProps>) => {
         setCriteria(e.currentTarget.value);
+    };
+    const handleOnClick = () => {
+        props.onSearch && props.onSearch(criteria);
     };
     return (
         <>
@@ -35,13 +38,18 @@ const DashboardReportTotalsContainer = (props: Props) => {
                                         size="lg"
                                         placeholder="search"
                                         value={criteria}
+                                        onKeyUp={(
+                                            e: React.KeyboardEvent<HTMLInputElement>
+                                        ) => {
+                                            if (e.keyCode === 13) {
+                                                handleOnClick();
+                                            }
+                                        }}
                                         onChange={handleOnChange}
                                     />
                                     <InputGroup.Append>
                                         <Button
-                                            onClick={() =>
-                                                props.onSearch && props.onSearch(criteria)
-                                            }
+                                            onClick={handleOnClick}
                                             variant="dark"
                                             type="button"
                                             size="lg">
@@ -71,4 +79,4 @@ const DashboardReportTotalsContainer = (props: Props) => {
     );
 };
 
-export default DashboardReportTotalsContainer;
+export default DashboardReportTotals;

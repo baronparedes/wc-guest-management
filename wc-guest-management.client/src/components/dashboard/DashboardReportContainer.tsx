@@ -11,7 +11,7 @@ import Loading from '../@ui/Loading';
 import ModalContainer from '../@ui/ModalContainer';
 import GuestTable from '../guests/GuestTable';
 import DashboardReportCategoryChart from './DashboardReportCategoryChart';
-import DashboardReportTotals from './DashboardReportTotalsContainer';
+import DashboardReportTotals from './DashboardReportTotals';
 
 type Props = {
     reportData: DashboardReport;
