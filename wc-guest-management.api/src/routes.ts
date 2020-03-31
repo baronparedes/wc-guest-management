@@ -24,8 +24,16 @@ const models: TsoaRoute.Models = {
         "dataType": "refObject",
         "properties": {
             "label": { "dataType": "string", "required": true },
-            "category": { "dataType": "string", "required": true },
             "metrics": { "dataType": "array", "array": { "ref": "DashboardMetric" }, "required": true },
+        },
+        "additionalProperties": true,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "DashboardCategory": {
+        "dataType": "refObject",
+        "properties": {
+            "title": { "dataType": "string", "required": true },
+            "metrics": { "dataType": "array", "array": { "ref": "DashboardLineItem" }, "required": true },
         },
         "additionalProperties": true,
     },
@@ -35,8 +43,7 @@ const models: TsoaRoute.Models = {
         "properties": {
             "totalGuests": { "dataType": "double", "required": true },
             "summary": { "dataType": "array", "array": { "ref": "DashboardMetric" }, "required": true },
-            "ageCategory": { "dataType": "array", "array": { "ref": "DashboardLineItem" }, "required": true },
-            "activityCategory": { "dataType": "array", "array": { "ref": "DashboardLineItem" }, "required": true },
+            "categories": { "dataType": "array", "array": { "ref": "DashboardCategory" }, "required": true },
         },
         "additionalProperties": true,
     },

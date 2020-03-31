@@ -17,19 +17,21 @@ export interface DashboardMetric {
 
 export interface DashboardLineItem {
     label: string;
-    category: string;
     metrics: DashboardMetric[];
+}
+
+export interface DashboardCategory {
+    title: string;
+    metrics: DashboardLineItem[];
 }
 
 export interface DashboardReport {
     totalGuests: number;
     summary: DashboardMetric[];
-    ageCategory: DashboardLineItem[];
-    activityCategory: DashboardLineItem[];
+    categories: DashboardCategory[];
 }
 
 export interface DashboardCategoryCriteria {
-    category: string;
     label: string;
     criteria: (guest: Guest) => boolean;
 }

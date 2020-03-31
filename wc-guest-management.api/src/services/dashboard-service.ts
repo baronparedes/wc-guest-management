@@ -1,5 +1,6 @@
 import { Guest } from '../@models/guest';
 import {
+    DashboardCategory,
     DashboardCategoryCriteria,
     DashboardLineItem,
     DashboardMetric,
@@ -8,39 +9,34 @@ import {
 } from '../@types/models';
 
 export default class DashboardService {
-    private generateActivityCategoryCriterias(): DashboardCategoryCriteria[] {
-        const category = 'activity';
+    private getActivityCriterias(): DashboardCategoryCriteria[] {
+        const category = 'guests by activity';
         const result: DashboardCategoryCriteria[] = [
             {
-                category: category,
                 label: 'accepted',
                 criteria: (guest: Guest) => {
                     return guest.action === 'A';
                 }
             },
             {
-                category: category,
                 label: 'not accepted',
                 criteria: (guest: Guest) => {
                     return guest.action === 'DNA';
                 }
             },
             {
-                category: category,
                 label: 'counseled',
                 criteria: (guest: Guest) => {
                     return guest.action === 'Counseled';
                 }
             },
             {
-                category: category,
                 label: 'prayed',
                 criteria: (guest: Guest) => {
                     return guest.action === 'Prayed';
                 }
             },
             {
-                category: category,
                 label: 'n/a',
                 criteria: (guest: Guest) => {
                     return !guest.action;
@@ -50,46 +46,39 @@ export default class DashboardService {
         return result;
     }
 
-    private generateAgeCategoryCriterias(): DashboardCategoryCriteria[] {
-        const category = 'age group';
+    private getAgeCriterias(): DashboardCategoryCriteria[] {
         const result: DashboardCategoryCriteria[] = [
             {
-                category: category,
                 label: '< 20',
                 criteria: (guest: Guest) => {
                     return guest.age > 20;
                 }
             },
             {
-                category: category,
                 label: '21 - 30',
                 criteria: (guest: Guest) => {
                     return 21 <= guest.age && guest.age <= 30;
                 }
             },
             {
-                category: category,
                 label: '31 - 40',
                 criteria: (guest: Guest) => {
                     return 31 <= guest.age && guest.age <= 40;
                 }
             },
             {
-                category: category,
                 label: '41 - 50',
                 criteria: (guest: Guest) => {
                     return 41 <= guest.age && guest.age <= 50;
                 }
             },
             {
-                category: category,
                 label: '< 50',
                 criteria: (guest: Guest) => {
                     return guest.age < 50;
                 }
             },
             {
-                category: category,
                 label: 'n/a',
                 criteria: (guest: Guest) => {
                     return !guest.age;
@@ -101,17 +90,21 @@ export default class DashboardService {
 
     private getSummaryByCategory(
         data: Guest[],
+        title: string,
         criterias: DashboardCategoryCriteria[]
-    ): DashboardLineItem[] {
-        const result: DashboardLineItem[] = criterias.map(c => {
+    ): DashboardCategory {
+        const metrics: DashboardLineItem[] = criterias.map(c => {
             const filteredData = data.filter(c.criteria);
             const item: DashboardLineItem = {
-                category: c.category,
                 label: c.label,
                 metrics: this.getSummary(filteredData)
             };
             return item;
         });
+        const result: DashboardCategory = {
+            title: title,
+            metrics: metrics
+        };
         return result;
     }
 
@@ -140,14 +133,18 @@ export default class DashboardService {
         const result: DashboardReport = {
             totalGuests: data.length,
             summary: this.getSummary(data),
-            activityCategory: this.getSummaryByCategory(
-                data,
-                this.generateAgeCategoryCriterias()
-            ),
-            ageCategory: this.getSummaryByCategory(
-                data,
-                this.generateActivityCategoryCriterias()
-            )
+            categories: [
+                this.getSummaryByCategory(
+                    data,
+                    'guests by age',
+                    this.getAgeCriterias()
+                ),
+                this.getSummaryByCategory(
+                    data,
+                    'guests by activity',
+                    this.getActivityCriterias()
+                )
+            ]
         };
         return result;
     }

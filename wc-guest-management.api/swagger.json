@@ -32,9 +32,6 @@
 				"label": {
 					"type": "string"
 				},
-				"category": {
-					"type": "string"
-				},
 				"metrics": {
 					"items": {
 						"$ref": "#/definitions/DashboardMetric"
@@ -44,7 +41,25 @@
 			},
 			"required": [
 				"label",
-				"category",
+				"metrics"
+			],
+			"type": "object",
+			"additionalProperties": true
+		},
+		"DashboardCategory": {
+			"properties": {
+				"title": {
+					"type": "string"
+				},
+				"metrics": {
+					"items": {
+						"$ref": "#/definitions/DashboardLineItem"
+					},
+					"type": "array"
+				}
+			},
+			"required": [
+				"title",
 				"metrics"
 			],
 			"type": "object",
@@ -62,15 +77,9 @@
 					},
 					"type": "array"
 				},
-				"ageCategory": {
+				"categories": {
 					"items": {
-						"$ref": "#/definitions/DashboardLineItem"
-					},
-					"type": "array"
-				},
-				"activityCategory": {
-					"items": {
-						"$ref": "#/definitions/DashboardLineItem"
+						"$ref": "#/definitions/DashboardCategory"
 					},
 					"type": "array"
 				}
@@ -78,8 +87,7 @@
 			"required": [
 				"totalGuests",
 				"summary",
-				"ageCategory",
-				"activityCategory"
+				"categories"
 			],
 			"type": "object",
 			"additionalProperties": true

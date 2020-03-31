@@ -13,16 +13,20 @@ export interface DashboardMetric {
 
 export interface DashboardLineItem {
   label: string;
-  category: string;
   metrics: DashboardMetric[];
+  [key: string]: any;
+}
+
+export interface DashboardCategory {
+  title: string;
+  metrics: DashboardLineItem[];
   [key: string]: any;
 }
 
 export interface DashboardReport {
   totalGuests: number;
   summary: DashboardMetric[];
-  ageCategory: DashboardLineItem[];
-  activityCategory: DashboardLineItem[];
+  categories: DashboardCategory[];
   [key: string]: any;
 }
 

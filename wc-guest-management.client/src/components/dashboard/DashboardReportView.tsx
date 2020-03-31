@@ -11,15 +11,18 @@ const DashboardReportView: React.FC<Props> = props => {
     return (
         <>
             <DashboardReportTotals data={props.data} />
-            <DashboardReportCategoryChart
-                category="guests by activity"
-                data={props.data.activityCategory}
-            />
-            <br />
-            <DashboardReportCategoryChart
-                category="guests by age"
-                data={props.data.ageCategory}
-            />
+            {props.data.categories &&
+                props.data.categories.map(cat => {
+                    return (
+                        <>
+                            <DashboardReportCategoryChart
+                                category={cat.title}
+                                data={cat.metrics}
+                            />
+                            <br />
+                        </>
+                    );
+                })}
         </>
     );
 };
