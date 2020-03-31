@@ -25,7 +25,8 @@ function toChartData(data: DashboardLineItem[]) {
             am: getCount(d, 'AM'),
             pm: getCount(d, 'PM'),
             nn: getCount(d, 'NN'),
-            none: getCount(d, 'N/A')
+            // eslint-disable-next-line
+            ['n/a']: getCount(d, 'N/A')
         };
     });
     return chartData;
@@ -39,7 +40,7 @@ const DashboardReportCategoryChart = (props: Props) => {
                 <h4 className="text-center">{props.category}</h4>
                 <ResponsiveBar
                     data={data}
-                    keys={['am', 'nn', 'pm', 'none']}
+                    keys={['am', 'nn', 'pm', 'n/a']}
                     indexBy="index"
                     groupMode="grouped"
                     margin={{
