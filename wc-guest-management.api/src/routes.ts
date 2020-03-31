@@ -14,7 +14,7 @@ const models: TsoaRoute.Models = {
     "DashboardMetric": {
         "dataType": "refObject",
         "properties": {
-            "slot": { "dataType": "enum", "enums": ["AM", "NN", "PM", "N/A"], "required": true },
+            "slot": { "dataType": "enum", "enums": ["AM", "NN", "PM", "NA"], "required": true },
             "count": { "dataType": "double", "required": true },
         },
         "additionalProperties": true,
@@ -67,7 +67,7 @@ const models: TsoaRoute.Models = {
             "series": { "dataType": "double" },
             "createdDate": { "dataType": "datetime" },
             "worshipDay": { "dataType": "string" },
-            "worshipTime": { "dataType": "enum", "enums": ["AM", "NN", "PM", "N/A"] },
+            "worshipTime": { "dataType": "enum", "enums": ["AM", "NN", "PM", "NA"] },
             "action": { "dataType": "enum", "enums": ["A", "DNA", "Prayed", "Counseled"] },
             "gender": { "dataType": "string" },
         },
@@ -191,7 +191,7 @@ export function RegisterRoutes(app: express.Express) {
         function(request: any, response: any, next: any) {
             const args = {
                 category: { "in": "path", "name": "category", "required": true, "dataType": "enum", "enums": ["age", "activity"] },
-                slot: { "in": "path", "name": "slot", "required": true, "dataType": "enum", "enums": ["AM", "NN", "PM", "N/A"] },
+                slot: { "in": "path", "name": "slot", "required": true, "dataType": "enum", "enums": ["AM", "NN", "PM", "NA"] },
                 index: { "in": "query", "name": "index", "dataType": "string" },
                 fromDate: { "in": "query", "name": "fromDate", "dataType": "datetime" },
                 toDate: { "in": "query", "name": "toDate", "dataType": "datetime" },

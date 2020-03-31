@@ -38,7 +38,7 @@ export default class DashboardService {
                 }
             },
             {
-                label: 'n/a',
+                label: 'na',
                 criteria: (guest: Guest) => {
                     return !guest.action;
                 }
@@ -80,7 +80,7 @@ export default class DashboardService {
                 }
             },
             {
-                label: 'n/a',
+                label: 'na',
                 criteria: (guest: Guest) => {
                     return !guest.age;
                 }
@@ -114,7 +114,7 @@ export default class DashboardService {
         slot?: Slot
     ): DashboardMetric {
         const result: DashboardMetric = {
-            slot: slot ? slot : 'N/A',
+            slot: slot ? slot : 'NA',
             count: data.filter(d => d.worshipTime === slot).length
         };
         return result;

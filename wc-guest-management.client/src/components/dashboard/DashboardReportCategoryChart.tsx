@@ -31,8 +31,7 @@ function toChartData(data: DashboardLineItem[]) {
             am: getCount(d, 'AM'),
             pm: getCount(d, 'PM'),
             nn: getCount(d, 'NN'),
-            // eslint-disable-next-line
-            ['n/a']: getCount(d, 'N/A')
+            na: getCount(d, 'NA')
         };
     });
     return chartData;
@@ -56,7 +55,7 @@ const DashboardReportCategoryChart = (props: Props) => {
                             );
                     }}
                     data={data}
-                    keys={['am', 'nn', 'pm', 'n/a']}
+                    keys={['am', 'nn', 'pm', 'na']}
                     indexBy="index"
                     groupMode="grouped"
                     margin={{
