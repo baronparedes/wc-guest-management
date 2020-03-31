@@ -1,14 +1,41 @@
-import { Guest, GuestModel } from '../@models/guest';
+import { DocumentQuery } from 'mongoose';
+import { Guest, GuestDocument, GuestModel } from '../@models/guest';
 import { getNextSequence } from '../@models/sequence';
-import { InfoSlip } from '../@types/models';
+import { InfoSlip, ReportCategory } from '../@types/models';
 import { getCurrentDateFormatted } from '../@utils/dates';
 
+type GuestDocumentQuery = DocumentQuery<
+    GuestDocument[],
+    GuestDocument,
+    {}
+>;
+
 export default class GuestService {
-    public async fetchGuestsByDateRange(
+    public queryByCategory(
+        query: GuestDocumentQuery,
+        category?: ReportCategory,
+        index?: string,
+        slot?: string
+    ): GuestDocumentQuery {
+        if (category && index && slot) {
+            switch (category) {
+                case 'age':
+                    break;
+                case 'activity':
+                    break;
+            }
+        }
+
+        return query;
+    }
+
+    public queryByAge() {}
+
+    public queryByDateRange(
+        query: GuestDocumentQuery,
         fromDate?: Date,
         toDate?: Date
-    ): Promise<Guest[]> {
-        const query = GuestModel.find();
+    ): GuestDocumentQuery {
         if (fromDate && toDate)
             query.where({
                 visitDate: {
@@ -20,26 +47,60 @@ export default class GuestService {
             const visitDate = fromDate
                 ? fromDate
                 : new Date(getCurrentDateFormatted());
-            console.log(visitDate, 'visitDate');
             query.where({ visitDate: visitDate });
         }
         return query;
     }
 
-    public async fetchGuestsByCriteria(
+    public queryByCriteria(
+        query: GuestDocumentQuery,
+        byCriteria?: string
+    ) {
+        if (byCriteria) {
+            const orQueries = [];
+            const expression = new RegExp(byCriteria, 'i');
+            const seriesId = Number(byCriteria);
+            !isNaN(seriesId) && orQueries.push({ series: seriesId });
+            orQueries.push({ volunteer: expression });
+            orQueries.push({ guest: expression });
+            return query.or(orQueries);
+        }
+        return query;
+    }
+
+    public async fetchGuestsByCategory(
+        fromDate?: Date,
+        toDate?: Date,
+        category?: ReportCategory,
+        index?: string,
+        slot?: string
+    ): Promise<Guest[]> {
+        let query = GuestModel.find();
+        query = this.queryByDateRange(query, fromDate, toDate);
+        query = this.queryByCategory(query, category, index, slot);
+        return query;
+    }
+
+    public async fetchGuestsByDateRange(
+        fromDate?: Date,
+        toDate?: Date
+    ): Promise<Guest[]> {
+        const query = this.queryByDateRange(
+            GuestModel.find(),
+            fromDate,
+            toDate
+        );
+        return query;
+    }
+
+    public async fetchGuests(
         byVisitDate?: Date,
         byCriteria?: string
     ): Promise<Guest[]> {
-        const query = GuestModel.find();
+        let query = GuestModel.find();
         if (byVisitDate)
-            query.where({ visitDate: new Date(byVisitDate) });
-        if (byCriteria) {
-            const expression = new RegExp(byCriteria, 'i');
-            query.or([
-                { volunteer: expression },
-                { guest: expression }
-            ]);
-        }
+            query = query.where({ visitDate: new Date(byVisitDate) });
+        query = this.queryByCriteria(query, byCriteria);
         return query;
     }
 

@@ -32,7 +32,7 @@ const models: TsoaRoute.Models = {
     "DashboardCategory": {
         "dataType": "refObject",
         "properties": {
-            "title": { "dataType": "string", "required": true },
+            "title": { "dataType": "enum", "enums": ["age", "activity"], "required": true },
             "metrics": { "dataType": "array", "array": { "ref": "DashboardLineItem" }, "required": true },
         },
         "additionalProperties": true,
@@ -184,6 +184,32 @@ export function RegisterRoutes(app: express.Express) {
 
 
             const promise = controller.welcome.apply(controller, validatedArgs as any);
+            promiseHandler(controller, promise, response, next);
+        });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    app.get('/api/guest/category/:category/:slot',
+        function(request: any, response: any, next: any) {
+            const args = {
+                category: { "in": "path", "name": "category", "required": true, "dataType": "enum", "enums": ["age", "activity"] },
+                slot: { "in": "path", "name": "slot", "required": true, "dataType": "enum", "enums": ["AM", "NN", "PM", "N/A"] },
+                index: { "in": "query", "name": "index", "dataType": "string" },
+                fromDate: { "in": "query", "name": "fromDate", "dataType": "datetime" },
+                toDate: { "in": "query", "name": "toDate", "dataType": "datetime" },
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new GuestController();
+
+
+            const promise = controller.fetchGuestsByCategory.apply(controller, validatedArgs as any);
             promiseHandler(controller, promise, response, next);
         });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa

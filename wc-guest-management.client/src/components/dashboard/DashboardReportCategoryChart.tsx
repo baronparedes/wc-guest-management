@@ -1,13 +1,19 @@
 import { ResponsiveBar } from '@nivo/bar';
 import { ColorSchemeId } from '@nivo/colors';
 import React from 'react';
+import { ReportCategory, Slot } from '../../@types/models';
 import { DashboardLineItem } from '../../Api';
 import RoundedPanel from '../@ui/RoundedPanel';
 
 type Props = {
     data: DashboardLineItem[];
-    category: string;
+    category: ReportCategory;
     scheme?: ColorSchemeId;
+    onSelectMetric?: (
+        category: ReportCategory,
+        index: string,
+        slot: Slot
+    ) => void;
 };
 
 function toChartData(data: DashboardLineItem[]) {
@@ -37,8 +43,18 @@ const DashboardReportCategoryChart = (props: Props) => {
     return (
         <RoundedPanel>
             <div style={{ height: '400px' }} className="p-4">
-                <h4 className="text-center">{props.category}</h4>
+                <h4 className="text-center">
+                    guests by {props.category}
+                </h4>
                 <ResponsiveBar
+                    onClick={e => {
+                        props.onSelectMetric &&
+                            props.onSelectMetric(
+                                props.category,
+                                e.indexValue.toString(),
+                                e.id.toString().toUpperCase() as Slot
+                            );
+                    }}
                     data={data}
                     keys={['am', 'nn', 'pm', 'n/a']}
                     indexBy="index"

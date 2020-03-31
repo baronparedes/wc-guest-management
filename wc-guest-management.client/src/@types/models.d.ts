@@ -1,3 +1,7 @@
+export type ReportCategory = 'age' | 'activity';
+export type Slot = 'AM' | 'NN' | 'PM' | 'N/A';
+export type Activity = 'A' | 'DNA' | 'Prayed' | 'Counseled';
+
 export module Models {
     export type PrintStatus = 'printing' | 'printed' | '';
     export type CivilStatus =

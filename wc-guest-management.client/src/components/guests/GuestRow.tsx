@@ -5,7 +5,7 @@ import { Guest } from '../../Api';
 import DisplayText from '../@ui/DisplayText';
 import GuestFormModal from './GuestFormModal';
 
-const GuestGuestRow: React.FC<Guest> = props => {
+const GuestRow: React.FC<Guest> = props => {
     return (
         <tr>
             <td>
@@ -30,4 +30,4 @@ const GuestGuestRow: React.FC<Guest> = props => {
     );
 };
 
-export default GuestGuestRow;
+export default GuestRow;

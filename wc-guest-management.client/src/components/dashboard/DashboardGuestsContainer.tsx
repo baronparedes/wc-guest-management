@@ -35,7 +35,9 @@ const DashboardGuestsContainer = () => {
             />
             {loading && <Loading />}
             {error && <ErrorInfo>{error.data as string}</ErrorInfo>}
-            {!loading && data && <DashboardReportView data={data} />}
+            {!loading && data && (
+                <DashboardReportView data={data} query={query} />
+            )}
         </>
     );
 };

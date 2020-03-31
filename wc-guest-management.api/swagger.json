@@ -49,7 +49,11 @@
 		"DashboardCategory": {
 			"properties": {
 				"title": {
-					"type": "string"
+					"type": "string",
+					"enum": [
+						"age",
+						"activity"
+					]
 				},
 				"metrics": {
 					"items": {
@@ -373,6 +377,70 @@
 								"infoSlip"
 							]
 						}
+					}
+				]
+			}
+		},
+		"/api/guest/category/{category}/{slot}": {
+			"get": {
+				"operationId": "FetchGuestsByCategory",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"items": {
+								"$ref": "#/definitions/Guest"
+							},
+							"type": "array"
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "category",
+						"required": true,
+						"type": "string",
+						"enum": [
+							"age",
+							"activity"
+						]
+					},
+					{
+						"in": "path",
+						"name": "slot",
+						"required": true,
+						"type": "string",
+						"enum": [
+							"AM",
+							"NN",
+							"PM",
+							"N/A"
+						]
+					},
+					{
+						"in": "query",
+						"name": "index",
+						"required": false,
+						"type": "string"
+					},
+					{
+						"in": "query",
+						"name": "fromDate",
+						"required": false,
+						"format": "date-time",
+						"type": "string"
+					},
+					{
+						"in": "query",
+						"name": "toDate",
+						"required": false,
+						"format": "date-time",
+						"type": "string"
 					}
 				]
 			}

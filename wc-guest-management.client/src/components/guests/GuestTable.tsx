@@ -1,13 +1,13 @@
 import React from 'react';
 import { Table } from 'react-bootstrap';
 import { Guest } from '../../Api';
-import GuestGuestRow from './GuestRow';
+import GuestRow from './GuestRow';
 
 type Props = {
     guests?: Guest[];
 };
 
-const GuestGuestTable = (props: Props) => {
+const GuestTable = (props: Props) => {
     return (
         <Table responsive hover size="lg">
             <thead className="thead-primary">
@@ -23,9 +23,9 @@ const GuestGuestTable = (props: Props) => {
                 {props.guests &&
                     props.guests.map(guest => {
                         return (
-                            <GuestGuestRow
+                            <GuestRow
                                 key={guest._id as string}
-                                {...guest}></GuestGuestRow>
+                                {...guest}></GuestRow>
                         );
                     })}
             </tbody>
@@ -33,4 +33,4 @@ const GuestGuestTable = (props: Props) => {
     );
 };
 
-export default GuestGuestTable;
+export default GuestTable;

@@ -8,7 +8,7 @@ import {
     Route
 } from 'tsoa';
 import { Guest } from '../@models/guest';
-import { InfoSlip } from '../@types/models';
+import { InfoSlip, ReportCategory, Slot } from '../@types/models';
 import GuestService from '../services/guest-service';
 
 @Route('/api/guest')
@@ -25,7 +25,7 @@ export class GuestController extends Controller {
         @Query() byVisitDate?: Date,
         @Query() byCriteria?: string
     ) {
-        const result = await this.guestService.fetchGuestsByCriteria(
+        const result = await this.guestService.fetchGuests(
             byVisitDate,
             byCriteria
         );
@@ -54,6 +54,24 @@ export class GuestController extends Controller {
             print
         );
 
+        return result;
+    }
+
+    @Get('/category/{category}/{slot}')
+    public async fetchGuestsByCategory(
+        category: ReportCategory,
+        slot: Slot,
+        @Query() index?: string,
+        @Query() fromDate?: Date,
+        @Query() toDate?: Date
+    ) {
+        const result = await this.guestService.fetchGuestsByCategory(
+            fromDate,
+            toDate,
+            category,
+            index,
+            slot
+        );
         return result;
     }
 }

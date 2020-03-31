@@ -24,6 +24,8 @@ export interface Guest {
     gender?: string;
 }
 
+export type GuestDocument = Guest & mongoose.Document;
+
 const GuestSchema = new mongoose.Schema({
     visitDate: { type: Date, required: true },
     tableNumber: { type: Number, required: true },
@@ -51,7 +53,7 @@ GuestSchema.pre<Guest & mongoose.Document>('save', async next => {
     next();
 });
 
-export const GuestModel = mongoose.model<Guest & mongoose.Document>(
+export const GuestModel = mongoose.model<GuestDocument>(
     'guest',
     GuestSchema
 );

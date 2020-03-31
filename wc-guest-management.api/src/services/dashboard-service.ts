@@ -5,6 +5,7 @@ import {
     DashboardLineItem,
     DashboardMetric,
     DashboardReport,
+    ReportCategory,
     Slot
 } from '../@types/models';
 
@@ -90,7 +91,7 @@ export default class DashboardService {
 
     private getSummaryByCategory(
         data: Guest[],
-        title: string,
+        title: ReportCategory,
         criterias: DashboardCategoryCriteria[]
     ): DashboardCategory {
         const metrics: DashboardLineItem[] = criterias.map(c => {
@@ -136,12 +137,12 @@ export default class DashboardService {
             categories: [
                 this.getSummaryByCategory(
                     data,
-                    'guests by age',
+                    'age',
                     this.getAgeCriterias()
                 ),
                 this.getSummaryByCategory(
                     data,
-                    'guests by activity',
+                    'activity',
                     this.getActivityCriterias()
                 )
             ]

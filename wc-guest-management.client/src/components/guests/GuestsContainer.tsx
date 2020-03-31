@@ -5,14 +5,15 @@ import ErrorInfo from '../@ui/ErrorInfo';
 import Loading from '../@ui/Loading';
 import RoundedPanel from '../@ui/RoundedPanel';
 import GuestFilter from './GuestFilter';
-import GuestGuestTable from './GuestTable';
+import GuestTable from './GuestTable';
 
 const GuestGuestsContainer = () => {
     const [query, setQuery] = useState<FetchGuestsQueryParams>({
         byVisitDate: getCurrentDateFormatted()
     });
     const { loading, error, data, refetch } = useFetchGuests({
-        queryParams: query
+        queryParams: query,
+        lazy: true
     });
     const handleOnRefresh = (criteria?: string, visitDate?: string) => {
         setQuery({
@@ -21,6 +22,7 @@ const GuestGuestsContainer = () => {
         });
     };
     useEffect(() => {
+        refetch();
         const interval = setInterval(() => {
             refetch();
         }, 30000);
@@ -28,7 +30,7 @@ const GuestGuestsContainer = () => {
             interval && clearInterval(interval);
         };
         // eslint-disable-next-line
-    }, []);
+    }, [query]);
     return (
         <>
             <GuestFilter
@@ -41,7 +43,7 @@ const GuestGuestsContainer = () => {
             {error && <ErrorInfo>{error.data as string}</ErrorInfo>}
             {!loading && data && (
                 <RoundedPanel>
-                    <GuestGuestTable guests={data} />
+                    <GuestTable guests={data} />
                 </RoundedPanel>
             )}
         </>

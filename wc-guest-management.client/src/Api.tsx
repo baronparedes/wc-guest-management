@@ -18,7 +18,7 @@ export interface DashboardLineItem {
 }
 
 export interface DashboardCategory {
-  title: string;
+  title: "age" | "activity";
   metrics: DashboardLineItem[];
   [key: string]: any;
 }
@@ -136,4 +136,24 @@ export const Welcome = (props: WelcomeProps) => (
 export type UseWelcomeProps = Omit<UseMutateProps<Guest[], void, WelcomeRequestBody>, "path" | "verb">;
 
 export const useWelcome = (props: UseWelcomeProps) => useMutate<Guest[], unknown, void, WelcomeRequestBody>("POST", `/api/guest/welcome`, props);
+
+
+export interface FetchGuestsByCategoryQueryParams {
+  index?: string;
+  fromDate?: string;
+  toDate?: string;
+}
+
+export type FetchGuestsByCategoryProps = Omit<GetProps<Guest[], unknown, FetchGuestsByCategoryQueryParams>, "path"> & {category: "age" | "activity"; slot: "AM" | "NN" | "PM" | "N/A"};
+
+export const FetchGuestsByCategory = ({category, slot, ...props}: FetchGuestsByCategoryProps) => (
+  <Get<Guest[], unknown, FetchGuestsByCategoryQueryParams>
+    path={`/api/guest/category/${category}/${slot}`}
+    {...props}
+  />
+);
+
+export type UseFetchGuestsByCategoryProps = Omit<UseGetProps<Guest[], FetchGuestsByCategoryQueryParams>, "path"> & {category: "age" | "activity"; slot: "AM" | "NN" | "PM" | "N/A"};
+
+export const useFetchGuestsByCategory = ({category, slot, ...props}: UseFetchGuestsByCategoryProps) => useGet<Guest[], unknown, FetchGuestsByCategoryQueryParams>(`/api/guest/category/${category}/${slot}`, props);
 

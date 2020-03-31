@@ -7,8 +7,15 @@ export interface InfoSlip {
     guests: string;
 }
 
+export type ReportCategory = 'age' | 'activity';
 export type Slot = 'AM' | 'NN' | 'PM' | 'N/A';
 export type Activity = 'A' | 'DNA' | 'Prayed' | 'Counseled';
+
+export interface GuestCategoryCriteria {
+    category: string;
+    index: string;
+    slot: string;
+}
 
 export interface DashboardMetric {
     slot: Slot;
@@ -21,7 +28,7 @@ export interface DashboardLineItem {
 }
 
 export interface DashboardCategory {
-    title: string;
+    title: ReportCategory;
     metrics: DashboardLineItem[];
 }
 
