@@ -285,14 +285,21 @@
 				"parameters": [
 					{
 						"in": "query",
-						"name": "byVisitDate",
+						"name": "fromDate",
 						"required": false,
 						"format": "date-time",
 						"type": "string"
 					},
 					{
 						"in": "query",
-						"name": "byCriteria",
+						"name": "toDate",
+						"required": false,
+						"format": "date-time",
+						"type": "string"
+					},
+					{
+						"in": "query",
+						"name": "criteria",
 						"required": false,
 						"type": "string"
 					}

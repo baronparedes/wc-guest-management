@@ -1,15 +1,21 @@
-import React from 'react';
-import { Button, Col, Form, InputGroup, Row } from 'react-bootstrap';
-import { DashboardReport } from '../../Api';
+import React, { useState } from 'react';
+import { Button, Col, Form, FormControlProps, InputGroup, Row } from 'react-bootstrap';
+import { DashboardReport, GetDashboardReportQueryParams } from '../../Api';
 import FieldContainer from '../@ui/FieldContainer';
 import RoundedPanel from '../@ui/RoundedPanel';
 import DashboardReportTotal from './DashboardReportTotal';
 
 type Props = {
     data: DashboardReport;
+    onSearch?: (searchCriteria?: string) => void;
+    query?: GetDashboardReportQueryParams;
 };
 
-const DashboardReportTotals = (props: Props) => {
+const DashboardReportTotalsContainer = (props: Props) => {
+    const [criteria, setCriteria] = useState<string | undefined>('');
+    const handleOnChange = (e: React.FormEvent<FormControlProps>) => {
+        setCriteria(e.currentTarget.value);
+    };
     return (
         <>
             <Row>
@@ -21,20 +27,23 @@ const DashboardReportTotals = (props: Props) => {
                 <Col md={6} className="pb-4 d-print-none">
                     <RoundedPanel>
                         <div className="p-2">
-                            <h5 className="p-0 m-0">
-                                add guest detail
-                            </h5>
+                            <h5 className="p-0 m-0">add guest detail</h5>
                             <FieldContainer>
                                 <InputGroup>
                                     <Form.Control
                                         name="dashboardSearch"
                                         size="lg"
                                         placeholder="search"
+                                        value={criteria}
+                                        onChange={handleOnChange}
                                     />
                                     <InputGroup.Append>
                                         <Button
+                                            onClick={() =>
+                                                props.onSearch && props.onSearch(criteria)
+                                            }
                                             variant="dark"
-                                            type="submit"
+                                            type="button"
                                             size="lg">
                                             search
                                         </Button>
@@ -62,4 +71,4 @@ const DashboardReportTotals = (props: Props) => {
     );
 };
 
-export default DashboardReportTotals;
+export default DashboardReportTotalsContainer;

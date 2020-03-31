@@ -22,12 +22,14 @@ export class GuestController extends Controller {
 
     @Get('/')
     public async fetchGuests(
-        @Query() byVisitDate?: Date,
-        @Query() byCriteria?: string
+        @Query() fromDate?: Date,
+        @Query() toDate?: Date,
+        @Query() criteria?: string
     ) {
         const result = await this.guestService.fetchGuests(
-            byVisitDate,
-            byCriteria
+            fromDate,
+            toDate,
+            criteria
         );
         return result;
     }

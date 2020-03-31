@@ -3,6 +3,7 @@ import { ReportCategory, Slot } from '../../@types/models';
 import {
     DashboardReport,
     GetDashboardReportQueryParams,
+    useFetchGuests,
     useFetchGuestsByCategory
 } from '../../Api';
 import ErrorInfo from '../@ui/ErrorInfo';
@@ -10,10 +11,10 @@ import Loading from '../@ui/Loading';
 import ModalContainer from '../@ui/ModalContainer';
 import GuestTable from '../guests/GuestTable';
 import DashboardReportCategoryChart from './DashboardReportCategoryChart';
-import DashboardReportTotals from './DashboardReportTotals';
+import DashboardReportTotals from './DashboardReportTotalsContainer';
 
 type Props = {
-    data: DashboardReport;
+    reportData: DashboardReport;
     query?: GetDashboardReportQueryParams;
 };
 
@@ -24,10 +25,9 @@ type DashboardGuestsProps = {
 };
 
 const DashboardReportContainer: React.FC<Props> = props => {
-    const [criteria, setCriteria] = useState<
-        DashboardGuestsProps | undefined
-    >(undefined);
-
+    const [action, setAction] = useState<'metric' | 'criteria' | undefined>(undefined);
+    const [searchCriteria, setSearchCriteria] = useState<string | undefined>(undefined);
+    const [criteria, setCriteria] = useState<DashboardGuestsProps | undefined>(undefined);
     const [toggle, setToggle] = useState(false);
     const handleOnClose = () => setToggle(false);
     const { loading, error, data, refetch } = useFetchGuestsByCategory({
@@ -40,30 +40,61 @@ const DashboardReportContainer: React.FC<Props> = props => {
         },
         lazy: true
     });
+    const {
+        loading: loadingGuests,
+        error: errorGuests,
+        data: dataGuests,
+        refetch: refetchGuests
+    } = useFetchGuests({
+        queryParams: {
+            criteria: searchCriteria,
+            fromDate: props.query && props.query.fromDate,
+            toDate: props.query && props.query.toDate
+        },
+        lazy: true
+    });
 
     useEffect(() => {
         setToggle(true);
-        refetch();
+        if (criteria) {
+            refetch();
+        }
         // eslint-disable-next-line
-    }, [props.query, criteria]);
+    }, [criteria]);
 
-    const handleOnSelectMetric = (
-        category: ReportCategory,
-        index: string,
-        slot: Slot
-    ) => {
+    useEffect(() => {
+        setToggle(true);
+        if (searchCriteria) {
+            refetchGuests();
+        }
+        // eslint-disable-next-line
+    }, [searchCriteria]);
+
+    const handleOnSelectMetric = (category: ReportCategory, index: string, slot: Slot) => {
         setCriteria({
             category: category,
             index: index,
             slot: slot
         });
+        setAction('metric');
+    };
+
+    const handleOnSearch = (search?: string) => {
+        if (search && search !== '') {
+            setSearchCriteria(search);
+            setAction('criteria');
+        }
     };
 
     return (
         <>
-            <DashboardReportTotals data={props.data} />
-            {props.data.categories &&
-                props.data.categories.map(cat => {
+            <DashboardReportTotals
+                data={props.reportData}
+                query={props.query}
+                onSearch={handleOnSearch}
+            />
+            {props.reportData.categories &&
+                props.reportData.categories.map(cat => {
                     return (
                         <div key={cat.title} className="pb-4">
                             <DashboardReportCategoryChart
@@ -74,17 +105,21 @@ const DashboardReportContainer: React.FC<Props> = props => {
                         </div>
                     );
                 })}
-            {criteria && (
+            {action && (
                 <ModalContainer
                     title="guests"
                     toggle={toggle}
                     onClose={handleOnClose}
                     modalsize="lg">
-                    {error && (
-                        <ErrorInfo>{error.data as string}</ErrorInfo>
+                    {error && <ErrorInfo>{error.data as string}</ErrorInfo>}
+                    {errorGuests && <ErrorInfo>{errorGuests.data as string}</ErrorInfo>}
+                    {(loading || loadingGuests) && <Loading />}
+                    {!loading && data && action === 'metric' && (
+                        <GuestTable guests={data} />
                     )}
-                    {loading && <Loading />}
-                    {!loading && data && <GuestTable guests={data} />}
+                    {!loadingGuests && dataGuests && action === 'criteria' && (
+                        <GuestTable guests={dataGuests} />
+                    )}
                 </ModalContainer>
             )}
         </>

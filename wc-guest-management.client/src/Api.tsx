@@ -81,8 +81,9 @@ export const useGetDashboardReport = (props: UseGetDashboardReportProps) => useG
 
 
 export interface FetchGuestsQueryParams {
-  byVisitDate?: string;
-  byCriteria?: string;
+  fromDate?: string;
+  toDate?: string;
+  criteria?: string;
 }
 
 export type FetchGuestsProps = Omit<GetProps<Guest[], unknown, FetchGuestsQueryParams>, "path">;

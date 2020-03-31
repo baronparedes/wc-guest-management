@@ -26,6 +26,12 @@ export interface Guest {
 
 export type GuestDocument = Guest & mongoose.Document;
 
+export type GuestDocumentQuery = mongoose.DocumentQuery<
+    GuestDocument[],
+    GuestDocument,
+    {}
+>;
+
 const GuestSchema = new mongoose.Schema({
     visitDate: { type: Date, required: true },
     tableNumber: { type: Number, required: true },

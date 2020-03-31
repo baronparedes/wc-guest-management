@@ -1,4 +1,4 @@
-import { Guest } from '../@models/guest';
+import { Guest, GuestDocumentQuery } from '../@models/guest';
 
 export interface InfoSlip {
     visitDate: string;
@@ -41,4 +41,5 @@ export interface DashboardReport {
 export interface DashboardCategoryCriteria {
     label: string;
     criteria: (guest: Guest) => boolean;
+    documentQuery?: (query: GuestDocumentQuery) => GuestDocumentQuery;
 }

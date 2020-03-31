@@ -1,35 +1,78 @@
-import { DocumentQuery } from 'mongoose';
-import { Guest, GuestDocument, GuestModel } from '../@models/guest';
+import {
+    Guest,
+    GuestDocumentQuery,
+    GuestModel
+} from '../@models/guest';
 import { getNextSequence } from '../@models/sequence';
-import { InfoSlip, ReportCategory } from '../@types/models';
+import {
+    DashboardCategoryCriteria,
+    InfoSlip,
+    ReportCategory,
+    Slot
+} from '../@types/models';
 import { getCurrentDateFormatted } from '../@utils/dates';
-
-type GuestDocumentQuery = DocumentQuery<
-    GuestDocument[],
-    GuestDocument,
-    {}
->;
+import DashboardService from './dashboard-service';
 
 export default class GuestService {
+    private dashboardService: DashboardService;
+
+    constructor() {
+        this.dashboardService = new DashboardService();
+    }
+
     public queryByCategory(
         query: GuestDocumentQuery,
         category?: ReportCategory,
         index?: string,
-        slot?: string
+        slot?: Slot
     ): GuestDocumentQuery {
         if (category && index && slot) {
             switch (category) {
                 case 'age':
-                    break;
+                    return this.queryByDashboardCategory(
+                        query,
+                        this.dashboardService.getAgeCriterias(),
+                        index,
+                        slot
+                    );
                 case 'activity':
-                    break;
+                    return this.queryByDashboardCategory(
+                        query,
+                        this.dashboardService.getActivityCriterias(),
+                        index,
+                        slot
+                    );
             }
         }
 
         return query;
     }
 
-    public queryByAge() {}
+    public queryByDashboardCategory(
+        query: GuestDocumentQuery,
+        criterias: DashboardCategoryCriteria[],
+        index?: string,
+        slot?: Slot
+    ): GuestDocumentQuery {
+        if (index) {
+            const criteria = criterias.find(c => c.label === index);
+            if (criteria && criteria.documentQuery) {
+                query = criteria.documentQuery(query);
+            }
+        }
+        if (slot && slot !== 'NA') {
+            query = query.where({ worshipTime: slot });
+        }
+        return query;
+    }
+
+    public queryByActivity(
+        query: GuestDocumentQuery,
+        index?: string,
+        slot?: Slot
+    ): GuestDocumentQuery {
+        return query;
+    }
 
     public queryByDateRange(
         query: GuestDocumentQuery,
@@ -54,12 +97,12 @@ export default class GuestService {
 
     public queryByCriteria(
         query: GuestDocumentQuery,
-        byCriteria?: string
+        criteria?: string
     ) {
-        if (byCriteria) {
+        if (criteria) {
             const orQueries = [];
-            const expression = new RegExp(byCriteria, 'i');
-            const seriesId = Number(byCriteria);
+            const expression = new RegExp(criteria, 'i');
+            const seriesId = Number(criteria);
             !isNaN(seriesId) && orQueries.push({ series: seriesId });
             orQueries.push({ volunteer: expression });
             orQueries.push({ guest: expression });
@@ -73,7 +116,7 @@ export default class GuestService {
         toDate?: Date,
         category?: ReportCategory,
         index?: string,
-        slot?: string
+        slot?: Slot
     ): Promise<Guest[]> {
         let query = GuestModel.find();
         query = this.queryByDateRange(query, fromDate, toDate);
@@ -94,13 +137,13 @@ export default class GuestService {
     }
 
     public async fetchGuests(
-        byVisitDate?: Date,
-        byCriteria?: string
+        fromDate?: Date,
+        toDate?: Date,
+        criteria?: string
     ): Promise<Guest[]> {
         let query = GuestModel.find();
-        if (byVisitDate)
-            query = query.where({ visitDate: new Date(byVisitDate) });
-        query = this.queryByCriteria(query, byCriteria);
+        query = this.queryByDateRange(query, fromDate, toDate);
+        query = this.queryByCriteria(query, criteria);
         return query;
     }
 

@@ -9,7 +9,7 @@ import GuestTable from './GuestTable';
 
 const GuestGuestsContainer = () => {
     const [query, setQuery] = useState<FetchGuestsQueryParams>({
-        byVisitDate: getCurrentDateFormatted()
+        fromDate: getCurrentDateFormatted()
     });
     const { loading, error, data, refetch } = useFetchGuests({
         queryParams: query,
@@ -17,8 +17,8 @@ const GuestGuestsContainer = () => {
     });
     const handleOnRefresh = (criteria?: string, visitDate?: string) => {
         setQuery({
-            byCriteria: criteria,
-            byVisitDate: visitDate
+            criteria: criteria,
+            fromDate: visitDate
         });
     };
     useEffect(() => {
@@ -35,8 +35,8 @@ const GuestGuestsContainer = () => {
         <>
             <GuestFilter
                 onRefresh={handleOnRefresh}
-                criteria={query.byCriteria}
-                visitDate={query.byVisitDate}
+                criteria={query.criteria}
+                fromDate={query.fromDate}
                 disabled={loading}
             />
             {loading && <Loading />}
