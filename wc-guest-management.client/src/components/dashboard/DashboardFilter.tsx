@@ -18,12 +18,9 @@ const DashboardFilter = (props: Props) => {
             fromDate: now
         }
     });
-
     const onSubmit = (formData: FormProps) => {
-        props.onRefresh &&
-            props.onRefresh(formData.fromDate, formData.toDate);
+        props.onRefresh && props.onRefresh(formData.fromDate, formData.toDate);
     };
-
     return (
         <Form onSubmit={handleSubmit(onSubmit)}>
             <Form.Row className="d-print-none">

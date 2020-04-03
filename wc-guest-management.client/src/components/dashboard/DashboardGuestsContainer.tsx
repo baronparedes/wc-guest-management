@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import {
-    GetDashboardReportQueryParams,
-    useGetDashboardReport
-} from '../../Api';
+import { GetDashboardReportQueryParams, useGetDashboardReport } from '../../Api';
+import { useGuestSavedEffect } from '../@hooks/useGuestSavedEffect';
 import ErrorInfo from '../@ui/ErrorInfo';
 import Loading from '../@ui/Loading';
 import DashboardFilter from './DashboardFilter';
@@ -22,6 +20,10 @@ const DashboardGuestsContainer = () => {
         });
     };
 
+    useGuestSavedEffect(() => {
+        refetch();
+    });
+
     useEffect(() => {
         refetch();
         // eslint-disable-next-line
@@ -29,17 +31,11 @@ const DashboardGuestsContainer = () => {
 
     return (
         <>
-            <DashboardFilter
-                onRefresh={handleOnRefresh}
-                disabled={loading}
-            />
+            <DashboardFilter onRefresh={handleOnRefresh} disabled={loading} />
             {loading && <Loading />}
             {error && <ErrorInfo>{error.data as string}</ErrorInfo>}
             {!loading && data && (
-                <DashboardReportContainer
-                    reportData={data}
-                    query={query}
-                />
+                <DashboardReportContainer reportData={data} query={query} />
             )}
         </>
     );

@@ -1,19 +1,17 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
 import { FaPrint } from 'react-icons/fa';
-import { useDispatch } from 'react-redux';
-import { Models } from '../../@types/models';
-import { dashboardActions } from '../../store/reducers/dashboard.reducer';
+import { Guest } from '../../Api';
 
 type Props = {
     disabled?: boolean;
-    info: Models.GuestInfo;
+    guest: Guest;
 };
 
 const PrintInfo = (props: Props) => {
-    const dispatch = useDispatch();
     const handleOnPrint = () => {
-        dispatch(dashboardActions.print(props.info));
+        console.log('print');
+        console.log(props.guest);
     };
 
     return (

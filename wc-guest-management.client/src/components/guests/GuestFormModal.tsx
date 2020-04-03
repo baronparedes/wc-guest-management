@@ -1,23 +1,24 @@
 import React, { useState } from 'react';
 import { Button } from 'react-bootstrap';
 import { FaIdCard } from 'react-icons/fa';
+import { useDispatch } from 'react-redux';
 import { Guest } from '../../Api';
+import { dashboardActions } from '../../store/reducers/dashboard.reducer';
 import ModalContainer from '../@ui/ModalContainer';
 import GuestForm from './GuestForm';
 
 const GuestFormModal = (props: Guest) => {
     const [toggle, setToggle] = useState(false);
+    const dispatch = useDispatch();
     const handleOnShowModal = () => setToggle(true);
     const handleOnClose = () => setToggle(false);
-    const handleOnFormSaved = () => {
+    const handleOnFormSaved = (savedData: Guest) => {
+        dispatch(dashboardActions.guestSaved(savedData));
         handleOnClose();
     };
     return (
         <>
-            <Button
-                variant="warning"
-                type="button"
-                onClick={handleOnShowModal}>
+            <Button variant="warning" type="button" onClick={handleOnShowModal}>
                 <FaIdCard />
             </Button>
             <ModalContainer
@@ -25,10 +26,7 @@ const GuestFormModal = (props: Guest) => {
                 toggle={toggle}
                 modalsize="xl"
                 onClose={handleOnClose}>
-                <GuestForm
-                    guest={props}
-                    onFormSaved={handleOnFormSaved}
-                />
+                <GuestForm guest={props} onFormSaved={handleOnFormSaved} />
             </ModalContainer>
         </>
     );

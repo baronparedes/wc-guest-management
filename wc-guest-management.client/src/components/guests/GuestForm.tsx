@@ -1,21 +1,10 @@
 import React from 'react';
-import {
-    Button,
-    Col,
-    Container,
-    Form,
-    Image,
-    Row
-} from 'react-bootstrap';
+import { Button, Col, Container, Form, Image, Row } from 'react-bootstrap';
 import useForm from 'react-hook-form';
 import styled from 'styled-components';
 import logo from '../../@assets/img/wc-logo-transparent.png';
 import { formatDate } from '../../@utils/dates';
-import {
-    Guest,
-    UpdateGuestDataRequestBody,
-    useUpdateGuestData
-} from '../../Api';
+import { Guest, useUpdateGuestData } from '../../Api';
 import BoxStacked from '../@ui/BoxStacked';
 import ErrorInfo from '../@ui/ErrorInfo';
 import FieldChecklist from '../@ui/FieldChecklist';
@@ -49,18 +38,21 @@ const GuestForm = (props: Props) => {
         id: props.guest._id as string
     });
     const onSubmit = (formData: Guest) => {
-        const body: UpdateGuestDataRequestBody = {
-            guestData: formData
-        };
-        mutate(body).then(() => {
-            props.onFormSaved && props.onFormSaved(formData);
+        let age = undefined;
+        if (formData.age && formData.age.toString() !== '') {
+            age = formData.age;
+        }
+        mutate({
+            guestData: {
+                ...formData,
+                age: age
+            }
+        }).then(savedData => {
+            props.onFormSaved && props.onFormSaved(savedData);
         });
     };
     return (
-        <Container
-            as={Form}
-            onSubmit={handleSubmit(onSubmit)}
-            disabled={loading}>
+        <Container as={Form} onSubmit={handleSubmit(onSubmit)} disabled={loading}>
             <BoxStacked className="text-center rounded-md">
                 <label className="m-auto display-2 text-bold">
                     {props.guest.tableNumber}
@@ -88,12 +80,7 @@ const GuestForm = (props: Props) => {
                         register={register}
                     />
                 </FieldContainer>
-                <FieldContainer
-                    as={Col}
-                    md={4}
-                    sm={6}
-                    label="time"
-                    className="m-0">
+                <FieldContainer as={Col} md={4} sm={6} label="time" className="m-0">
                     <br />
                     <FieldChecklist
                         required
@@ -112,13 +99,9 @@ const GuestForm = (props: Props) => {
                     className="text-left m-0">
                     <div>
                         <h4 className="font-weight-bold float-left">
-                            {formatDate(
-                                new Date(props.guest.visitDate)
-                            )}
+                            {formatDate(new Date(props.guest.visitDate))}
                         </h4>
-                        <span className="text-muted float-right">
-                            {props.guest.series}
-                        </span>
+                        <span className="text-muted float-right">{props.guest.series}</span>
                     </div>
 
                     <input hidden name="visitDate" ref={register} />
@@ -211,10 +194,7 @@ const GuestForm = (props: Props) => {
                 </FieldContainer>
             </Row>
             <Row>
-                <FieldContainer
-                    as={Col}
-                    md={6}
-                    label="city of residence">
+                <FieldContainer as={Col} md={6} label="city of residence">
                     <Form.Control
                         ref={register}
                         name="cityOfResidence"
@@ -266,11 +246,7 @@ const GuestForm = (props: Props) => {
             )}
             <Row>
                 <FieldContainer as={Col} className="text-right">
-                    <Button
-                        variant="primary"
-                        type="submit"
-                        size="lg"
-                        disabled={loading}>
+                    <Button variant="primary" type="submit" size="lg" disabled={loading}>
                         Save
                     </Button>
                 </FieldContainer>

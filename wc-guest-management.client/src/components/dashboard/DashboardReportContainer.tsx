@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ReportCategory, Slot } from '../../@types/models';
 import { DashboardReport, GetDashboardReportQueryParams } from '../../Api';
 import { DashboardCriteria, useFetchDashboard } from '../@hooks/useFetchDashboard';
+import { useGuestSavedEffect } from '../@hooks/useGuestSavedEffect';
 import ErrorInfo from '../@ui/ErrorInfo';
 import Loading from '../@ui/Loading';
 import ModalContainer from '../@ui/ModalContainer';
@@ -41,6 +42,9 @@ const DashboardReportContainer: React.FC<Props> = props => {
             setToggle(true);
         }
     };
+    useGuestSavedEffect(() => {
+        setToggle(false);
+    });
     return (
         <>
             <DashboardReportTotals

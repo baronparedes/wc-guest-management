@@ -1,8 +1,8 @@
 import React from 'react';
-import { Button, ButtonGroup } from 'react-bootstrap';
-import { FaPrint } from 'react-icons/fa';
+import { ButtonGroup } from 'react-bootstrap';
 import { Guest } from '../../Api';
 import DisplayText from '../@ui/DisplayText';
+import PrintInfo from '../@ui/PrintInfo';
 import GuestFormModal from './GuestFormModal';
 
 const GuestRow: React.FC<Guest> = props => {
@@ -20,9 +20,7 @@ const GuestRow: React.FC<Guest> = props => {
             </td>
             <td>
                 <ButtonGroup>
-                    <Button>
-                        <FaPrint />
-                    </Button>
+                    <PrintInfo guest={props} />
                     <GuestFormModal {...props} />
                 </ButtonGroup>
             </td>
