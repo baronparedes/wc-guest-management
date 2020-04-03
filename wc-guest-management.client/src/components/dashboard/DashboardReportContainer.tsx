@@ -1,11 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { ReportCategory, Slot } from '../../@types/models';
-import {
-    DashboardReport,
-    GetDashboardReportQueryParams,
-    useFetchGuests,
-    useFetchGuestsByCategory
-} from '../../Api';
+import { DashboardReport, GetDashboardReportQueryParams } from '../../Api';
+import { DashboardCriteria, useFetchDashboard } from '../@hooks/useFetchDashboard';
 import ErrorInfo from '../@ui/ErrorInfo';
 import Loading from '../@ui/Loading';
 import ModalContainer from '../@ui/ModalContainer';
@@ -18,74 +14,33 @@ type Props = {
     query?: GetDashboardReportQueryParams;
 };
 
-type DashboardGuestsProps = {
-    category: ReportCategory;
-    index: string;
-    slot: Slot;
-};
-
 const DashboardReportContainer: React.FC<Props> = props => {
-    const [action, setAction] = useState<'metric' | 'criteria' | undefined>(undefined);
-    const [searchCriteria, setSearchCriteria] = useState<string | undefined>(undefined);
-    const [criteria, setCriteria] = useState<DashboardGuestsProps | undefined>(undefined);
+    const [action, setAction] = useState<'metric' | 'criteria'>();
+    const [searchCriteria, setSearchCriteria] = useState<string>();
+    const [dashboardCriteria, setDashboardCriteria] = useState<DashboardCriteria>();
     const [toggle, setToggle] = useState(false);
+    const { dashboardGuests, searchGuests } = useFetchDashboard(
+        dashboardCriteria,
+        searchCriteria,
+        props.query
+    );
     const handleOnClose = () => setToggle(false);
-    const { loading, error, data, refetch } = useFetchGuestsByCategory({
-        category: criteria ? criteria.category : 'age',
-        slot: criteria ? criteria.slot : 'AM',
-        queryParams: {
-            index: criteria && criteria.index,
-            fromDate: props.query && props.query.fromDate,
-            toDate: props.query && props.query.toDate
-        },
-        lazy: true
-    });
-    const {
-        loading: loadingGuests,
-        error: errorGuests,
-        data: dataGuests,
-        refetch: refetchGuests
-    } = useFetchGuests({
-        queryParams: {
-            criteria: searchCriteria,
-            fromDate: props.query && props.query.fromDate,
-            toDate: props.query && props.query.toDate
-        },
-        lazy: true
-    });
-
-    useEffect(() => {
-        setToggle(true);
-        if (criteria) {
-            refetch();
-        }
-        // eslint-disable-next-line
-    }, [criteria]);
-
-    useEffect(() => {
-        setToggle(true);
-        if (searchCriteria) {
-            refetchGuests();
-        }
-        // eslint-disable-next-line
-    }, [searchCriteria]);
-
     const handleOnSelectMetric = (category: ReportCategory, index: string, slot: Slot) => {
-        setCriteria({
+        setDashboardCriteria({
             category: category,
             index: index,
             slot: slot
         });
         setAction('metric');
+        setToggle(true);
     };
-
     const handleOnSearch = (search?: string) => {
         if (search && search !== '') {
             setSearchCriteria(search);
             setAction('criteria');
+            setToggle(true);
         }
     };
-
     return (
         <>
             <DashboardReportTotals
@@ -111,15 +66,19 @@ const DashboardReportContainer: React.FC<Props> = props => {
                     toggle={toggle}
                     onClose={handleOnClose}
                     modalsize="lg">
-                    {error && <ErrorInfo>{error.data as string}</ErrorInfo>}
-                    {errorGuests && <ErrorInfo>{errorGuests.data as string}</ErrorInfo>}
-                    {(loading || loadingGuests) && <Loading />}
-                    {!loading && data && action === 'metric' && (
-                        <GuestTable guests={data} />
+                    {dashboardGuests.error && (
+                        <ErrorInfo>{dashboardGuests.error.data as string}</ErrorInfo>
                     )}
-                    {!loadingGuests && dataGuests && action === 'criteria' && (
-                        <GuestTable guests={dataGuests} />
+                    {searchGuests.error && (
+                        <ErrorInfo>{searchGuests.error.data as string}</ErrorInfo>
                     )}
+                    {(dashboardGuests.loading || searchGuests.loading) && <Loading />}
+                    {!dashboardGuests.loading &&
+                        dashboardGuests.data &&
+                        action === 'metric' && <GuestTable guests={dashboardGuests.data} />}
+                    {!searchGuests.loading &&
+                        searchGuests.data &&
+                        action === 'criteria' && <GuestTable guests={searchGuests.data} />}
                 </ModalContainer>
             )}
         </>
