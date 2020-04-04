@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getCurrentDateFormatted } from '../../@utils/dates';
 import { FetchGuestsQueryParams, useFetchGuests } from '../../Api';
+import { useGuestSavedEffect } from '../@hooks/useGuestSavedEffect';
 import ErrorInfo from '../@ui/ErrorInfo';
 import Loading from '../@ui/Loading';
 import RoundedPanel from '../@ui/RoundedPanel';
@@ -21,14 +22,11 @@ const GuestGuestsContainer = () => {
             fromDate: visitDate
         });
     };
+    useGuestSavedEffect(() => {
+        refetch();
+    });
     useEffect(() => {
         refetch();
-        // const interval = setInterval(() => {
-        //     refetch();
-        // }, 30000);
-        // return () => {
-        //     interval && clearInterval(interval);
-        // };
         // eslint-disable-next-line
     }, [query]);
     return (
