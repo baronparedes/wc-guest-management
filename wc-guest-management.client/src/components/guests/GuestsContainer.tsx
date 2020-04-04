@@ -23,12 +23,12 @@ const GuestGuestsContainer = () => {
     };
     useEffect(() => {
         refetch();
-        const interval = setInterval(() => {
-            refetch();
-        }, 30000);
-        return () => {
-            interval && clearInterval(interval);
-        };
+        // const interval = setInterval(() => {
+        //     refetch();
+        // }, 30000);
+        // return () => {
+        //     interval && clearInterval(interval);
+        // };
         // eslint-disable-next-line
     }, [query]);
     return (
