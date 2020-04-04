@@ -1,14 +1,11 @@
 import React, { useState } from 'react';
 import { Button, Col, Form } from 'react-bootstrap';
 import useForm from 'react-hook-form';
+import { Slot } from '../../@types/models';
 import { getCurrentDateFormatted } from '../../@utils/dates';
-import {
-    Guest,
-    InfoSlip,
-    useWelcome,
-    WelcomeRequestBody
-} from '../../Api';
+import { Guest, InfoSlip, useWelcome, WelcomeRequestBody } from '../../Api';
 import ErrorInfo from '../@ui/ErrorInfo';
+import FieldContainer from '../@ui/FieldContainer';
 import ConfirmedGuests from './ConfirmedGuests';
 
 const initialState: InfoSlip = {
@@ -18,14 +15,27 @@ const initialState: InfoSlip = {
     tableNumber: undefined
 };
 
+function getWorshipTime(): Slot {
+    const now = new Date();
+    const hour = now.getHours();
+    if (hour < 12) return 'AM';
+    if (hour < 15) return 'NN';
+    if (hour < 18) return 'PM';
+    return 'NA';
+}
+
 const GuestInfoSlipForm = () => {
     const [queued, setQueued] = useState<Guest[]>();
     const [name, setName] = useState<string>('');
     const { loading, error, mutate } = useWelcome({});
     const { handleSubmit, register, reset } = useForm<InfoSlip>({
-        defaultValues: initialState
+        defaultValues: {
+            ...initialState,
+            worshipTime: getWorshipTime()
+        }
     });
     const onSubmit = (formData: InfoSlip) => {
+        console.log(formData);
         const body: WelcomeRequestBody = {
             print: false,
             infoSlip: formData
@@ -38,23 +48,12 @@ const GuestInfoSlipForm = () => {
         setQueued(undefined);
     };
     if (queued) {
-        return (
-            <ConfirmedGuests
-                guests={queued}
-                ok={handleOnReset}
-                volunteer={name}
-            />
-        );
+        return <ConfirmedGuests guests={queued} ok={handleOnReset} volunteer={name} />;
     }
     return (
         <Form onSubmit={handleSubmit(onSubmit)}>
             <Form.Row>
-                <Form.Group
-                    as={Col}
-                    sm={12}
-                    md={6}
-                    controlId="visitDate">
-                    <Form.Label>visit date</Form.Label>
+                <FieldContainer as={Col} sm={12} md={4} label="visit date">
                     <Form.Control
                         required
                         ref={register}
@@ -63,13 +62,21 @@ const GuestInfoSlipForm = () => {
                         type="date"
                         max={initialState.visitDate}
                     />
-                </Form.Group>
-                <Form.Group
-                    as={Col}
-                    sm={12}
-                    md={6}
-                    controlId="tableNumber">
-                    <Form.Label>table number</Form.Label>
+                </FieldContainer>
+                <FieldContainer as={Col} sm={12} md={4} label="time slot">
+                    <Form.Control
+                        ref={register}
+                        as="select"
+                        name="worshipTime"
+                        size="lg"
+                        required>
+                        <option>AM</option>
+                        <option>NN</option>
+                        <option>PM</option>
+                        <option>NA</option>
+                    </Form.Control>
+                </FieldContainer>
+                <FieldContainer as={Col} sm={12} md={4} label="table number">
                     <Form.Control
                         required
                         ref={register}
@@ -78,10 +85,9 @@ const GuestInfoSlipForm = () => {
                         type="number"
                         placeholder="table number"
                     />
-                </Form.Group>
+                </FieldContainer>
             </Form.Row>
-            <Form.Group controlId="volunteer">
-                <Form.Label>volunteer</Form.Label>
+            <FieldContainer label="volunteer">
                 <Form.Control
                     required
                     ref={register}
@@ -89,9 +95,8 @@ const GuestInfoSlipForm = () => {
                     size="lg"
                     placeholder="volunteer"
                 />
-            </Form.Group>
-            <Form.Group controlId="guests">
-                <Form.Label>guests</Form.Label>
+            </FieldContainer>
+            <FieldContainer label="guests">
                 <Form.Control
                     required
                     ref={register}
@@ -99,12 +104,12 @@ const GuestInfoSlipForm = () => {
                     size="lg"
                     placeholder="guests"
                     as="textarea"
-                    rows={5}
+                    rows={6}
                 />
                 <Form.Text className="text-muted">
                     You can write multiple guests in each line
                 </Form.Text>
-            </Form.Group>
+            </FieldContainer>
             {error && <ErrorInfo>{error.data as string}</ErrorInfo>}
             <Form.Group as={Col} className="text-right">
                 <Button
@@ -116,11 +121,7 @@ const GuestInfoSlipForm = () => {
                     disabled={loading}>
                     Clear
                 </Button>
-                <Button
-                    variant="primary"
-                    type="submit"
-                    size="lg"
-                    disabled={loading}>
+                <Button variant="primary" type="submit" size="lg" disabled={loading}>
                     Submit
                 </Button>
             </Form.Group>

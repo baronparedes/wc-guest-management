@@ -55,6 +55,7 @@ export interface Guest {
 
 export interface InfoSlip {
   visitDate: string;
+  worshipTime?: "AM" | "NN" | "PM" | "NA" | null;
   tableNumber?: number | null;
   volunteer: string;
   guests: string;

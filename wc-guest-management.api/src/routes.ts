@@ -78,6 +78,7 @@ const models: TsoaRoute.Models = {
         "dataType": "refObject",
         "properties": {
             "visitDate": { "dataType": "string", "required": true },
+            "worshipTime": { "dataType": "enum", "enums": ["AM", "NN", "PM", "NA"] },
             "tableNumber": { "dataType": "double" },
             "volunteer": { "dataType": "string", "required": true },
             "guests": { "dataType": "string", "required": true },

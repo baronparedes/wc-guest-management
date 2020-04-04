@@ -1,8 +1,4 @@
-import {
-    Guest,
-    GuestDocumentQuery,
-    GuestModel
-} from '../@models/guest';
+import { Guest, GuestDocumentQuery, GuestModel } from '../@models/guest';
 import { getNextSequence } from '../@models/sequence';
 import {
     DashboardCategoryCriteria,
@@ -87,18 +83,13 @@ export default class GuestService {
                 }
             });
         else {
-            const visitDate = fromDate
-                ? fromDate
-                : new Date(getCurrentDateFormatted());
+            const visitDate = fromDate ? fromDate : new Date(getCurrentDateFormatted());
             query.where({ visitDate: visitDate });
         }
         return query;
     }
 
-    public queryByCriteria(
-        query: GuestDocumentQuery,
-        criteria?: string
-    ) {
+    public queryByCriteria(query: GuestDocumentQuery, criteria?: string) {
         if (criteria) {
             const orQueries = [];
             const expression = new RegExp(criteria, 'i');
@@ -124,15 +115,8 @@ export default class GuestService {
         return query;
     }
 
-    public async fetchGuestsByDateRange(
-        fromDate?: Date,
-        toDate?: Date
-    ): Promise<Guest[]> {
-        const query = this.queryByDateRange(
-            GuestModel.find(),
-            fromDate,
-            toDate
-        );
+    public async fetchGuestsByDateRange(fromDate?: Date, toDate?: Date): Promise<Guest[]> {
+        const query = this.queryByDateRange(GuestModel.find(), fromDate, toDate);
         return query;
     }
 
@@ -153,17 +137,33 @@ export default class GuestService {
         });
     }
 
-    public async updateGuest(
-        id: string,
-        guestData: Guest
-    ): Promise<Guest> {
+    public async updateGuest(id: string, guestData: Guest): Promise<Guest> {
         return GuestModel.updateOne({ _id: id }, { ...guestData });
     }
 
-    public async welcomeGuests(
-        infoSlip: InfoSlip,
-        print?: boolean
-    ): Promise<Guest[]> {
+    private getDayOfWeek(date: Date) {
+        const dayOfWeek = date.getDay();
+        return isNaN(dayOfWeek)
+            ? undefined
+            : [
+                  'Sunday',
+                  'Monday',
+                  'Tuesday',
+                  'Wednesday',
+                  'Thursday',
+                  'Friday',
+                  'Saturday'
+              ][dayOfWeek];
+    }
+
+    private getWorshipTime(infoSlip: InfoSlip) {
+        if (infoSlip && infoSlip.worshipTime && infoSlip.worshipTime !== 'NA') {
+            return infoSlip.worshipTime;
+        }
+        return undefined;
+    }
+
+    public async welcomeGuests(infoSlip: InfoSlip, print?: boolean): Promise<Guest[]> {
         if (!infoSlip.guests || infoSlip.guests === '') {
             throw new Error('Guest name(s) must be provided.');
         }
@@ -176,10 +176,13 @@ export default class GuestService {
             const guest = guestInfos[index];
             if (guest && guest !== '') {
                 const seq = await getNextSequence('guest');
+                const visitDate = new Date(infoSlip.visitDate);
                 guests.push({
-                    visitDate: new Date(infoSlip.visitDate),
+                    visitDate: visitDate,
                     tableNumber: infoSlip.tableNumber,
                     volunteer: infoSlip.volunteer,
+                    worshipDay: this.getDayOfWeek(visitDate),
+                    worshipTime: this.getWorshipTime(infoSlip),
                     guest: guest,
                     series: seq,
                     createdDate: new Date()

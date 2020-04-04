@@ -2,6 +2,7 @@ import { Guest, GuestDocumentQuery } from '../@models/guest';
 
 export interface InfoSlip {
     visitDate: string;
+    worshipTime?: Slot;
     tableNumber?: number;
     volunteer: string;
     guests: string;
