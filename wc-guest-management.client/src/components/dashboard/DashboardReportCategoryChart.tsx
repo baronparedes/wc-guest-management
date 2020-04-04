@@ -9,32 +9,33 @@ type Props = {
     data: DashboardLineItem[];
     category: ReportCategory;
     scheme?: ColorSchemeId;
-    onSelectMetric?: (
-        category: ReportCategory,
-        index: string,
-        slot: Slot
-    ) => void;
+    onSelectMetric?: (category: ReportCategory, index: string, slot: Slot) => void;
 };
 
 function toChartData(data: DashboardLineItem[]) {
+    const keys: Slot[] = ['9 AM', '12 NN', '3 PM', '6 PM', 'NA'];
     const chartData = data.map(d => {
-        const getCount = (
-            item: DashboardLineItem,
-            slot: string
-        ): number => {
+        const getCount = (item: DashboardLineItem, slot: Slot): number => {
             const metric = item.metrics.find(m => m.slot === slot);
             return metric ? metric.count : 0;
         };
-
+        let result = {};
+        keys.forEach(key => {
+            const prop = key.toString();
+            result = {
+                ...result,
+                [prop]: getCount(d, key)
+            };
+        });
         return {
-            index: d.label,
-            am: getCount(d, 'AM'),
-            pm: getCount(d, 'PM'),
-            nn: getCount(d, 'NN'),
-            na: getCount(d, 'NA')
+            ...result,
+            index: d.label
         };
     });
-    return chartData;
+    return {
+        chartData,
+        keys
+    };
 }
 
 const DashboardReportCategoryChart = (props: Props) => {
@@ -42,9 +43,7 @@ const DashboardReportCategoryChart = (props: Props) => {
     return (
         <RoundedPanel>
             <div style={{ height: '400px' }} className="p-4">
-                <h4 className="text-center">
-                    guests by {props.category}
-                </h4>
+                <h4 className="text-center">guests by {props.category}</h4>
                 <ResponsiveBar
                     onClick={e => {
                         props.onSelectMetric &&
@@ -54,8 +53,8 @@ const DashboardReportCategoryChart = (props: Props) => {
                                 e.id.toString().toUpperCase() as Slot
                             );
                     }}
-                    data={data}
-                    keys={['am', 'nn', 'pm', 'na']}
+                    data={data.chartData}
+                    keys={data.keys}
                     indexBy="index"
                     groupMode="grouped"
                     margin={{

@@ -1,12 +1,4 @@
-import {
-    BodyProp,
-    Controller,
-    Get,
-    Post,
-    Put,
-    Query,
-    Route
-} from 'tsoa';
+import { BodyProp, Controller, Get, Post, Put, Query, Route } from 'tsoa';
 import { Guest } from '../@models/guest';
 import { InfoSlip, ReportCategory, Slot } from '../@types/models';
 import GuestService from '../services/guest-service';
@@ -26,43 +18,27 @@ export class GuestController extends Controller {
         @Query() toDate?: Date,
         @Query() criteria?: string
     ) {
-        const result = await this.guestService.fetchGuests(
-            fromDate,
-            toDate,
-            criteria
-        );
+        const result = await this.guestService.fetchGuests(fromDate, toDate, criteria);
         return result;
     }
 
     @Put('/{id}')
-    public async updateGuestData(
-        id: string,
-        @BodyProp() guestData: Guest
-    ): Promise<Guest> {
-        const result = await this.guestService.updateGuest(
-            id,
-            guestData
-        );
+    public async updateGuestData(id: string, @BodyProp() guestData: Guest): Promise<Guest> {
+        const result = await this.guestService.updateGuest(id, guestData);
         return result;
     }
 
     @Post('/welcome')
-    public async welcome(
-        @BodyProp() infoSlip: InfoSlip,
-        @BodyProp() print?: boolean
-    ) {
-        const result = await this.guestService.welcomeGuests(
-            infoSlip,
-            print
-        );
+    public async welcome(@BodyProp() infoSlip: InfoSlip, @BodyProp() print?: boolean) {
+        const result = await this.guestService.welcomeGuests(infoSlip, print);
 
         return result;
     }
 
-    @Get('/category/{category}/{slot}')
+    @Get('/category/{category}')
     public async fetchGuestsByCategory(
         category: ReportCategory,
-        slot: Slot,
+        @Query() slot?: Slot,
         @Query() index?: string,
         @Query() fromDate?: Date,
         @Query() toDate?: Date

@@ -38,14 +38,12 @@ const GuestForm = (props: Props) => {
         id: props.guest._id as string
     });
     const onSubmit = (formData: Guest) => {
-        let age = undefined;
-        if (formData.age && formData.age.toString() !== '') {
-            age = formData.age;
-        }
+        let data = Object.assign({}, formData);
+        if (!data.age) data.age = undefined;
+        if (!data.action) data.action = undefined;
         mutate({
             guestData: {
-                ...formData,
-                age: age
+                ...data
             }
         }).then(savedData => {
             props.onFormSaved && props.onFormSaved(savedData);
@@ -84,7 +82,7 @@ const GuestForm = (props: Props) => {
                     <br />
                     <FieldChecklist
                         required
-                        checklist={['AM', 'NN', 'PM']}
+                        checklist={['9 AM', '12 NN', '3 PM', '6 PM']}
                         inline
                         type="radio"
                         name="worshipTime"

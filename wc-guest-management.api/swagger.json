@@ -9,9 +9,10 @@
 				"slot": {
 					"type": "string",
 					"enum": [
-						"AM",
-						"NN",
-						"PM",
+						"9 AM",
+						"12 NN",
+						"3 PM",
+						"6 PM",
 						"NA"
 					]
 				},
@@ -166,9 +167,10 @@
 				"worshipTime": {
 					"type": "string",
 					"enum": [
-						"AM",
-						"NN",
-						"PM",
+						"9 AM",
+						"12 NN",
+						"3 PM",
+						"6 PM",
 						"NA"
 					],
 					"x-nullable": true
@@ -205,9 +207,10 @@
 				"worshipTime": {
 					"type": "string",
 					"enum": [
-						"AM",
-						"NN",
-						"PM",
+						"9 AM",
+						"12 NN",
+						"3 PM",
+						"6 PM",
 						"NA"
 					],
 					"x-nullable": true
@@ -398,7 +401,7 @@
 				]
 			}
 		},
-		"/api/guest/category/{category}/{slot}": {
+		"/api/guest/category/{category}": {
 			"get": {
 				"operationId": "FetchGuestsByCategory",
 				"produces": [
@@ -428,14 +431,15 @@
 						]
 					},
 					{
-						"in": "path",
+						"in": "query",
 						"name": "slot",
-						"required": true,
+						"required": false,
 						"type": "string",
 						"enum": [
-							"AM",
-							"NN",
-							"PM",
+							"9 AM",
+							"12 NN",
+							"3 PM",
+							"6 PM",
 							"NA"
 						]
 					},

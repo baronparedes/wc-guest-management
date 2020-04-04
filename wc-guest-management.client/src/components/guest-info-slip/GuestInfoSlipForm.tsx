@@ -18,9 +18,10 @@ const initialState: InfoSlip = {
 function getWorshipTime(): Slot {
     const now = new Date();
     const hour = now.getHours();
-    if (hour < 12) return 'AM';
-    if (hour < 15) return 'NN';
-    if (hour < 18) return 'PM';
+    if (hour < 12) return '9 AM';
+    if (hour < 15) return '12 NN';
+    if (hour < 18) return '3 PM';
+    if (hour < 21) return '6 PM';
     return 'NA';
 }
 
@@ -35,7 +36,6 @@ const GuestInfoSlipForm = () => {
         }
     });
     const onSubmit = (formData: InfoSlip) => {
-        console.log(formData);
         const body: WelcomeRequestBody = {
             print: false,
             infoSlip: formData
@@ -70,9 +70,10 @@ const GuestInfoSlipForm = () => {
                         name="worshipTime"
                         size="lg"
                         required>
-                        <option>AM</option>
-                        <option>NN</option>
-                        <option>PM</option>
+                        <option>9 AM</option>
+                        <option>12 NN</option>
+                        <option>3 PM</option>
+                        <option>6 PM</option>
                         <option>NA</option>
                     </Form.Control>
                 </FieldContainer>

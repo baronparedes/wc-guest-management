@@ -149,10 +149,7 @@ export default class DashboardService {
                     return !guest.age;
                 },
                 documentQuery: (q: GuestDocumentQuery) => {
-                    return q.or([
-                        { age: null },
-                        { age: { $exists: false } }
-                    ]);
+                    return q.or([{ age: null }, { age: { $exists: false } }]);
                 }
             }
         ];
@@ -179,10 +176,7 @@ export default class DashboardService {
         return result;
     }
 
-    private getDashboardMetric(
-        data: Guest[],
-        slot?: Slot
-    ): DashboardMetric {
+    private getDashboardMetric(data: Guest[], slot?: Slot): DashboardMetric {
         const result: DashboardMetric = {
             slot: slot ? slot : 'NA',
             count: data.filter(d => d.worshipTime === slot).length
@@ -192,9 +186,10 @@ export default class DashboardService {
 
     private getSummary(data: Guest[]): DashboardMetric[] {
         const result = [
-            this.getDashboardMetric(data, 'AM'),
-            this.getDashboardMetric(data, 'NN'),
-            this.getDashboardMetric(data, 'PM'),
+            this.getDashboardMetric(data, '9 AM'),
+            this.getDashboardMetric(data, '12 NN'),
+            this.getDashboardMetric(data, '3 PM'),
+            this.getDashboardMetric(data, '6 PM'),
             this.getDashboardMetric(data)
         ];
         return result;
@@ -205,16 +200,8 @@ export default class DashboardService {
             totalGuests: data.length,
             summary: this.getSummary(data),
             categories: [
-                this.getSummaryByCategory(
-                    data,
-                    'age',
-                    this.getAgeCriterias()
-                ),
-                this.getSummaryByCategory(
-                    data,
-                    'activity',
-                    this.getActivityCriterias()
-                )
+                this.getSummaryByCategory(data, 'age', this.getAgeCriterias()),
+                this.getSummaryByCategory(data, 'activity', this.getActivityCriterias())
             ]
         };
         return result;

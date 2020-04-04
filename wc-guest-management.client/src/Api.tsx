@@ -6,7 +6,7 @@ import { Get, GetProps, useGet, UseGetProps, Mutate, MutateProps, useMutate, Use
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export interface DashboardMetric {
-  slot: "AM" | "NN" | "PM" | "NA";
+  slot: "9 AM" | "12 NN" | "3 PM" | "6 PM" | "NA";
   count: number;
   [key: string]: any;
 }
@@ -47,7 +47,7 @@ export interface Guest {
   series?: number | null;
   createdDate?: string | null;
   worshipDay?: string | null;
-  worshipTime?: "AM" | "NN" | "PM" | "NA" | null;
+  worshipTime?: "9 AM" | "12 NN" | "3 PM" | "6 PM" | "NA" | null;
   action?: "A" | "DNA" | "Prayed" | "Counseled" | null;
   gender?: string | null;
   [key: string]: any;
@@ -55,7 +55,7 @@ export interface Guest {
 
 export interface InfoSlip {
   visitDate: string;
-  worshipTime?: "AM" | "NN" | "PM" | "NA" | null;
+  worshipTime?: "9 AM" | "12 NN" | "3 PM" | "6 PM" | "NA" | null;
   tableNumber?: number | null;
   volunteer: string;
   guests: string;
@@ -141,21 +141,22 @@ export const useWelcome = (props: UseWelcomeProps) => useMutate<Guest[], unknown
 
 
 export interface FetchGuestsByCategoryQueryParams {
+  slot?: "9 AM" | "12 NN" | "3 PM" | "6 PM" | "NA";
   index?: string;
   fromDate?: string;
   toDate?: string;
 }
 
-export type FetchGuestsByCategoryProps = Omit<GetProps<Guest[], unknown, FetchGuestsByCategoryQueryParams>, "path"> & {category: "age" | "activity"; slot: "AM" | "NN" | "PM" | "NA"};
+export type FetchGuestsByCategoryProps = Omit<GetProps<Guest[], unknown, FetchGuestsByCategoryQueryParams>, "path"> & {category: "age" | "activity"};
 
-export const FetchGuestsByCategory = ({category, slot, ...props}: FetchGuestsByCategoryProps) => (
+export const FetchGuestsByCategory = ({category, ...props}: FetchGuestsByCategoryProps) => (
   <Get<Guest[], unknown, FetchGuestsByCategoryQueryParams>
-    path={`/api/guest/category/${category}/${slot}`}
+    path={`/api/guest/category/${category}`}
     {...props}
   />
 );
 
-export type UseFetchGuestsByCategoryProps = Omit<UseGetProps<Guest[], FetchGuestsByCategoryQueryParams>, "path"> & {category: "age" | "activity"; slot: "AM" | "NN" | "PM" | "NA"};
+export type UseFetchGuestsByCategoryProps = Omit<UseGetProps<Guest[], FetchGuestsByCategoryQueryParams>, "path"> & {category: "age" | "activity"};
 
-export const useFetchGuestsByCategory = ({category, slot, ...props}: UseFetchGuestsByCategoryProps) => useGet<Guest[], unknown, FetchGuestsByCategoryQueryParams>(`/api/guest/category/${category}/${slot}`, props);
+export const useFetchGuestsByCategory = ({category, ...props}: UseFetchGuestsByCategoryProps) => useGet<Guest[], unknown, FetchGuestsByCategoryQueryParams>(`/api/guest/category/${category}`, props);
 

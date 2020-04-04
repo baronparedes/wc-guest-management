@@ -14,7 +14,7 @@ const models: TsoaRoute.Models = {
     "DashboardMetric": {
         "dataType": "refObject",
         "properties": {
-            "slot": { "dataType": "enum", "enums": ["AM", "NN", "PM", "NA"], "required": true },
+            "slot": { "dataType": "enum", "enums": ["9 AM", "12 NN", "3 PM", "6 PM", "NA"], "required": true },
             "count": { "dataType": "double", "required": true },
         },
         "additionalProperties": true,
@@ -67,7 +67,7 @@ const models: TsoaRoute.Models = {
             "series": { "dataType": "double" },
             "createdDate": { "dataType": "datetime" },
             "worshipDay": { "dataType": "string" },
-            "worshipTime": { "dataType": "enum", "enums": ["AM", "NN", "PM", "NA"] },
+            "worshipTime": { "dataType": "enum", "enums": ["9 AM", "12 NN", "3 PM", "6 PM", "NA"] },
             "action": { "dataType": "enum", "enums": ["A", "DNA", "Prayed", "Counseled"] },
             "gender": { "dataType": "string" },
         },
@@ -78,7 +78,7 @@ const models: TsoaRoute.Models = {
         "dataType": "refObject",
         "properties": {
             "visitDate": { "dataType": "string", "required": true },
-            "worshipTime": { "dataType": "enum", "enums": ["AM", "NN", "PM", "NA"] },
+            "worshipTime": { "dataType": "enum", "enums": ["9 AM", "12 NN", "3 PM", "6 PM", "NA"] },
             "tableNumber": { "dataType": "double" },
             "volunteer": { "dataType": "string", "required": true },
             "guests": { "dataType": "string", "required": true },
@@ -189,11 +189,11 @@ export function RegisterRoutes(app: express.Express) {
             promiseHandler(controller, promise, response, next);
         });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    app.get('/api/guest/category/:category/:slot',
+    app.get('/api/guest/category/:category',
         function(request: any, response: any, next: any) {
             const args = {
                 category: { "in": "path", "name": "category", "required": true, "dataType": "enum", "enums": ["age", "activity"] },
-                slot: { "in": "path", "name": "slot", "required": true, "dataType": "enum", "enums": ["AM", "NN", "PM", "NA"] },
+                slot: { "in": "query", "name": "slot", "dataType": "enum", "enums": ["9 AM", "12 NN", "3 PM", "6 PM", "NA"] },
                 index: { "in": "query", "name": "index", "dataType": "string" },
                 fromDate: { "in": "query", "name": "fromDate", "dataType": "datetime" },
                 toDate: { "in": "query", "name": "toDate", "dataType": "datetime" },

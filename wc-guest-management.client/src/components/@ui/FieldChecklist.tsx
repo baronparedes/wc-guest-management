@@ -17,6 +17,7 @@ const FieldCheckList = (props: Props & FormCheckProps) => {
                 const id = `${props.name}${i}`;
                 return (
                     <Form.Check
+                        custom
                         required={props.required}
                         inline={props.inline}
                         type={props.type}

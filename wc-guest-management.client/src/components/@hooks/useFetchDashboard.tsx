@@ -19,8 +19,8 @@ export const useFetchDashboard = (
 ) => {
     const dashboardGuests = useFetchGuestsByCategory({
         category: dashboardCriteria ? dashboardCriteria.category : 'age',
-        slot: dashboardCriteria ? dashboardCriteria.slot : 'AM',
         queryParams: {
+            slot: dashboardCriteria && dashboardCriteria.slot,
             index: dashboardCriteria && dashboardCriteria.index,
             fromDate: query && query.fromDate,
             toDate: query && query.toDate
