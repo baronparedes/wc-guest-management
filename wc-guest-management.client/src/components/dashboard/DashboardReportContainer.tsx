@@ -6,6 +6,7 @@ import { useGuestSavedEffect } from '../@hooks/useGuestSavedEffect';
 import ErrorInfo from '../@ui/ErrorInfo';
 import Loading from '../@ui/Loading';
 import ModalContainer from '../@ui/ModalContainer';
+import GuestQuickForm from '../guests/GuestQuickForm';
 import GuestTable from '../guests/GuestTable';
 import DashboardReportCategoryChart from './DashboardReportCategoryChart';
 import DashboardReportTotals from './DashboardReportTotals';
@@ -66,7 +67,7 @@ const DashboardReportContainer: React.FC<Props> = props => {
                 })}
             {action && (
                 <ModalContainer
-                    title="guests"
+                    header="guests"
                     toggle={toggle}
                     onClose={handleOnClose}
                     modalsize="lg">
@@ -82,7 +83,14 @@ const DashboardReportContainer: React.FC<Props> = props => {
                         action === 'metric' && <GuestTable guests={dashboardGuests.data} />}
                     {!searchGuests.loading &&
                         searchGuests.data &&
+                        searchGuests.data.length > 1 &&
                         action === 'criteria' && <GuestTable guests={searchGuests.data} />}
+                    {!searchGuests.loading &&
+                        searchGuests.data &&
+                        searchGuests.data.length === 1 &&
+                        action === 'criteria' && (
+                            <GuestQuickForm guest={searchGuests.data[0]} />
+                        )}
                 </ModalContainer>
             )}
         </>

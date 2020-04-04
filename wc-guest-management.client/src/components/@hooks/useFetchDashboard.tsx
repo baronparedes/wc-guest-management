@@ -12,11 +12,11 @@ export type DashboardCriteria = {
     slot: Slot;
 };
 
-export const useFetchDashboard = (
+export function useFetchDashboard(
     dashboardCriteria?: DashboardCriteria,
     searchCriteria?: string,
     query?: GetDashboardReportQueryParams
-) => {
+) {
     const dashboardGuests = useFetchGuestsByCategory({
         category: dashboardCriteria ? dashboardCriteria.category : 'age',
         queryParams: {
@@ -54,4 +54,4 @@ export const useFetchDashboard = (
         dashboardGuests,
         searchGuests
     };
-};
+}

@@ -1,54 +1,34 @@
 import React from 'react';
 import { Button, Col, Container, Form, Image, Row } from 'react-bootstrap';
-import useForm from 'react-hook-form';
-import styled from 'styled-components';
+import { FaIdCard } from 'react-icons/fa';
 import logo from '../../@assets/img/wc-logo-transparent.png';
 import { formatDate } from '../../@utils/dates';
-import { Guest, useUpdateGuestData } from '../../Api';
+import { Guest } from '../../Api';
+import { usePostGuestForm } from '../@hooks/usePostGuestForm';
 import BoxStacked from '../@ui/BoxStacked';
 import ErrorInfo from '../@ui/ErrorInfo';
 import FieldChecklist from '../@ui/FieldChecklist';
 import FieldContainer from '../@ui/FieldContainer';
+import { BorderedLeftCol, DarkCol, IndentedCol } from '../@ui/StyledCol';
+import {
+    GuestButtonModalProps,
+    withEditGuestButtonModal
+} from './withEditGuestButtonModal';
 
-const DarkCol = styled(Col)`
-    background-color: #000000;
-    color: #ffffff;
-`;
-
-const IndentedCol = styled(Col)`
-    padding-left: 150px;
-`;
-
-const BorderedLeftCol = styled(Col)`
-    border-left: 10px solid #000000;
-`;
-
-type Props = {
-    guest: Guest;
-    onFormSaved: (saveData: Guest) => void;
-};
-
-const GuestForm = (props: Props) => {
-    const { handleSubmit, register } = useForm<Guest>({
+const GuestForm = (props: GuestButtonModalProps) => {
+    const { loading, error, handleSubmit, onSubmit, register } = usePostGuestForm<Guest>({
         defaultValues: {
             ...props.guest
-        }
+        },
+        id: props.guest._id as string,
+        onPreSubmit: (formData: Guest) => {
+            let data = Object.assign({}, formData);
+            if (!data.age) data.age = undefined;
+            if (!data.action) data.action = undefined;
+            return data;
+        },
+        onFormSaved: props.onFormSaved
     });
-    const { loading, error, mutate } = useUpdateGuestData({
-        id: props.guest._id as string
-    });
-    const onSubmit = (formData: Guest) => {
-        let data = Object.assign({}, formData);
-        if (!data.age) data.age = undefined;
-        if (!data.action) data.action = undefined;
-        mutate({
-            guestData: {
-                ...data
-            }
-        }).then(savedData => {
-            props.onFormSaved && props.onFormSaved(savedData);
-        });
-    };
     return (
         <Container as={Form} onSubmit={handleSubmit(onSubmit)} disabled={loading}>
             <BoxStacked className="text-center rounded-md">
@@ -253,4 +233,17 @@ const GuestForm = (props: Props) => {
     );
 };
 
+const FormWithModal = withEditGuestButtonModal(GuestForm);
+export const GuestFormWithButtonModal = (props: Guest) => {
+    return (
+        <FormWithModal
+            title="guest data"
+            header="guest data"
+            guest={props}
+            variant="warning"
+            modalsize="xl">
+            <FaIdCard />
+        </FormWithModal>
+    );
+};
 export default GuestForm;
