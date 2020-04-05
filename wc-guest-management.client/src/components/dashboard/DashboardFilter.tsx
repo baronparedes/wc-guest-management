@@ -25,6 +25,10 @@ const DashboardFilter = (props: Props) => {
         <Form onSubmit={handleSubmit(onSubmit)}>
             <Form.Row className="d-print-none">
                 <Col className="text-right">
+                    <span className="text-muted mr-2">
+                        data as of {new Date().toLocaleDateString()}{' '}
+                        {new Date().toLocaleTimeString()}
+                    </span>
                     <Button
                         variant="primary"
                         type="submit"

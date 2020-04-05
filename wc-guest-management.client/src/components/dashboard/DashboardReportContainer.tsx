@@ -83,7 +83,7 @@ const DashboardReportContainer: React.FC<Props> = props => {
                         action === 'metric' && <GuestTable guests={dashboardGuests.data} />}
                     {!searchGuests.loading &&
                         searchGuests.data &&
-                        searchGuests.data.length > 1 &&
+                        searchGuests.data.length !== 1 &&
                         action === 'criteria' && <GuestTable guests={searchGuests.data} />}
                     {!searchGuests.loading &&
                         searchGuests.data &&

@@ -8,7 +8,7 @@ type Props = {
 };
 
 const DashboardReportGuestDetail = (props: Props) => {
-    const [criteria, setCriteria] = useState<string>();
+    const [criteria, setCriteria] = useState<string | undefined>('');
     const handleOnChange = (e: React.FormEvent<FormControlProps>) => {
         setCriteria(e.currentTarget.value);
     };
