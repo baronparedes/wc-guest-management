@@ -1,13 +1,13 @@
+import '@assets/styles/theme.scss';
+import App from 'App';
+import AppRouter from 'AppRouter';
+import 'index.scss';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { RestfulProvider } from 'restful-react';
-import './@assets/styles/theme.scss';
-import App from './App';
-import AppRouter from './AppRouter';
-import './index.scss';
-import * as serviceWorker from './serviceWorker';
-import store from './store';
+import * as serviceWorker from 'serviceWorker';
+import store from 'store';
 
 ReactDOM.render(
     <RestfulProvider base={process.env.REACT_APP_API_URI}>

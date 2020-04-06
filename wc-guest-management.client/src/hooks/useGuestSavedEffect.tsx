@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
-import { useRootState } from '../../store';
+import { useRootState } from 'store';
 
 export function useGuestSavedEffect(callback: () => void) {
-    const savedGuest = useRootState(state => state.dashboard.savedGuest);
+    const savedGuest = useRootState((state) => state.dashboard.savedGuest);
     useEffect(() => {
         callback();
         // eslint-disable-next-line

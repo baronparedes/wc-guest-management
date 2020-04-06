@@ -1,6 +1,6 @@
+import Brand from 'components/@ui/Brand';
 import React from 'react';
 import { Col, Container } from 'react-bootstrap';
-import Brand from '../@ui/Brand';
 import GuestInfoSlipForm from './GuestInfoSlipForm';
 
 const GuestInfoSlipView = () => {

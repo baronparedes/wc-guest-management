@@ -1,6 +1,6 @@
+import DisplayLabel from 'components/@ui/DisplayLabel';
 import React from 'react';
 import { Container } from 'react-bootstrap';
-import DisplayLabel from '../@ui/DisplayLabel';
 import DashboardGuestsContainer from './DashboardGuestsContainer';
 
 const DashboardView = () => {

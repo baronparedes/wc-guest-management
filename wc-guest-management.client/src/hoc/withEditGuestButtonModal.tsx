@@ -1,7 +1,7 @@
+import { Guest } from 'Api';
+import ModalContainer, { ModalProps } from 'components/@ui/ModalContainer';
 import React, { ComponentType, useState } from 'react';
 import { Button } from 'react-bootstrap';
-import { Guest } from '../../Api';
-import ModalContainer, { ModalProps } from '../@ui/ModalContainer';
 
 export type EditableGuestProps = {
     guest: Guest;
@@ -26,7 +26,7 @@ export type GuestButtonModalProps = EditableGuestProps & ModalProps & Props;
 export const withEditGuestButtonModal = <P extends GuestButtonModalProps>(
     Component: ComponentType<P>
 ) => {
-    const WrappedComponent: React.FC<P> = props => {
+    const WrappedComponent: React.FC<P> = (props) => {
         const [toggle, setToggle] = useState(false);
         const handleOnShowModal = () => setToggle(true);
         const handleOnClose = () => setToggle(false);

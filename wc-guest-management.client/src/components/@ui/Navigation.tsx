@@ -1,8 +1,8 @@
+import logo from '@assets/img/wc-logo-transparent.png';
+import routes from '@utils/routes';
 import React from 'react';
 import { Container, Image, Nav, Navbar } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
-import logo from '../../@assets/img/wc-logo-transparent.png';
-import routes from '../../@utils/routes';
 
 const Navigation: React.FC = () => {
     return (
@@ -14,19 +14,13 @@ const Navigation: React.FC = () => {
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="mr-auto">
-                        <Nav.Link
-                            as={NavLink}
-                            to={routes.DASHBOARD}
-                            exact>
+                        <Nav.Link as={NavLink} to={routes.DASHBOARD} exact>
                             dashboard
                         </Nav.Link>
                         <Nav.Link as={NavLink} to={routes.GUESTS} exact>
                             guests
                         </Nav.Link>
-                        <Nav.Link
-                            as={NavLink}
-                            to={routes.GUEST_INFO_SLIP}
-                            exact>
+                        <Nav.Link as={NavLink} to={routes.GUEST_INFO_SLIP} exact>
                             guest info slip
                         </Nav.Link>
                     </Nav>

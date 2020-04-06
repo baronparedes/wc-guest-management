@@ -1,18 +1,18 @@
+import { Slot } from '@models';
+import { getCurrentDateFormatted } from '@utils/dates';
+import { Guest, InfoSlip, useWelcome, WelcomeRequestBody } from 'Api';
+import ErrorInfo from 'components/@ui/ErrorInfo';
+import FieldContainer from 'components/@ui/FieldContainer';
 import React, { useState } from 'react';
 import { Button, Col, Form } from 'react-bootstrap';
 import useForm from 'react-hook-form';
-import { Slot } from '../../@types/models';
-import { getCurrentDateFormatted } from '../../@utils/dates';
-import { Guest, InfoSlip, useWelcome, WelcomeRequestBody } from '../../Api';
-import ErrorInfo from '../@ui/ErrorInfo';
-import FieldContainer from '../@ui/FieldContainer';
 import ConfirmedGuests from './ConfirmedGuests';
 
 const initialState: InfoSlip = {
     visitDate: getCurrentDateFormatted(),
     guests: '',
     volunteer: '',
-    tableNumber: undefined
+    tableNumber: undefined,
 };
 
 function getWorshipTime(): Slot {
@@ -32,13 +32,13 @@ const GuestInfoSlipForm = () => {
     const { handleSubmit, register, reset } = useForm<InfoSlip>({
         defaultValues: {
             ...initialState,
-            worshipTime: getWorshipTime()
-        }
+            worshipTime: getWorshipTime(),
+        },
     });
     const onSubmit = (formData: InfoSlip) => {
         const body: WelcomeRequestBody = {
             print: false,
-            infoSlip: formData
+            infoSlip: formData,
         };
         setName(formData.volunteer);
         mutate(body).then(setQueued);

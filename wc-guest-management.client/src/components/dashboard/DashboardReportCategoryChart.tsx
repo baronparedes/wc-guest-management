@@ -1,9 +1,9 @@
+import { ReportCategory, Slot } from '@models';
 import { ResponsiveBar } from '@nivo/bar';
 import { ColorSchemeId } from '@nivo/colors';
+import { DashboardLineItem } from 'Api';
+import RoundedPanel from 'components/@ui/RoundedPanel';
 import React from 'react';
-import { ReportCategory, Slot } from '../../@types/models';
-import { DashboardLineItem } from '../../Api';
-import RoundedPanel from '../@ui/RoundedPanel';
 
 type Props = {
     data: DashboardLineItem[];
@@ -14,27 +14,27 @@ type Props = {
 
 function toChartData(data: DashboardLineItem[]) {
     const keys: Slot[] = ['9 AM', '12 NN', '3 PM', '6 PM', 'NA'];
-    const chartData = data.map(d => {
+    const chartData = data.map((d) => {
         const getCount = (item: DashboardLineItem, slot: Slot): number => {
-            const metric = item.metrics.find(m => m.slot === slot);
+            const metric = item.metrics.find((m) => m.slot === slot);
             return metric ? metric.count : 0;
         };
         let result = {};
-        keys.forEach(key => {
+        keys.forEach((key) => {
             const prop = key.toString();
             result = {
                 ...result,
-                [prop]: getCount(d, key)
+                [prop]: getCount(d, key),
             };
         });
         return {
             ...result,
-            index: d.label
+            index: d.label,
         };
     });
     return {
         chartData,
-        keys
+        keys,
     };
 }
 
@@ -45,7 +45,7 @@ const DashboardReportCategoryChart = (props: Props) => {
             <div style={{ height: '400px' }} className="p-4">
                 <h4 className="text-center">guests by {props.category}</h4>
                 <ResponsiveBar
-                    onClick={e => {
+                    onClick={(e) => {
                         props.onSelectMetric &&
                             props.onSelectMetric(
                                 props.category,
@@ -61,11 +61,11 @@ const DashboardReportCategoryChart = (props: Props) => {
                         top: 50,
                         right: 130,
                         bottom: 50,
-                        left: 60
+                        left: 60,
                     }}
                     padding={0.3}
                     colors={{
-                        scheme: props.scheme ? props.scheme : 'accent'
+                        scheme: props.scheme ? props.scheme : 'accent',
                     }}
                     innerPadding={4}
                     legends={[
@@ -86,11 +86,11 @@ const DashboardReportCategoryChart = (props: Props) => {
                                 {
                                     on: 'hover',
                                     style: {
-                                        itemOpacity: 1
-                                    }
-                                }
-                            ]
-                        }
+                                        itemOpacity: 1,
+                                    },
+                                },
+                            ],
+                        },
                     ]}
                     axisLeft={null}
                     animate={true}

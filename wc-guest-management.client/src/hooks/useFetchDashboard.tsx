@@ -1,10 +1,10 @@
-import { useEffect } from 'react';
-import { ReportCategory, Slot } from '../../@types/models';
+import { ReportCategory, Slot } from '@models';
 import {
     GetDashboardReportQueryParams,
     useFetchGuests,
-    useFetchGuestsByCategory
-} from '../../Api';
+    useFetchGuestsByCategory,
+} from 'Api';
+import { useEffect } from 'react';
 
 export type DashboardCriteria = {
     category: ReportCategory;
@@ -23,17 +23,17 @@ export function useFetchDashboard(
             slot: dashboardCriteria && dashboardCriteria.slot,
             index: dashboardCriteria && dashboardCriteria.index,
             fromDate: query && query.fromDate,
-            toDate: query && query.toDate
+            toDate: query && query.toDate,
         },
-        lazy: true
+        lazy: true,
     });
     const searchGuests = useFetchGuests({
         queryParams: {
             criteria: searchCriteria,
             fromDate: query && query.fromDate,
-            toDate: query && query.toDate
+            toDate: query && query.toDate,
         },
-        lazy: true
+        lazy: true,
     });
 
     useEffect(() => {
@@ -52,6 +52,6 @@ export function useFetchDashboard(
 
     return {
         dashboardGuests,
-        searchGuests
+        searchGuests,
     };
 }

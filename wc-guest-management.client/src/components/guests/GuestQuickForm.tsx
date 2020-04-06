@@ -1,20 +1,20 @@
+import logo from '@assets/img/wc-logo-transparent.png';
+import { Activity, Slot } from '@models';
+import { formatDate } from '@utils/dates';
+import { Guest } from 'Api';
+import BoxStacked from 'components/@ui/BoxStacked';
+import ErrorInfo from 'components/@ui/ErrorInfo';
+import FieldChecklist from 'components/@ui/FieldChecklist';
+import FieldContainer from 'components/@ui/FieldContainer';
+import { DarkCol, IndentedCol } from 'components/@ui/StyledCol';
+import {
+    GuestButtonModalProps,
+    withEditGuestButtonModal,
+} from 'hoc/withEditGuestButtonModal';
+import { usePostGuestForm } from 'hooks/usePostGuestForm';
 import React from 'react';
 import { Button, Col, Container, Form, Image, Row } from 'react-bootstrap';
 import { FaIdCardAlt } from 'react-icons/fa';
-import logo from '../../@assets/img/wc-logo-transparent.png';
-import { Activity, Slot } from '../../@types/models';
-import { formatDate } from '../../@utils/dates';
-import { Guest } from '../../Api';
-import { usePostGuestForm } from '../@hooks/usePostGuestForm';
-import BoxStacked from '../@ui/BoxStacked';
-import ErrorInfo from '../@ui/ErrorInfo';
-import FieldChecklist from '../@ui/FieldChecklist';
-import FieldContainer from '../@ui/FieldContainer';
-import { DarkCol, IndentedCol } from '../@ui/StyledCol';
-import {
-    GuestButtonModalProps,
-    withEditGuestButtonModal
-} from './withEditGuestButtonModal';
 
 type FormProps = {
     age?: number | null;
@@ -31,7 +31,7 @@ const GuestQuickForm = (props: GuestButtonModalProps) => {
             age: props.guest.age,
             action: props.guest.action,
             worshipTime: props.guest.worshipTime,
-            volunteer: props.guest.volunteer
+            volunteer: props.guest.volunteer,
         },
         id: props.guest._id as string,
         onPreSubmit: (formData: FormProps) => {
@@ -41,11 +41,11 @@ const GuestQuickForm = (props: GuestButtonModalProps) => {
             if (!data.worshipTime) data.worshipTime = undefined;
             data = {
                 ...data,
-                ...formData
+                ...formData,
             };
             return data;
         },
-        onFormSaved: props.onFormSaved
+        onFormSaved: props.onFormSaved,
     });
 
     return (

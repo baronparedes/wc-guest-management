@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Guest } from '../../Api';
+import { Guest } from 'Api';
 
 type State = {
     data?: Guest[];
@@ -17,12 +17,12 @@ export const dashboardSlice = createSlice({
         },
         guestSaved: (state, action: PayloadAction<Guest>) => {
             state.savedGuest = action.payload;
-        }
-    }
+        },
+    },
 });
 
 const { actions, reducer } = dashboardSlice;
 export const dashboardActions = {
-    ...actions
+    ...actions,
 };
 export default reducer;

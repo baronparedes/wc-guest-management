@@ -1,8 +1,8 @@
+import { GetDashboardReportQueryParams, useGetDashboardReport } from 'Api';
+import ErrorInfo from 'components/@ui/ErrorInfo';
+import Loading from 'components/@ui/Loading';
+import { useGuestSavedEffect } from 'hooks/useGuestSavedEffect';
 import React, { useEffect, useState } from 'react';
-import { GetDashboardReportQueryParams, useGetDashboardReport } from '../../Api';
-import { useGuestSavedEffect } from '../@hooks/useGuestSavedEffect';
-import ErrorInfo from '../@ui/ErrorInfo';
-import Loading from '../@ui/Loading';
 import DashboardFilter from './DashboardFilter';
 import DashboardReportContainer from './DashboardReportContainer';
 
@@ -10,13 +10,13 @@ const DashboardGuestsContainer = () => {
     const [query, setQuery] = useState<GetDashboardReportQueryParams>();
     const { loading, error, data, refetch } = useGetDashboardReport({
         queryParams: query,
-        lazy: true
+        lazy: true,
     });
 
     const handleOnRefresh = (fromDate: string, toDate?: string) => {
         setQuery({
             fromDate,
-            toDate: toDate ? toDate : undefined
+            toDate: toDate ? toDate : undefined,
         });
     };
 

@@ -4,7 +4,7 @@ import {
     DashboardCategoryCriteria,
     InfoSlip,
     ReportCategory,
-    Slot
+    Slot,
 } from '../@types/models';
 import { getCurrentDateFormatted } from '../@utils/dates';
 import DashboardService from './dashboard-service';
@@ -51,7 +51,7 @@ export default class GuestService {
         slot?: Slot
     ): GuestDocumentQuery {
         if (index) {
-            const criteria = criterias.find(c => c.label === index);
+            const criteria = criterias.find((c) => c.label === index);
             if (criteria && criteria.documentQuery) {
                 query = criteria.documentQuery(query);
             }
@@ -79,8 +79,8 @@ export default class GuestService {
             query.where({
                 visitDate: {
                     $gte: new Date(fromDate),
-                    $lte: new Date(toDate)
-                }
+                    $lte: new Date(toDate),
+                },
             });
         else {
             const visitDate = fromDate ? fromDate : new Date(getCurrentDateFormatted());
@@ -132,7 +132,7 @@ export default class GuestService {
     }
 
     private printWelcomeLetters(guests: Guest[]) {
-        guests.forEach(g => {
+        guests.forEach((g) => {
             console.log(g._id);
         });
     }
@@ -152,7 +152,7 @@ export default class GuestService {
                   'Wednesday',
                   'Thursday',
                   'Friday',
-                  'Saturday'
+                  'Saturday',
               ][dayOfWeek];
     }
 
@@ -169,7 +169,9 @@ export default class GuestService {
         }
 
         const guests: Guest[] = [];
-        const guestInfos = infoSlip.guests.split(/\n/);
+        const guestInfos = [
+            ...new Set(infoSlip.guests.split(/\n/).map((g) => g.toLowerCase())),
+        ];
 
         // array.forEach does not work with await
         for (let index = 0; index < guestInfos.length; index++) {
@@ -185,7 +187,7 @@ export default class GuestService {
                     worshipTime: this.getWorshipTime(infoSlip),
                     guest: guest,
                     series: seq,
-                    createdDate: new Date()
+                    createdDate: new Date(),
                 });
             }
         }

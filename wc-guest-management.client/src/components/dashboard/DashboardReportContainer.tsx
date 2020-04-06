@@ -1,13 +1,13 @@
+import { ReportCategory, Slot } from '@models';
+import { DashboardReport, GetDashboardReportQueryParams } from 'Api';
+import ErrorInfo from 'components/@ui/ErrorInfo';
+import Loading from 'components/@ui/Loading';
+import ModalContainer from 'components/@ui/ModalContainer';
+import GuestListTable from 'components/guests/GuestListTable';
+import GuestQuickForm from 'components/guests/GuestQuickForm';
+import { DashboardCriteria, useFetchDashboard } from 'hooks/useFetchDashboard';
+import { useGuestSavedEffect } from 'hooks/useGuestSavedEffect';
 import React, { useState } from 'react';
-import { ReportCategory, Slot } from '../../@types/models';
-import { DashboardReport, GetDashboardReportQueryParams } from '../../Api';
-import { DashboardCriteria, useFetchDashboard } from '../@hooks/useFetchDashboard';
-import { useGuestSavedEffect } from '../@hooks/useGuestSavedEffect';
-import ErrorInfo from '../@ui/ErrorInfo';
-import Loading from '../@ui/Loading';
-import ModalContainer from '../@ui/ModalContainer';
-import GuestQuickForm from '../guests/GuestQuickForm';
-import GuestTable from '../guests/GuestTable';
 import DashboardReportCategoryChart from './DashboardReportCategoryChart';
 import DashboardReportTotals from './DashboardReportTotals';
 
@@ -16,7 +16,7 @@ type Props = {
     query?: GetDashboardReportQueryParams;
 };
 
-const DashboardReportContainer: React.FC<Props> = props => {
+const DashboardReportContainer: React.FC<Props> = (props) => {
     const [action, setAction] = useState<'metric' | 'criteria'>();
     const [searchCriteria, setSearchCriteria] = useState<string>();
     const [dashboardCriteria, setDashboardCriteria] = useState<DashboardCriteria>();
@@ -31,7 +31,7 @@ const DashboardReportContainer: React.FC<Props> = props => {
         setDashboardCriteria({
             category: category,
             index: index,
-            slot: slot
+            slot: slot,
         });
         setAction('metric');
         setToggle(true);
@@ -54,7 +54,7 @@ const DashboardReportContainer: React.FC<Props> = props => {
                 onSearch={handleOnSearch}
             />
             {props.reportData.categories &&
-                props.reportData.categories.map(cat => {
+                props.reportData.categories.map((cat) => {
                     return (
                         <div key={cat.title} className="pb-4">
                             <DashboardReportCategoryChart
@@ -80,11 +80,15 @@ const DashboardReportContainer: React.FC<Props> = props => {
                     {(dashboardGuests.loading || searchGuests.loading) && <Loading />}
                     {!dashboardGuests.loading &&
                         dashboardGuests.data &&
-                        action === 'metric' && <GuestTable guests={dashboardGuests.data} />}
+                        action === 'metric' && (
+                            <GuestListTable guests={dashboardGuests.data} />
+                        )}
                     {!searchGuests.loading &&
                         searchGuests.data &&
                         searchGuests.data.length !== 1 &&
-                        action === 'criteria' && <GuestTable guests={searchGuests.data} />}
+                        action === 'criteria' && (
+                            <GuestListTable guests={searchGuests.data} />
+                        )}
                     {!searchGuests.loading &&
                         searchGuests.data &&
                         searchGuests.data.length === 1 &&

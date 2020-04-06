@@ -1,7 +1,7 @@
+import { getCurrentDateFormatted } from '@utils/dates';
 import React from 'react';
 import { Button, Col, Form, InputGroup } from 'react-bootstrap';
 import useForm from 'react-hook-form';
-import { getCurrentDateFormatted } from '../../@utils/dates';
 
 type Props = {
     onRefresh?: (criteria?: string, fromDate?: string) => void;
@@ -18,23 +18,18 @@ const GuestFilter = (props: Props & FormProps) => {
     const { handleSubmit, register } = useForm<FormProps>({
         defaultValues: {
             criteria: props.criteria,
-            fromDate: props.fromDate
-        }
+            fromDate: props.fromDate,
+        },
     });
 
     const onSubmit = (formData: FormProps) => {
-        props.onRefresh &&
-            props.onRefresh(formData.criteria, formData.fromDate);
+        props.onRefresh && props.onRefresh(formData.criteria, formData.fromDate);
     };
 
     return (
         <Form onSubmit={handleSubmit(onSubmit)}>
             <Form.Row>
-                <Form.Group
-                    as={Col}
-                    sm={12}
-                    md={4}
-                    controlId="fromDate">
+                <Form.Group as={Col} sm={12} md={4} controlId="fromDate">
                     <Form.Control
                         required
                         ref={register}
@@ -44,11 +39,7 @@ const GuestFilter = (props: Props & FormProps) => {
                         max={now}
                     />
                 </Form.Group>
-                <Form.Group
-                    as={Col}
-                    sm={12}
-                    md={8}
-                    controlId="criteria">
+                <Form.Group as={Col} sm={12} md={8} controlId="criteria">
                     <InputGroup>
                         <Form.Control
                             ref={register}

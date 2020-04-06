@@ -1,8 +1,8 @@
+import { getCurrentDateFormatted } from '@utils/dates';
+import FieldContainer from 'components/@ui/FieldContainer';
 import React from 'react';
 import { Button, Col, Form } from 'react-bootstrap';
 import useForm from 'react-hook-form';
-import { getCurrentDateFormatted } from '../../@utils/dates';
-import FieldContainer from '../@ui/FieldContainer';
 
 type Props = {
     onRefresh?: (fromDate: string, toDate?: string) => void;
@@ -15,8 +15,8 @@ const DashboardFilter = (props: Props) => {
     const now = getCurrentDateFormatted();
     const { handleSubmit, register } = useForm<FormProps>({
         defaultValues: {
-            fromDate: now
-        }
+            fromDate: now,
+        },
     });
     const onSubmit = (formData: FormProps) => {
         props.onRefresh && props.onRefresh(formData.fromDate, formData.toDate);

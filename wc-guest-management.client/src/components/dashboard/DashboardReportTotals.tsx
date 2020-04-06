@@ -1,6 +1,6 @@
+import { DashboardReport, GetDashboardReportQueryParams } from 'Api';
 import React from 'react';
 import { Col, Row } from 'react-bootstrap';
-import { DashboardReport, GetDashboardReportQueryParams } from '../../Api';
 import DashboardReportGuestDetail from './DashboardReportGuestDetail';
 import DashboardReportTotal from './DashboardReportTotal';
 
@@ -25,7 +25,7 @@ const DashboardReportTotals = (props: Props) => {
             </Row>
             <Row>
                 {props.data.summary &&
-                    props.data.summary.map(item => {
+                    props.data.summary.map((item) => {
                         return (
                             <DashboardReportTotal
                                 key={item.slot}

@@ -1,7 +1,7 @@
+import FieldContainer from 'components/@ui/FieldContainer';
+import RoundedPanel from 'components/@ui/RoundedPanel';
 import React, { useState } from 'react';
 import { Button, Form, FormControlProps, InputGroup } from 'react-bootstrap';
-import FieldContainer from '../@ui/FieldContainer';
-import RoundedPanel from '../@ui/RoundedPanel';
 
 type Props = {
     onSearch?: (searchCriteria?: string) => void;
