@@ -15,7 +15,7 @@ const GuestListArea = (props: GuestListProps) => {
                     );
                     const volunteer = guestsByTable[0].volunteer;
                     return (
-                        <Card style={{ width: '300px' }} key={table}>
+                        <Card style={{ width: '300px' }} key={`table-${table}`}>
                             <Card.Header className="bg-primary text-white">
                                 <h4>table {table}</h4>
                             </Card.Header>
@@ -23,7 +23,7 @@ const GuestListArea = (props: GuestListProps) => {
                                 <ListGroup variant="flush">
                                     {guestsByTable.map((guest) => {
                                         return (
-                                            <ListGroup.Item>
+                                            <ListGroup.Item key={`guest-${guest._id}`}>
                                                 <strong>{guest.guest}</strong>
                                                 <label className="text-muted float-right">
                                                     {guest.series}
