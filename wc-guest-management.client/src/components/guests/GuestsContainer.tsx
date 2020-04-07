@@ -1,3 +1,4 @@
+import { Slot } from '@models';
 import { getCurrentDateFormatted } from '@utils/dates';
 import { FetchGuestsQueryParams, useFetchGuests } from 'Api';
 import ErrorInfo from 'components/@ui/ErrorInfo';
@@ -15,10 +16,11 @@ const GuestGuestsContainer = () => {
         queryParams: query,
         lazy: true,
     });
-    const handleOnRefresh = (criteria?: string, visitDate?: string) => {
+    const handleOnRefresh = (criteria?: string, visitDate?: string, slot?: Slot) => {
         setQuery({
             criteria: criteria,
             fromDate: visitDate,
+            slot: slot,
         });
     };
     useGuestSavedEffect(() => {
@@ -34,6 +36,7 @@ const GuestGuestsContainer = () => {
                 onRefresh={handleOnRefresh}
                 criteria={query.criteria}
                 fromDate={query.fromDate}
+                slot={query.slot}
                 disabled={loading}
             />
             {loading && <Loading />}

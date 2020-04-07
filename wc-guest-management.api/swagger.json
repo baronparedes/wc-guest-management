@@ -315,6 +315,19 @@
 						"name": "criteria",
 						"required": false,
 						"type": "string"
+					},
+					{
+						"in": "query",
+						"name": "slot",
+						"required": false,
+						"type": "string",
+						"enum": [
+							"9 AM",
+							"12 NN",
+							"3 PM",
+							"6 PM",
+							"NA"
+						]
 					}
 				]
 			}

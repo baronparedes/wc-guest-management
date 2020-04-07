@@ -16,9 +16,15 @@ export class GuestController extends Controller {
     public async fetchGuests(
         @Query() fromDate?: Date,
         @Query() toDate?: Date,
-        @Query() criteria?: string
+        @Query() criteria?: string,
+        @Query() slot?: Slot
     ) {
-        const result = await this.guestService.fetchGuests(fromDate, toDate, criteria);
+        const result = await this.guestService.fetchGuests(
+            fromDate,
+            toDate,
+            criteria,
+            slot
+        );
         return result;
     }
 

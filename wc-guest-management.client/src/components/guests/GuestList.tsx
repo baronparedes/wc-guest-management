@@ -10,7 +10,7 @@ export type GuestListProps = {
 };
 
 const GuestList = (props: GuestListProps) => {
-    const [areaToggle, setAreaToggle] = useState(true);
+    const [areaToggle, setAreaToggle] = useState(false);
     const handleOnToggle = () => setAreaToggle(!areaToggle);
     return (
         <>

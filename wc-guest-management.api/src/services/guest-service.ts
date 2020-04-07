@@ -6,7 +6,7 @@ import {
     ReportCategory,
     Slot,
 } from '../@types/models';
-import { getCurrentDateFormatted } from '../@utils/dates';
+import { getCurrentDateFormatted, getCurrentTimeSlot } from '../@utils/dates';
 import DashboardService from './dashboard-service';
 
 export default class GuestService {
@@ -62,11 +62,10 @@ export default class GuestService {
         return query;
     }
 
-    public queryByActivity(
-        query: GuestDocumentQuery,
-        index?: string,
-        slot?: Slot
-    ): GuestDocumentQuery {
+    public queryBySlot(query: GuestDocumentQuery, slot?: Slot) {
+        if (slot) {
+            query = query.where({ worshipTime: slot });
+        }
         return query;
     }
 
@@ -97,7 +96,7 @@ export default class GuestService {
             !isNaN(seriesId) && orQueries.push({ series: seriesId });
             orQueries.push({ volunteer: expression });
             orQueries.push({ guest: expression });
-            return query.or(orQueries);
+            query = query.or(orQueries);
         }
         return query;
     }
@@ -123,11 +122,13 @@ export default class GuestService {
     public async fetchGuests(
         fromDate?: Date,
         toDate?: Date,
-        criteria?: string
+        criteria?: string,
+        slot?: Slot
     ): Promise<Guest[]> {
         let query = GuestModel.find();
         query = this.queryByDateRange(query, fromDate, toDate);
         query = this.queryByCriteria(query, criteria);
+        query = this.queryBySlot(query, slot);
         return query;
     }
 
@@ -160,7 +161,7 @@ export default class GuestService {
         if (infoSlip && infoSlip.worshipTime && infoSlip.worshipTime !== 'NA') {
             return infoSlip.worshipTime;
         }
-        return undefined;
+        return getCurrentTimeSlot();
     }
 
     public async welcomeGuests(infoSlip: InfoSlip, print?: boolean): Promise<Guest[]> {

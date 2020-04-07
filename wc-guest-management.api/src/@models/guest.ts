@@ -26,11 +26,7 @@ export interface Guest {
 
 export type GuestDocument = Guest & mongoose.Document;
 
-export type GuestDocumentQuery = mongoose.DocumentQuery<
-    GuestDocument[],
-    GuestDocument,
-    {}
->;
+export type GuestDocumentQuery = mongoose.DocumentQuery<GuestDocument[], GuestDocument, {}>;
 
 const GuestSchema = new mongoose.Schema({
     visitDate: { type: Date, required: true },
@@ -45,21 +41,18 @@ const GuestSchema = new mongoose.Schema({
     cityOfResidence: String,
     cityOfWorkplace: String,
     category: String,
-    worshipDay: String,
-    worshipTime: String,
+    worshipDay: { type: String, required: true },
+    worshipTime: { type: String, required: true },
     action: String,
     gender: String,
     createdDate: { type: Date, required: true },
-    series: { type: Number, required: true }
+    series: { type: Number, required: true },
 });
 
-GuestSchema.pre<Guest & mongoose.Document>('save', async next => {
+GuestSchema.pre<Guest & mongoose.Document>('save', async (next) => {
     if (!this.createdDate) this.createdDate = new Date();
     if (!this.series) this.series = await getNextSequence('guest');
     next();
 });
 
-export const GuestModel = mongoose.model<GuestDocument>(
-    'guest',
-    GuestSchema
-);
+export const GuestModel = mongoose.model<GuestDocument>('guest', GuestSchema);

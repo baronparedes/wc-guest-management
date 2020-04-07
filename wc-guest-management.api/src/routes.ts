@@ -125,6 +125,7 @@ export function RegisterRoutes(app: express.Express) {
                 fromDate: { "in": "query", "name": "fromDate", "dataType": "datetime" },
                 toDate: { "in": "query", "name": "toDate", "dataType": "datetime" },
                 criteria: { "in": "query", "name": "criteria", "dataType": "string" },
+                slot: { "in": "query", "name": "slot", "dataType": "enum", "enums": ["9 AM", "12 NN", "3 PM", "6 PM", "NA"] },
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa

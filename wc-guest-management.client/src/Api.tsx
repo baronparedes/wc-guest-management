@@ -85,6 +85,7 @@ export interface FetchGuestsQueryParams {
   fromDate?: string;
   toDate?: string;
   criteria?: string;
+  slot?: "9 AM" | "12 NN" | "3 PM" | "6 PM" | "NA";
 }
 
 export type FetchGuestsProps = Omit<GetProps<Guest[], unknown, FetchGuestsQueryParams>, "path">;

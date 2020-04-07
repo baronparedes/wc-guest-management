@@ -1,5 +1,4 @@
-import { Slot } from '@models';
-import { getCurrentDateFormatted } from '@utils/dates';
+import { getCurrentDateFormatted, getCurrentTimeSlot } from '@utils/dates';
 import { Guest, InfoSlip, useWelcome, WelcomeRequestBody } from 'Api';
 import ErrorInfo from 'components/@ui/ErrorInfo';
 import FieldContainer from 'components/@ui/FieldContainer';
@@ -15,16 +14,6 @@ const initialState: InfoSlip = {
     tableNumber: undefined,
 };
 
-function getWorshipTime(): Slot {
-    const now = new Date();
-    const hour = now.getHours();
-    if (hour < 12) return '9 AM';
-    if (hour < 15) return '12 NN';
-    if (hour < 18) return '3 PM';
-    if (hour < 21) return '6 PM';
-    return 'NA';
-}
-
 const GuestInfoSlipForm = () => {
     const [queued, setQueued] = useState<Guest[]>();
     const [name, setName] = useState<string>('');
@@ -32,7 +21,7 @@ const GuestInfoSlipForm = () => {
     const { handleSubmit, register, reset } = useForm<InfoSlip>({
         defaultValues: {
             ...initialState,
-            worshipTime: getWorshipTime(),
+            worshipTime: getCurrentTimeSlot(),
         },
     });
     const onSubmit = (formData: InfoSlip) => {
@@ -74,7 +63,6 @@ const GuestInfoSlipForm = () => {
                         <option>12 NN</option>
                         <option>3 PM</option>
                         <option>6 PM</option>
-                        <option>NA</option>
                     </Form.Control>
                 </FieldContainer>
                 <FieldContainer as={Col} sm={12} md={4} label="table number">

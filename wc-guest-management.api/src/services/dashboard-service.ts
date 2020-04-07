@@ -6,7 +6,7 @@ import {
     DashboardMetric,
     DashboardReport,
     ReportCategory,
-    Slot
+    Slot,
 } from '../@types/models';
 
 export default class DashboardService {
@@ -19,9 +19,9 @@ export default class DashboardService {
                 },
                 documentQuery: (q: GuestDocumentQuery) => {
                     return q.where({
-                        action: 'A'
+                        action: 'A',
                     });
-                }
+                },
             },
             {
                 label: 'not accepted',
@@ -30,9 +30,9 @@ export default class DashboardService {
                 },
                 documentQuery: (q: GuestDocumentQuery) => {
                     return q.where({
-                        action: 'DNA'
+                        action: 'DNA',
                     });
-                }
+                },
             },
             {
                 label: 'counseled',
@@ -41,9 +41,9 @@ export default class DashboardService {
                 },
                 documentQuery: (q: GuestDocumentQuery) => {
                     return q.where({
-                        action: 'Counseled'
+                        action: 'Counseled',
                     });
-                }
+                },
             },
             {
                 label: 'prayed',
@@ -52,9 +52,9 @@ export default class DashboardService {
                 },
                 documentQuery: (q: GuestDocumentQuery) => {
                     return q.where({
-                        action: 'Prayed'
+                        action: 'Prayed',
                     });
-                }
+                },
             },
             {
                 label: 'na',
@@ -65,10 +65,10 @@ export default class DashboardService {
                     return q.or([
                         { action: null },
                         { action: { $exists: false } },
-                        { action: '' }
+                        { action: '' },
                     ]);
-                }
-            }
+                },
+            },
         ];
         return result;
     }
@@ -83,10 +83,10 @@ export default class DashboardService {
                 documentQuery: (q: GuestDocumentQuery) => {
                     return q.where({
                         age: {
-                            $lte: 20
-                        }
+                            $lte: 20,
+                        },
                     });
-                }
+                },
             },
             {
                 label: '21-30',
@@ -97,10 +97,10 @@ export default class DashboardService {
                     return q.where({
                         age: {
                             $gte: 21,
-                            $lte: 30
-                        }
+                            $lte: 30,
+                        },
                     });
-                }
+                },
             },
             {
                 label: '31-40',
@@ -111,10 +111,10 @@ export default class DashboardService {
                     return q.where({
                         age: {
                             $gte: 31,
-                            $lte: 40
-                        }
+                            $lte: 40,
+                        },
                     });
-                }
+                },
             },
             {
                 label: '41-50',
@@ -125,10 +125,10 @@ export default class DashboardService {
                     return q.where({
                         age: {
                             $gte: 41,
-                            $lte: 50
-                        }
+                            $lte: 50,
+                        },
                     });
-                }
+                },
             },
             {
                 label: '>50',
@@ -138,10 +138,10 @@ export default class DashboardService {
                 documentQuery: (q: GuestDocumentQuery) => {
                     return q.where({
                         age: {
-                            $gt: 50
-                        }
+                            $gt: 50,
+                        },
                     });
-                }
+                },
             },
             {
                 label: 'na',
@@ -150,8 +150,8 @@ export default class DashboardService {
                 },
                 documentQuery: (q: GuestDocumentQuery) => {
                     return q.or([{ age: null }, { age: { $exists: false } }]);
-                }
-            }
+                },
+            },
         ];
         return result;
     }
@@ -161,17 +161,17 @@ export default class DashboardService {
         title: ReportCategory,
         criterias: DashboardCategoryCriteria[]
     ): DashboardCategory {
-        const metrics: DashboardLineItem[] = criterias.map(c => {
+        const metrics: DashboardLineItem[] = criterias.map((c) => {
             const filteredData = data.filter(c.criteria);
             const item: DashboardLineItem = {
                 label: c.label,
-                metrics: this.getSummary(filteredData)
+                metrics: this.getSummary(filteredData),
             };
             return item;
         });
         const result: DashboardCategory = {
             title: title,
-            metrics: metrics
+            metrics: metrics,
         };
         return result;
     }
@@ -179,7 +179,7 @@ export default class DashboardService {
     private getDashboardMetric(data: Guest[], slot?: Slot): DashboardMetric {
         const result: DashboardMetric = {
             slot: slot ? slot : 'NA',
-            count: data.filter(d => d.worshipTime === slot).length
+            count: data.filter((d) => d.worshipTime === slot).length,
         };
         return result;
     }
@@ -190,7 +190,7 @@ export default class DashboardService {
             this.getDashboardMetric(data, '12 NN'),
             this.getDashboardMetric(data, '3 PM'),
             this.getDashboardMetric(data, '6 PM'),
-            this.getDashboardMetric(data)
+            // this.getDashboardMetric(data)
         ];
         return result;
     }
@@ -201,8 +201,8 @@ export default class DashboardService {
             summary: this.getSummary(data),
             categories: [
                 this.getSummaryByCategory(data, 'age', this.getAgeCriterias()),
-                this.getSummaryByCategory(data, 'activity', this.getActivityCriterias())
-            ]
+                this.getSummaryByCategory(data, 'activity', this.getActivityCriterias()),
+            ],
         };
         return result;
     }
