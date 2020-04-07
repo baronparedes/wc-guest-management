@@ -16,7 +16,7 @@ type FormProps = {
 };
 
 const GuestFilter = (props: Props & FormProps) => {
-    const emptySlot = 'All Slots';
+    const emptySlot = 'all slots';
     const now = getCurrentDateFormatted();
     const { handleSubmit, register } = useForm<FormProps>({
         defaultValues: {

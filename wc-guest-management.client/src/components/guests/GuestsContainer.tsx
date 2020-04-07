@@ -9,6 +9,8 @@ import GuestFilter from './GuestFilter';
 import GuestList from './GuestList';
 
 const GuestGuestsContainer = () => {
+    const [areaToggle, setAreaToggle] = useState(false);
+    const handleOnAreaToggle = () => setAreaToggle(!areaToggle);
     const [query, setQuery] = useState<FetchGuestsQueryParams>({
         fromDate: getCurrentDateFormatted(),
     });
@@ -41,7 +43,13 @@ const GuestGuestsContainer = () => {
             />
             {loading && <Loading />}
             {error && <ErrorInfo>{error.data as string}</ErrorInfo>}
-            {!loading && data && <GuestList guests={data} />}
+            {!loading && data && (
+                <GuestList
+                    guests={data}
+                    areaToggle={areaToggle}
+                    onAreaToggle={handleOnAreaToggle}
+                />
+            )}
         </>
     );
 };
