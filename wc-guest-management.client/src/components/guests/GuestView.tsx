@@ -1,13 +1,13 @@
 import DisplayLabel from 'components/@ui/DisplayLabel';
 import React from 'react';
 import { Container } from 'react-bootstrap';
-import GuestGuestContainer from './GuestsContainer';
+import GuestsContainer from './GuestsContainer';
 
 const GuestView = () => {
     return (
         <Container>
             <DisplayLabel>guests</DisplayLabel>
-            <GuestGuestContainer />
+            <GuestsContainer />
         </Container>
     );
 };

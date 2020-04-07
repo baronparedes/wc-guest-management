@@ -7,11 +7,11 @@ type Props = {
     className?: string;
 };
 
-const FieldContainer: React.FC<Props & ColProps> = props => {
+const FieldContainer: React.FC<Props & ColProps> = (props) => {
     return (
         <Form.Group {...props}>
             <Form.Label className="text-muted">
-                {props.label && props.label}
+                {props.label}
                 {!props.label && <span>&nbsp;</span>}
             </Form.Label>
             {!props.label && <br />}
