@@ -3,6 +3,7 @@ import { ResponsiveBar } from '@nivo/bar';
 import { ColorSchemeId } from '@nivo/colors';
 import { DashboardLineItem } from 'Api';
 import RoundedPanel from 'components/@ui/RoundedPanel';
+import useChartData from 'hooks/useChartData';
 import React from 'react';
 
 type Props = {
@@ -12,34 +13,8 @@ type Props = {
     onSelectMetric?: (category: ReportCategory, index: string, slot: Slot) => void;
 };
 
-function toChartData(data: DashboardLineItem[]) {
-    const keys: Slot[] = ['9 AM', '12 NN', '3 PM', '6 PM', 'NA'];
-    const chartData = data.map((d) => {
-        const getCount = (item: DashboardLineItem, slot: Slot): number => {
-            const metric = item.metrics.find((m) => m.slot === slot);
-            return metric ? metric.count : 0;
-        };
-        let result = {};
-        keys.forEach((key) => {
-            const prop = key.toString();
-            result = {
-                ...result,
-                [prop]: getCount(d, key),
-            };
-        });
-        return {
-            ...result,
-            index: d.label,
-        };
-    });
-    return {
-        chartData,
-        keys,
-    };
-}
-
 const DashboardReportCategoryChart = (props: Props) => {
-    const data = toChartData(props.data);
+    const data = useChartData(props.data);
     return (
         <RoundedPanel>
             <div style={{ height: '400px' }} className="p-4">
