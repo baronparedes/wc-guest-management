@@ -46,7 +46,7 @@ export interface DashboardCategoryCriteria {
     documentQuery?: (query: GuestDocumentQuery) => GuestDocumentQuery;
 }
 
-export interface AuthProfile {
+export interface AuthResult {
     profile: Profile;
-    scopes?: string[];
+    token: string;
 }

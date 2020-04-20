@@ -1,6 +1,7 @@
 import routes from '@utils/routes';
 import Header from 'components/@ui/Header';
 import NotFound from 'components/@ui/NotFound';
+import ProtectedRoute from 'components/@ui/ProtectedRoute';
 import DashboardView from 'components/dashboard/DashboardView';
 import GuestInfoSlipView from 'components/guest-info-slip/GuestInfoSlipView';
 import GuestView from 'components/guests/GuestView';
@@ -17,9 +18,13 @@ const AppRouter: React.FC = () => {
                 <Route>
                     <Header />
                     <Switch>
-                        <Route path={routes.DASHBOARD} exact component={DashboardView} />
-                        <Route path={routes.GUESTS} exact component={GuestView} />
-                        <Route component={NotFound} />
+                        <ProtectedRoute
+                            path={routes.DASHBOARD}
+                            exact
+                            component={DashboardView}
+                        />
+                        <ProtectedRoute path={routes.GUESTS} exact component={GuestView} />
+                        <ProtectedRoute component={NotFound} />
                     </Switch>
                 </Route>
             </Switch>

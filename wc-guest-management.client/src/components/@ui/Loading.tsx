@@ -1,12 +1,20 @@
 import React from 'react';
 import { FaSpinner } from 'react-icons/fa';
 
-const Loading = () => {
+type Props = {
+    size?: number;
+};
+
+const Loading = (props: Props) => {
     return (
         <div className="text-center d-block">
-            <FaSpinner className="fa-spin" size={40} />
+            <FaSpinner className="fa-spin" size={props.size} />
         </div>
     );
+};
+
+Loading.defaultProps = {
+    size: 40,
 };
 
 export default Loading;

@@ -234,6 +234,50 @@
 			],
 			"type": "object",
 			"additionalProperties": true
+		},
+		"Profile": {
+			"properties": {
+				"_id": {
+					"type": "string",
+					"x-nullable": true
+				},
+				"name": {
+					"type": "string"
+				},
+				"email": {
+					"type": "string"
+				},
+				"password": {
+					"type": "string",
+					"x-nullable": true
+				},
+				"scopes": {
+					"type": "string",
+					"x-nullable": true
+				}
+			},
+			"required": [
+				"name",
+				"email"
+			],
+			"type": "object",
+			"additionalProperties": true
+		},
+		"AuthResult": {
+			"properties": {
+				"profile": {
+					"$ref": "#/definitions/Profile"
+				},
+				"token": {
+					"type": "string"
+				}
+			},
+			"required": [
+				"profile",
+				"token"
+			],
+			"type": "object",
+			"additionalProperties": true
 		}
 	},
 	"info": {
@@ -505,7 +549,7 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"type": "string"
+							"$ref": "#/definitions/AuthResult"
 						}
 					}
 				},
@@ -544,8 +588,7 @@
 					"200": {
 						"description": "Ok",
 						"schema": {
-							"additionalProperties": true,
-							"type": "object"
+							"$ref": "#/definitions/Profile"
 						}
 					}
 				},

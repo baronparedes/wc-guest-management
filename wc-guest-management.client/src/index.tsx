@@ -5,18 +5,15 @@ import 'index.scss';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { RestfulProvider } from 'restful-react';
 import * as serviceWorker from 'serviceWorker';
 import store from 'store';
 
 ReactDOM.render(
-    <RestfulProvider base={process.env.REACT_APP_API_URI}>
-        <Provider store={store}>
-            <App>
-                <AppRouter />
-            </App>
-        </Provider>
-    </RestfulProvider>,
+    <Provider store={store}>
+        <App>
+            <AppRouter />
+        </App>
+    </Provider>,
     document.getElementById('root')
 );
 

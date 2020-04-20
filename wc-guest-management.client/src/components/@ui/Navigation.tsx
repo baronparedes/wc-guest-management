@@ -3,6 +3,7 @@ import routes from '@utils/routes';
 import React from 'react';
 import { Container, Image, Nav, Navbar } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
+import NavCurrentProfile from './NavCurrentProfile';
 
 const Navigation: React.FC = () => {
     return (
@@ -24,6 +25,7 @@ const Navigation: React.FC = () => {
                             guest info slip
                         </Nav.Link>
                     </Nav>
+                    <NavCurrentProfile />
                 </Navbar.Collapse>
             </Navbar>
         </Container>

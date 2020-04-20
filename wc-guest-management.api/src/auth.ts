@@ -1,9 +1,9 @@
 import * as express from 'express';
 import * as jwt from 'jsonwebtoken';
-import { AuthProfile } from './@types/models';
+import { Profile } from './@models/profile';
 import config from './config';
 
-export function isProfileInScope(profile: AuthProfile, targetScopes?: string[]) {
+export function isProfileInScope(profile: Profile, targetScopes?: string[]) {
     if (targetScopes) {
         for (let scope of targetScopes) {
             if (!profile.scopes.includes(scope)) {
@@ -28,7 +28,7 @@ export function expressAuthentication(
             if (!token) {
                 reject(new Error('Unauthorized'));
             }
-            const verified = (err: any, decoded: AuthProfile) => {
+            const verified = (err: any, decoded: Profile) => {
                 if (err) {
                     reject(err);
                     return;
@@ -36,7 +36,6 @@ export function expressAuthentication(
                 if (isProfileInScope(decoded, scopes)) resolve(decoded);
                 else reject(new Error('Profile does not contain required access scope.'));
             };
-            console.log(config.JWT_ACCESS_TOKEN);
             jwt.verify(token, config.JWT_ACCESS_TOKEN, verified);
         });
     }

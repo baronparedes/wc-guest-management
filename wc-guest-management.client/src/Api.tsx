@@ -62,6 +62,21 @@ export interface InfoSlip {
   [key: string]: any;
 }
 
+export interface Profile {
+  _id?: string | null;
+  name: string;
+  email: string;
+  password?: string | null;
+  scopes?: string | null;
+  [key: string]: any;
+}
+
+export interface AuthResult {
+  profile: Profile;
+  token: string;
+  [key: string]: any;
+}
+
 export interface GetDashboardReportQueryParams {
   fromDate?: string;
   toDate?: string;
@@ -160,4 +175,38 @@ export const Welcome = (props: WelcomeProps) => (
 export type UseWelcomeProps = Omit<UseMutateProps<Guest[], void, WelcomeRequestBody>, "path" | "verb">;
 
 export const useWelcome = (props: UseWelcomeProps) => useMutate<Guest[], unknown, void, WelcomeRequestBody>("POST", `/api/guest/welcome`, props);
+
+
+export interface AuthRequestBody {
+  email: string;
+  password: string;
+}
+
+export type AuthProps = Omit<MutateProps<AuthResult, unknown, void, AuthRequestBody>, "path" | "verb">;
+
+export const Auth = (props: AuthProps) => (
+  <Mutate<AuthResult, unknown, void, AuthRequestBody>
+    verb="POST"
+    path={`/api/profile/auth`}
+    {...props}
+  />
+);
+
+export type UseAuthProps = Omit<UseMutateProps<AuthResult, void, AuthRequestBody>, "path" | "verb">;
+
+export const useAuth = (props: UseAuthProps) => useMutate<AuthResult, unknown, void, AuthRequestBody>("POST", `/api/profile/auth`, props);
+
+
+export type MeProps = Omit<GetProps<Profile, unknown, void>, "path">;
+
+export const Me = (props: MeProps) => (
+  <Get<Profile, unknown, void>
+    path={`/api/profile/me`}
+    {...props}
+  />
+);
+
+export type UseMeProps = Omit<UseGetProps<Profile, void>, "path">;
+
+export const useMe = (props: UseMeProps) => useGet<Profile, unknown, void>(`/api/profile/me`, props);
 

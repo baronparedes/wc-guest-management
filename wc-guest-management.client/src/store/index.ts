@@ -1,12 +1,19 @@
-import { Action, configureStore } from '@reduxjs/toolkit';
+import { Action, combineReducers, configureStore } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useSelector } from 'react-redux';
 import { ThunkAction } from 'redux-thunk';
-import rootReducer, { RootState } from './reducers';
+import dashboardReducer from './reducers/dashboard.reducer';
+import profileReducer from './reducers/profile.reducer';
 
-const store = configureStore({
-    reducer: rootReducer
+const rootReducer = combineReducers({
+    dashboard: dashboardReducer,
+    profile: profileReducer,
 });
 
+const store = configureStore({
+    reducer: rootReducer,
+});
+
+export type RootState = ReturnType<typeof rootReducer>;
 export type AppDispatch = typeof store.dispatch;
 export type AppThunk = ThunkAction<void, RootState, unknown, Action<string>>;
 export const useRootState: TypedUseSelectorHook<RootState> = useSelector;
