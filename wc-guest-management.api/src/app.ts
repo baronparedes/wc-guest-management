@@ -1,20 +1,24 @@
-import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 import * as express from 'express';
 import * as morgan from 'morgan';
 import * as swaggerUi from 'swagger-ui-express';
+import config from './config';
 import './controllers/dashboard-controller';
 import './controllers/guest-controller';
+import './controllers/guest-info-controller';
+import './controllers/profile-controller';
 import { RegisterRoutes } from './routes';
 
 const app = express();
-app.use(
-    cors({
-        origin: 'http://localhost:3000'
-    })
-);
-app.use(bodyParser.json());
-app.use(morgan('dev'));
+app.use(express.json());
+if (config.NODE_ENV === 'development') {
+    app.use(morgan('dev'));
+    app.use(
+        cors({
+            origin: config.CLIENT_URI,
+        })
+    );
+}
 
 try {
     const swaggerDocument = require('../swagger.json');
@@ -28,18 +32,13 @@ RegisterRoutes(app);
 app.use((req, res, next) => {
     const notFound = {
         message: 'Resource not found',
-        status: 404
+        status: 404,
     };
     next(notFound);
 });
 
 app.use(
-    (
-        err: any,
-        req: express.Request,
-        res: express.Response,
-        next: express.NextFunction
-    ) => {
+    (err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
         console.error('server error', err);
         res.status(err.status || 500).send(err.message);
     }

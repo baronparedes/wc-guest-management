@@ -5,5 +5,8 @@ declare namespace NodeJS {
         MONGODB_URI: string;
         MONGODB_USER: string;
         MONGODB_PWD: string;
+        JWT_ACCESS_TOKEN: string;
+        JWT_REFRESH_TOKEN: string;
+        CLIENT_URI: string;
     }
 }

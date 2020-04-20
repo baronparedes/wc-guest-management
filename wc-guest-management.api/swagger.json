@@ -258,7 +258,11 @@
 						}
 					}
 				},
-				"security": [],
+				"security": [
+					{
+						"bearer": []
+					}
+				],
 				"parameters": [
 					{
 						"in": "query",
@@ -294,7 +298,11 @@
 						}
 					}
 				},
-				"security": [],
+				"security": [
+					{
+						"bearer": []
+					}
+				],
 				"parameters": [
 					{
 						"in": "query",
@@ -346,7 +354,11 @@
 						}
 					}
 				},
-				"security": [],
+				"security": [
+					{
+						"bearer": []
+					}
+				],
 				"parameters": [
 					{
 						"in": "path",
@@ -373,47 +385,6 @@
 				]
 			}
 		},
-		"/api/guest/welcome": {
-			"post": {
-				"operationId": "Welcome",
-				"produces": [
-					"application/json"
-				],
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"schema": {
-							"items": {
-								"$ref": "#/definitions/Guest"
-							},
-							"type": "array"
-						}
-					}
-				},
-				"security": [],
-				"parameters": [
-					{
-						"in": "body",
-						"name": "body",
-						"schema": {
-							"properties": {
-								"infoSlip": {
-									"$ref": "#/definitions/InfoSlip"
-								},
-								"print": {
-									"type": "boolean"
-								}
-							},
-							"title": "WelcomeBody",
-							"type": "object",
-							"required": [
-								"infoSlip"
-							]
-						}
-					}
-				]
-			}
-		},
 		"/api/guest/category/{category}": {
 			"get": {
 				"operationId": "FetchGuestsByCategory",
@@ -431,7 +402,11 @@
 						}
 					}
 				},
-				"security": [],
+				"security": [
+					{
+						"bearer": []
+					}
+				],
 				"parameters": [
 					{
 						"in": "path",
@@ -478,11 +453,120 @@
 					}
 				]
 			}
+		},
+		"/api/guest/welcome": {
+			"post": {
+				"operationId": "Welcome",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"items": {
+								"$ref": "#/definitions/Guest"
+							},
+							"type": "array"
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "body",
+						"schema": {
+							"properties": {
+								"infoSlip": {
+									"$ref": "#/definitions/InfoSlip"
+								},
+								"print": {
+									"type": "boolean"
+								}
+							},
+							"title": "WelcomeBody",
+							"type": "object",
+							"required": [
+								"infoSlip"
+							]
+						}
+					}
+				]
+			}
+		},
+		"/api/profile/auth": {
+			"post": {
+				"operationId": "Auth",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"type": "string"
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "body",
+						"schema": {
+							"properties": {
+								"email": {
+									"type": "string"
+								},
+								"password": {
+									"type": "string"
+								}
+							},
+							"title": "AuthBody",
+							"type": "object",
+							"required": [
+								"email",
+								"password"
+							]
+						}
+					}
+				]
+			}
+		},
+		"/api/profile/me": {
+			"get": {
+				"operationId": "Me",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"additionalProperties": true,
+							"type": "object"
+						}
+					}
+				},
+				"security": [
+					{
+						"bearer": []
+					}
+				],
+				"parameters": []
+			}
 		}
 	},
 	"produces": [
 		"application/json"
 	],
 	"swagger": "2.0",
-	"securityDefinitions": {}
+	"securityDefinitions": {
+		"bearer": {
+			"type": "apiKey",
+			"in": "header",
+			"name": "authorization"
+		}
+	}
 }

@@ -1,8 +1,9 @@
-import { BodyProp, Controller, Get, Post, Put, Query, Route } from 'tsoa';
+import { BodyProp, Controller, Get, Put, Query, Route, Security } from 'tsoa';
 import { Guest } from '../@models/guest';
-import { InfoSlip, ReportCategory, Slot } from '../@types/models';
+import { ReportCategory, Slot } from '../@types/models';
 import GuestService from '../services/guest-service';
 
+@Security('bearer')
 @Route('/api/guest')
 export class GuestController extends Controller {
     private guestService: GuestService;
@@ -31,13 +32,6 @@ export class GuestController extends Controller {
     @Put('/{id}')
     public async updateGuestData(id: string, @BodyProp() guestData: Guest): Promise<Guest> {
         const result = await this.guestService.updateGuest(id, guestData);
-        return result;
-    }
-
-    @Post('/welcome')
-    public async welcome(@BodyProp() infoSlip: InfoSlip, @BodyProp() print?: boolean) {
-        const result = await this.guestService.welcomeGuests(infoSlip, print);
-
         return result;
     }
 

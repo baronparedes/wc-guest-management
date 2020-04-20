@@ -4,6 +4,7 @@ import NotFound from 'components/@ui/NotFound';
 import DashboardView from 'components/dashboard/DashboardView';
 import GuestInfoSlipView from 'components/guest-info-slip/GuestInfoSlipView';
 import GuestView from 'components/guests/GuestView';
+import LoginView from 'components/profile/LoginView';
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
@@ -12,6 +13,7 @@ const AppRouter: React.FC = () => {
         <BrowserRouter>
             <Switch>
                 <Route path={routes.ROOT} exact component={GuestInfoSlipView} />
+                <Route path={routes.LOGIN} exact component={LoginView} />
                 <Route>
                     <Header />
                     <Switch>

@@ -1,24 +1,22 @@
-import * as dotenv from 'dotenv';
 import * as http from 'http';
 import * as mongoose from 'mongoose';
 import app from './app';
-
-dotenv.config();
+import config from './config';
 
 const server = http.createServer(app);
-server.listen(process.env.PORT);
+server.listen(config.PORT);
 server.on('listening', async () => {
-    console.info(`Listening on port ${process.env.PORT}`);
+    console.info(`Listening on port ${config.PORT}`);
     mongoose
-        .connect(process.env.MONGODB_URI, {
+        .connect(config.MONGODB_URI, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
             useFindAndModify: true,
-            user: process.env.MONGODB_USER,
-            pass: process.env.MONGODB_PWD,
-            connectTimeoutMS: 3000
+            user: config.MONGODB_USER,
+            pass: config.MONGODB_PWD,
+            connectTimeoutMS: 3000,
         })
-        .catch(err => {
+        .catch((err) => {
             console.error('App starting error:', err.stack);
             process.exit(1);
         });

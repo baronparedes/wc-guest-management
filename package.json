@@ -6,6 +6,9 @@
     "scripts": {
         "client": "cd wc-guest-management.client && npm start",
         "server": "cd wc-guest-management.api && npm start",
+        "client-install": "cd wc-guest-management.client && npm install",
+        "server-install": "cd wc-guest-management.api && npm install",
+        "postinstall": "concurrently \"npm run server-install\" \"npm run client-install\"",
         "start": "concurrently \"npm run server\" \"npm run client\""
     },
     "repository": {

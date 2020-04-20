@@ -121,26 +121,6 @@ export type UseUpdateGuestDataProps = Omit<UseMutateProps<Guest, void, UpdateGue
 export const useUpdateGuestData = ({id, ...props}: UseUpdateGuestDataProps) => useMutate<Guest, unknown, void, UpdateGuestDataRequestBody>("PUT", `/api/guest/${id}`, props);
 
 
-export interface WelcomeRequestBody {
-  infoSlip: InfoSlip;
-  print?: boolean;
-}
-
-export type WelcomeProps = Omit<MutateProps<Guest[], unknown, void, WelcomeRequestBody>, "path" | "verb">;
-
-export const Welcome = (props: WelcomeProps) => (
-  <Mutate<Guest[], unknown, void, WelcomeRequestBody>
-    verb="POST"
-    path={`/api/guest/welcome`}
-    {...props}
-  />
-);
-
-export type UseWelcomeProps = Omit<UseMutateProps<Guest[], void, WelcomeRequestBody>, "path" | "verb">;
-
-export const useWelcome = (props: UseWelcomeProps) => useMutate<Guest[], unknown, void, WelcomeRequestBody>("POST", `/api/guest/welcome`, props);
-
-
 export interface FetchGuestsByCategoryQueryParams {
   slot?: "9 AM" | "12 NN" | "3 PM" | "6 PM" | "NA";
   index?: string;
@@ -160,4 +140,24 @@ export const FetchGuestsByCategory = ({category, ...props}: FetchGuestsByCategor
 export type UseFetchGuestsByCategoryProps = Omit<UseGetProps<Guest[], FetchGuestsByCategoryQueryParams>, "path"> & {category: "age" | "activity"};
 
 export const useFetchGuestsByCategory = ({category, ...props}: UseFetchGuestsByCategoryProps) => useGet<Guest[], unknown, FetchGuestsByCategoryQueryParams>(`/api/guest/category/${category}`, props);
+
+
+export interface WelcomeRequestBody {
+  infoSlip: InfoSlip;
+  print?: boolean;
+}
+
+export type WelcomeProps = Omit<MutateProps<Guest[], unknown, void, WelcomeRequestBody>, "path" | "verb">;
+
+export const Welcome = (props: WelcomeProps) => (
+  <Mutate<Guest[], unknown, void, WelcomeRequestBody>
+    verb="POST"
+    path={`/api/guest/welcome`}
+    {...props}
+  />
+);
+
+export type UseWelcomeProps = Omit<UseMutateProps<Guest[], void, WelcomeRequestBody>, "path" | "verb">;
+
+export const useWelcome = (props: UseWelcomeProps) => useMutate<Guest[], unknown, void, WelcomeRequestBody>("POST", `/api/guest/welcome`, props);
 

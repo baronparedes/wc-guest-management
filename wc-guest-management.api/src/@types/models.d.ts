@@ -1,4 +1,5 @@
 import { Guest, GuestDocumentQuery } from '../@models/guest';
+import { Profile } from '../@models/profile';
 
 export interface InfoSlip {
     visitDate: string;
@@ -43,4 +44,9 @@ export interface DashboardCategoryCriteria {
     label: string;
     criteria: (guest: Guest) => boolean;
     documentQuery?: (query: GuestDocumentQuery) => GuestDocumentQuery;
+}
+
+export interface AuthProfile {
+    profile: Profile;
+    scopes?: string[];
 }

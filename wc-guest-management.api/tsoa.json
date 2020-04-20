@@ -1,11 +1,19 @@
 {
     "swagger": {
         "outputDirectory": ".",
-        "entryFile": "./src/app.ts"
+        "entryFile": "./src/app.ts",
+        "securityDefinitions": {
+            "bearer": {
+                "type": "apiKey",
+                "in": "header",
+                "name": "authorization"
+            }
+        }
     },
     "routes": {
         "basePath": "/",
         "entryFile": "./src/app.ts",
+        "authenticationModule": "./src/auth.ts",
         "routesDir": "./src"
     }
 }
