@@ -96,7 +96,7 @@ const models: TsoaRoute.Models = {
         "properties": {
             "_id": { "dataType": "string" },
             "name": { "dataType": "string", "required": true },
-            "email": { "dataType": "string", "required": true },
+            "username": { "dataType": "string", "required": true },
             "password": { "dataType": "string" },
             "scopes": { "dataType": "string" },
         },
@@ -249,7 +249,7 @@ export function RegisterRoutes(app: express.Express) {
     app.post('/api/profile/auth',
         function(request: any, response: any, next: any) {
             const args = {
-                email: { "in": "body-prop", "name": "email", "required": true, "dataType": "string" },
+                username: { "in": "body-prop", "name": "username", "required": true, "dataType": "string" },
                 password: { "in": "body-prop", "name": "password", "required": true, "dataType": "string" },
             };
 

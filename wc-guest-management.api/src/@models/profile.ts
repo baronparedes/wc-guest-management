@@ -3,7 +3,7 @@ import * as mongoose from 'mongoose';
 export interface Profile {
     _id?: string;
     name: string;
-    email: string;
+    username: string;
     password?: string;
     scopes?: string;
 }
@@ -18,9 +18,9 @@ export type ProfileDocumentQuery = mongoose.DocumentQuery<
 
 const ProfileSchema = new mongoose.Schema({
     name: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
+    username: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     scopes: { type: String },
 });
 
-export const GuestModel = mongoose.model<ProfileDocument>('profile', ProfileSchema);
+export const ProfileModel = mongoose.model<ProfileDocument>('profile', ProfileSchema);

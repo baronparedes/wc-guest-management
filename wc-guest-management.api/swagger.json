@@ -244,7 +244,7 @@
 				"name": {
 					"type": "string"
 				},
-				"email": {
+				"username": {
 					"type": "string"
 				},
 				"password": {
@@ -258,7 +258,7 @@
 			},
 			"required": [
 				"name",
-				"email"
+				"username"
 			],
 			"type": "object",
 			"additionalProperties": true
@@ -560,7 +560,7 @@
 						"name": "body",
 						"schema": {
 							"properties": {
-								"email": {
+								"username": {
 									"type": "string"
 								},
 								"password": {
@@ -570,7 +570,7 @@
 							"title": "AuthBody",
 							"type": "object",
 							"required": [
-								"email",
+								"username",
 								"password"
 							]
 						}

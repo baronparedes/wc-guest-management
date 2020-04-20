@@ -16,10 +16,10 @@ export class ProfileController extends Controller {
 
     @Post('/auth')
     public async auth(
-        @BodyProp() email: string,
+        @BodyProp() username: string,
         @BodyProp() password: string
     ): Promise<AuthResult> {
-        const profile = await this.profileService.getProfile(email, password);
+        const profile = await this.profileService.getProfile(username, password);
         const token = jwt.sign(profile, config.JWT_ACCESS_TOKEN);
         const result = {
             profile,

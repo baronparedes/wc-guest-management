@@ -65,7 +65,7 @@ export interface InfoSlip {
 export interface Profile {
   _id?: string | null;
   name: string;
-  email: string;
+  username: string;
   password?: string | null;
   scopes?: string | null;
   [key: string]: any;
@@ -178,7 +178,7 @@ export const useWelcome = (props: UseWelcomeProps) => useMutate<Guest[], unknown
 
 
 export interface AuthRequestBody {
-  email: string;
+  username: string;
   password: string;
 }
 

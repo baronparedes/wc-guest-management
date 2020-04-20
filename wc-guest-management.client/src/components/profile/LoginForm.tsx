@@ -20,7 +20,7 @@ const LoginContainer = styled(RoundedPanel)`
 `;
 
 type FormData = {
-    email: string;
+    username: string;
     password: string;
 };
 
@@ -31,9 +31,10 @@ const LoginForm = () => {
     const { handleSubmit, register } = useForm<FormData>();
     const onSubmit = (formData: FormData) => {
         mutate({
-            email: formData.email,
+            username: formData.username,
             password: formData.password,
         }).then((data) => {
+            console.log(data);
             dispatch(
                 profileActions.signIn({
                     me: data.profile,
@@ -49,14 +50,14 @@ const LoginForm = () => {
         <LoginContainer>
             <Brand height="160px" />
             <Form onSubmit={handleSubmit(onSubmit)}>
-                <FieldContainer as={Col} label="email">
+                <FieldContainer as={Col} label="username">
                     <Form.Control
                         disabled={loading}
                         required
                         ref={register}
-                        name="email"
-                        id="form-email"
-                        placeholder="email"
+                        name="username"
+                        id="form-username"
+                        placeholder="username"
                         size="lg"
                     />
                 </FieldContainer>
