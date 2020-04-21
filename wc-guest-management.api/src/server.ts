@@ -12,6 +12,7 @@ server.on('listening', async () => {
             useNewUrlParser: true,
             useUnifiedTopology: true,
             useFindAndModify: true,
+            useCreateIndex: true,
             user: config.MONGODB_USER,
             pass: config.MONGODB_PWD,
             connectTimeoutMS: 3000,

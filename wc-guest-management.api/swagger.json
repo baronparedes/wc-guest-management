@@ -554,28 +554,7 @@
 					}
 				},
 				"security": [],
-				"parameters": [
-					{
-						"in": "body",
-						"name": "body",
-						"schema": {
-							"properties": {
-								"username": {
-									"type": "string"
-								},
-								"password": {
-									"type": "string"
-								}
-							},
-							"title": "AuthBody",
-							"type": "object",
-							"required": [
-								"username",
-								"password"
-							]
-						}
-					}
-				]
+				"parameters": []
 			}
 		},
 		"/api/profile/me": {

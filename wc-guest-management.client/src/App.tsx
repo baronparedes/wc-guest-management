@@ -6,7 +6,7 @@ const App: React.FC = (props) => {
     const profile = useRootState((state) => state.profile);
     const requestOptions: RequestInit = {
         headers: {
-            authorization: profile && profile.token ? profile.token : '',
+            Authorization: profile && profile.token ? `Bearer ${profile.token}` : '',
         },
     };
     return (

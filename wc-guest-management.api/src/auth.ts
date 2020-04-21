@@ -23,7 +23,7 @@ export function expressAuthentication(
         return Promise.reject('Not supported authentication type');
     }
     if (securityName === 'bearer') {
-        const token = request.headers.authorization;
+        const token = request.headers.authorization.split(' ')[1];
         return new Promise((resolve, reject) => {
             if (!token) {
                 reject(new Error('Unauthorized'));

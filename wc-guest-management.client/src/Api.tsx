@@ -177,24 +177,19 @@ export type UseWelcomeProps = Omit<UseMutateProps<Guest[], void, WelcomeRequestB
 export const useWelcome = (props: UseWelcomeProps) => useMutate<Guest[], unknown, void, WelcomeRequestBody>("POST", `/api/guest/welcome`, props);
 
 
-export interface AuthRequestBody {
-  username: string;
-  password: string;
-}
-
-export type AuthProps = Omit<MutateProps<AuthResult, unknown, void, AuthRequestBody>, "path" | "verb">;
+export type AuthProps = Omit<MutateProps<AuthResult, unknown, void, void>, "path" | "verb">;
 
 export const Auth = (props: AuthProps) => (
-  <Mutate<AuthResult, unknown, void, AuthRequestBody>
+  <Mutate<AuthResult, unknown, void, void>
     verb="POST"
     path={`/api/profile/auth`}
     {...props}
   />
 );
 
-export type UseAuthProps = Omit<UseMutateProps<AuthResult, void, AuthRequestBody>, "path" | "verb">;
+export type UseAuthProps = Omit<UseMutateProps<AuthResult, void, void>, "path" | "verb">;
 
-export const useAuth = (props: UseAuthProps) => useMutate<AuthResult, unknown, void, AuthRequestBody>("POST", `/api/profile/auth`, props);
+export const useAuth = (props: UseAuthProps) => useMutate<AuthResult, unknown, void, void>("POST", `/api/profile/auth`, props);
 
 
 export type MeProps = Omit<GetProps<Profile, unknown, void>, "path">;

@@ -30,11 +30,14 @@ const LoginForm = () => {
     const { mutate, loading, error } = useAuth({});
     const { handleSubmit, register } = useForm<FormData>();
     const onSubmit = (formData: FormData) => {
-        mutate({
-            username: formData.username,
-            password: formData.password,
+        const credentials = new Buffer(
+            `${formData.username}:${formData.password}`
+        ).toString('base64');
+        mutate(undefined, {
+            headers: {
+                Authorization: `Basic ${credentials}`,
+            },
         }).then((data) => {
-            console.log(data);
             dispatch(
                 profileActions.signIn({
                     me: data.profile,
