@@ -11,9 +11,17 @@ export default class AuthService {
         this.profileService = new ProfileService();
     }
 
+    private getAuthCredentials(encodedCredentials: string) {
+        try {
+            return encodedCredentials.split(' ')[1];
+        } catch {
+            throw new Error('Invalid authorization credentials');
+        }
+    }
+
     public async authenticate(encodedCredentials: string): Promise<AuthResult> {
-        const basicAuth = encodedCredentials;
-        const credentials = new Buffer(basicAuth.split(' ')[1], 'base64').toString('ascii');
+        const basicAuth = this.getAuthCredentials(encodedCredentials);
+        const credentials = new Buffer(basicAuth, 'base64').toString('ascii');
         const [username, password] = credentials.split(':');
         const profile = await this.profileService.getProfile(username, password);
         const token = jwt.sign(profile, config.JWT_ACCESS_TOKEN);
@@ -35,7 +43,8 @@ export default class AuthService {
         return true;
     }
 
-    public async verifyToken(token: string, scopes?: string[]) {
+    public async verifyAuthorization(encodedCredentials: string, scopes?: string[]) {
+        const token = this.getAuthCredentials(encodedCredentials);
         return new Promise((resolve, reject) => {
             if (!token) {
                 reject(new Error('Unauthorized'));

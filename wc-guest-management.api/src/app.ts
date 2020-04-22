@@ -1,5 +1,7 @@
+import * as compression from 'compression';
 import * as cors from 'cors';
 import * as express from 'express';
+import * as helmet from 'helmet';
 import * as morgan from 'morgan';
 import * as swaggerUi from 'swagger-ui-express';
 import config from './config';
@@ -11,8 +13,10 @@ import { RegisterRoutes } from './routes';
 
 const app = express();
 app.use(express.json());
+app.use(compression());
+app.use(helmet());
+app.use(morgan('dev'));
 if (config.NODE_ENV === 'development') {
-    app.use(morgan('dev'));
     app.use(
         cors({
             origin: config.CLIENT_URI,
