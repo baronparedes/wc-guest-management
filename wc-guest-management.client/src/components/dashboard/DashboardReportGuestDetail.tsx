@@ -1,7 +1,7 @@
 import FieldContainer from 'components/@ui/FieldContainer';
 import RoundedPanel from 'components/@ui/RoundedPanel';
 import React, { useState } from 'react';
-import { Button, Form, FormControlProps, InputGroup } from 'react-bootstrap';
+import { Button, Form, InputGroup } from 'react-bootstrap';
 
 type Props = {
     onSearch?: (searchCriteria?: string) => void;
@@ -9,7 +9,7 @@ type Props = {
 
 const DashboardReportGuestDetail = (props: Props) => {
     const [criteria, setCriteria] = useState<string | undefined>('');
-    const handleOnChange = (e: React.FormEvent<FormControlProps>) => {
+    const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setCriteria(e.currentTarget.value);
     };
     const handleOnClick = () => {

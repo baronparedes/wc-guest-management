@@ -9,10 +9,13 @@ const rootReducer = combineReducers({
     profile: profileReducer,
 });
 
-const store = configureStore({
-    reducer: rootReducer,
-});
+const store = createStore();
 
+export function createStore() {
+    return configureStore({
+        reducer: rootReducer,
+    });
+}
 export type RootState = ReturnType<typeof rootReducer>;
 export type AppDispatch = typeof store.dispatch;
 export type AppThunk = ThunkAction<void, RootState, unknown, Action<string>>;
