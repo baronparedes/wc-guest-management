@@ -5,13 +5,16 @@ import 'index.scss';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
 import * as serviceWorker from 'serviceWorker';
 import store from 'store';
 
 ReactDOM.render(
     <Provider store={store}>
         <App>
-            <AppRouter />
+            <BrowserRouter>
+                <AppRouter />
+            </BrowserRouter>
         </App>
     </Provider>,
     document.getElementById('root')

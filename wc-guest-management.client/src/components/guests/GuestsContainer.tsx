@@ -8,7 +8,7 @@ import React, { useEffect, useState } from 'react';
 import GuestFilter from './GuestFilter';
 import GuestList from './GuestList';
 
-const GuestContainer = () => {
+const GuestsContainer = () => {
     const [areaToggle, setAreaToggle] = useState(false);
     const handleOnAreaToggle = () => setAreaToggle(!areaToggle);
     const [query, setQuery] = useState<FetchGuestsQueryParams>({
@@ -54,4 +54,4 @@ const GuestContainer = () => {
     );
 };
 
-export default GuestContainer;
+export default GuestsContainer;

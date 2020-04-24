@@ -21,11 +21,13 @@ describe('FieldChecklist', () => {
 
         // assert
         expect(checkOne).toHaveAttribute('name', props.name);
-        expect(checkOne.id).toBe(`${props.name}1`);
+        expect(checkOne).not.toBeNull();
+        checkOne && expect(checkOne.id).toBe(`${props.name}1`);
         expect(checkOneLabel).toBeInTheDocument();
 
         expect(checkTwo).toHaveAttribute('name', props.name);
-        expect(checkTwo.id).toBe(`${props.name}2`);
+        expect(checkTwo).not.toBeNull();
+        checkTwo && expect(checkTwo.id).toBe(`${props.name}2`);
         expect(checkTwoLabel).toBeInTheDocument();
     });
 });

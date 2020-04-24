@@ -7,28 +7,26 @@ import GuestInfoSlipView from 'components/guest-info-slip/GuestInfoSlipView';
 import GuestView from 'components/guests/GuestView';
 import LoginView from 'components/profile/LoginView';
 import React from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 
 const AppRouter: React.FC = () => {
     return (
-        <BrowserRouter>
-            <Switch>
-                <Route path={routes.ROOT} exact component={GuestInfoSlipView} />
-                <Route path={routes.LOGIN} exact component={LoginView} />
-                <Route>
-                    <Header />
-                    <Switch>
-                        <ProtectedRoute
-                            path={routes.DASHBOARD}
-                            exact
-                            component={DashboardView}
-                        />
-                        <ProtectedRoute path={routes.GUESTS} exact component={GuestView} />
-                        <ProtectedRoute component={NotFound} />
-                    </Switch>
-                </Route>
-            </Switch>
-        </BrowserRouter>
+        <Switch>
+            <Route path={routes.ROOT} exact component={GuestInfoSlipView} />
+            <Route path={routes.LOGIN} exact component={LoginView} />
+            <Route>
+                <Header />
+                <Switch>
+                    <ProtectedRoute
+                        path={routes.DASHBOARD}
+                        exact
+                        component={DashboardView}
+                    />
+                    <ProtectedRoute path={routes.GUESTS} exact component={GuestView} />
+                    <Route component={NotFound} />
+                </Switch>
+            </Route>
+        </Switch>
     );
 };
 

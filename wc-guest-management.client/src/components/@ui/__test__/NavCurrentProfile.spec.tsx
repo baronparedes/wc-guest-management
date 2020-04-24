@@ -1,32 +1,20 @@
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent } from '@testing-library/react';
+import routes from '@utils/routes';
+import { renderWithProviderAndRouter } from '@utils/test-renderers';
 import { Profile } from 'Api';
 import NavCurrentProfile from 'components/@ui/NavCurrentProfile';
-import { createMemoryHistory } from 'history';
 import React from 'react';
-import { Provider } from 'react-redux';
-import { Router } from 'react-router-dom';
-import { createStore } from 'store';
 import { profileActions } from 'store/reducers/profile.reducer';
 
 describe('NavCurrentProfile', () => {
-    function renderComponent(history: any, store: any) {
-        return render(
-            <Provider store={store}>
-                <Router history={history}>
-                    <NavCurrentProfile />
-                </Router>
-            </Provider>
-        );
-    }
-
     function renderLoggedIn(profile: Profile, token: string) {
-        // arrange
-        const history = createMemoryHistory();
-        const store = createStore();
-        store.dispatch(profileActions.signIn({ me: profile, token: token }));
-
         //act
-        const { getByText, container } = renderComponent(history, store);
+        const { getByText, container, history, store } = renderWithProviderAndRouter(
+            <NavCurrentProfile />,
+            (store) => {
+                store.dispatch(profileActions.signIn({ me: profile, token: token }));
+            }
+        );
 
         const navbarText = container.querySelector('.navbar-text');
         const welcomeText = getByText(/Welcome!/);
@@ -44,10 +32,8 @@ describe('NavCurrentProfile', () => {
     }
 
     it('should redirect to login when token is null', () => {
-        const history = createMemoryHistory();
-        const store = createStore();
-        renderComponent(history, store);
-        expect(history.location.pathname).toBe('/login');
+        const { history } = renderWithProviderAndRouter(<NavCurrentProfile />);
+        expect(history.location.pathname).toBe(routes.LOGIN);
     });
 
     it('should display current profile', () => {
@@ -84,6 +70,6 @@ describe('NavCurrentProfile', () => {
         fireEvent.click(signOutButton);
 
         // assert
-        expect(history.location.pathname).toBe('/login');
+        expect(history.location.pathname).toBe(routes.LOGIN);
     });
 });
