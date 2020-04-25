@@ -7,13 +7,13 @@ import { Router } from 'react-router-dom';
 import { RestfulProvider } from 'restful-react';
 import { createStore } from 'store';
 
-export function getRestfulProviderWrapper(base: string) {
-    const RestfulProviderWrapper: React.FC = ({ children }) => {
+export function getRestfulWrapper(base: string) {
+    const RestfulWrapper: React.FC = ({ children }) => {
         return <RestfulProvider base={base}>{children}</RestfulProvider>;
     };
     return {
         base,
-        RestfulProviderWrapper,
+        RestfulWrapper,
     };
 }
 
@@ -102,13 +102,29 @@ export function renderHookWithProvider<P, R>(
     };
 }
 
-export function renderHookWithRestfulProvider<P, R>(
-    callback: (props: P) => R,
-    base: string
-) {
-    const { RestfulProviderWrapper } = getRestfulProviderWrapper(base);
-    const target = renderHook(callback, { wrapper: RestfulProviderWrapper });
+export function renderHookWithRestful<P, R>(callback: (props: P) => R, base: string) {
+    const { RestfulWrapper } = getRestfulWrapper(base);
+    const target = renderHook(callback, { wrapper: RestfulWrapper });
     return {
+        ...target,
+    };
+}
+
+export function renderHookWithProviderAndRestful<P, R>(
+    callback: (props: P) => R,
+    base: string,
+    setupStore?: (store: ReturnType<typeof createStore>) => void
+) {
+    const { RestfulWrapper } = getRestfulWrapper(base);
+    const { store, ProviderWrapper } = getProviderWrapper(setupStore);
+    const Wrapper: React.FC<any> = (props) => (
+        <ProviderWrapper>
+            <RestfulWrapper>{props.children}</RestfulWrapper>
+        </ProviderWrapper>
+    );
+    const target = renderHook(callback, { wrapper: Wrapper });
+    return {
+        store,
         ...target,
     };
 }

@@ -35,7 +35,7 @@ describe('AppRouter', () => {
         { route: routes.GUESTS, text: 'guest-view' },
     ];
 
-    it('should render without crashing', () => {
+    it('should render', () => {
         renderWithRouter(<AppRouter />);
     });
 

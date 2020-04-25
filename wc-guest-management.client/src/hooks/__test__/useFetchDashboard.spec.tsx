@@ -1,6 +1,6 @@
 import { cleanup, renderHook } from '@testing-library/react-hooks';
 import { getCurrentDateFormatted } from '@utils/dates';
-import { renderHookWithRestfulProvider } from '@utils/test-renderers';
+import { renderHookWithRestful } from '@utils/test-renderers';
 import { GetDashboardReportQueryParams, Guest } from 'Api';
 import { DashboardCriteria, useFetchDashboard } from 'hooks/useFetchDashboard';
 import nock from 'nock';
@@ -32,14 +32,14 @@ describe('useFetchDashboard', () => {
         nock.cleanAll();
     });
 
-    it('should not crash', () => {
+    it('should render', () => {
         renderHook(() => useFetchDashboard());
     });
 
     it('should fetch guests by searchCriteria', async () => {
         nock(base).get('/api/guest').query({ criteria: searchCriteria }).reply(200, guests);
 
-        const { result, waitForNextUpdate } = renderHookWithRestfulProvider(
+        const { result, waitForNextUpdate } = renderHookWithRestful(
             () => useFetchDashboard(undefined, searchCriteria),
             base
         );
@@ -58,7 +58,7 @@ describe('useFetchDashboard', () => {
             .query({ criteria: searchCriteria, fromDate, toDate })
             .reply(200, guests);
 
-        const { result, waitForNextUpdate } = renderHookWithRestfulProvider(
+        const { result, waitForNextUpdate } = renderHookWithRestful(
             () => useFetchDashboard(undefined, searchCriteria, query),
             base
         );
@@ -70,9 +70,9 @@ describe('useFetchDashboard', () => {
     });
 
     it('should error when fetching guests by searchCriteria', async () => {
-        nock(base).get('/api/guest').query({ criteria: searchCriteria }).reply(401, 'err');
+        nock(base).get('/api/guest').query({ criteria: searchCriteria }).reply(500, 'err');
 
-        const { result, waitForNextUpdate } = renderHookWithRestfulProvider(
+        const { result, waitForNextUpdate } = renderHookWithRestful(
             () => useFetchDashboard(undefined, searchCriteria),
             base
         );
@@ -87,7 +87,7 @@ describe('useFetchDashboard', () => {
         const { slot, index } = dashboardCriteria;
         nock(base).get('/api/guest/category/age').query({ slot, index }).reply(200, guests);
 
-        const { result, waitForNextUpdate } = renderHookWithRestfulProvider(
+        const { result, waitForNextUpdate } = renderHookWithRestful(
             () => useFetchDashboard(dashboardCriteria),
             base
         );
@@ -106,7 +106,7 @@ describe('useFetchDashboard', () => {
             .query({ slot, index, fromDate, toDate })
             .reply(200, guests);
 
-        const { result, waitForNextUpdate } = renderHookWithRestfulProvider(
+        const { result, waitForNextUpdate } = renderHookWithRestful(
             () => useFetchDashboard(dashboardCriteria, undefined, query),
             base
         );
@@ -119,9 +119,9 @@ describe('useFetchDashboard', () => {
 
     it('should error when fetching guests by dashboardCriteria', async () => {
         const { slot, index } = dashboardCriteria;
-        nock(base).get('/api/guest/category/age').query({ slot, index }).reply(401, 'err');
+        nock(base).get('/api/guest/category/age').query({ slot, index }).reply(500, 'err');
 
-        const { result, waitForNextUpdate } = renderHookWithRestfulProvider(
+        const { result, waitForNextUpdate } = renderHookWithRestful(
             () => useFetchDashboard(dashboardCriteria),
             base
         );

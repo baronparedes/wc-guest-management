@@ -5,14 +5,14 @@ import { dashboardActions } from 'store/reducers/dashboard.reducer';
 
 // function useState<S = undefined>(): [S | undefined, Dispatch<SetStateAction<S | undefined>>];
 
-type Props<T = undefined> = {
+export type PostGuestFormProps<T = undefined> = {
     defaultValues: T;
     id: string;
     onPreSubmit: (formData: T) => Guest;
     onFormSaved?: (savedData: Guest) => void;
 };
 
-export function usePostGuestForm<T = undefined>(props: Props<T>) {
+export function usePostGuestForm<T = undefined>(props: PostGuestFormProps<T>) {
     const dispatch = useDispatch();
     const { handleSubmit, register } = useForm<T>({
         defaultValues: props.defaultValues,
@@ -23,10 +23,12 @@ export function usePostGuestForm<T = undefined>(props: Props<T>) {
     const onSubmit = (formData: T) => {
         mutate({
             guestData: props.onPreSubmit(formData),
-        }).then((savedData) => {
-            dispatch(dashboardActions.guestSaved(savedData));
-            props.onFormSaved && props.onFormSaved(savedData);
-        });
+        })
+            .then((savedData) => {
+                dispatch(dashboardActions.guestSaved(savedData));
+                props.onFormSaved && props.onFormSaved(savedData);
+            })
+            .catch(() => {});
     };
     return {
         loading,

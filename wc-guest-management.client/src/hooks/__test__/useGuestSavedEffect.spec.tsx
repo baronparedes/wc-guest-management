@@ -8,7 +8,7 @@ describe('useGuestSavedEffect', () => {
     it('should not execute callback on render', () => {
         const cb = jest.fn(() => null);
         renderHookWithProvider(() => useGuestSavedEffect(cb));
-        expect(cb.mock.calls.length).toBe(0);
+        expect(cb).not.toHaveBeenCalled();
     });
 
     it('should execute callback on savedGuest change', () => {
@@ -25,7 +25,7 @@ describe('useGuestSavedEffect', () => {
                 })
             );
         });
-        expect(cb.mock.calls.length).toBe(1);
+        expect(cb).toHaveBeenCalledTimes(1);
 
         act(() => {
             store.dispatch(
@@ -37,6 +37,6 @@ describe('useGuestSavedEffect', () => {
                 })
             );
         });
-        expect(cb.mock.calls.length).toBe(2);
+        expect(cb).toHaveBeenCalledTimes(2);
     });
 });

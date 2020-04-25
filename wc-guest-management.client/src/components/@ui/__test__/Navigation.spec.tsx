@@ -9,7 +9,7 @@ jest.mock('components/@ui/NavCurrentProfile', () => 'mocked-component');
 describe('Navigation', () => {
     afterAll(jest.resetModules);
 
-    it('should render without crashing', () => {
+    it('should render', () => {
         renderWithRouter(<Navigation />);
     });
 
