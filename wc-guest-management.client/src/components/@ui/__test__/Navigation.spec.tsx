@@ -14,7 +14,6 @@ describe('Navigation', () => {
     });
 
     it('should redirect correctly when a navigation link is clicked', () => {
-        // arrange
         const { getByText, history } = renderWithRouter(<Navigation />);
         const targetLinks = [
             { label: 'dashboard', to: routes.DASHBOARD },
@@ -22,7 +21,6 @@ describe('Navigation', () => {
             { label: 'guest info slip', to: routes.GUEST_INFO_SLIP },
         ];
 
-        // act
         targetLinks.forEach((target) => {
             // assert
             const link = getByText(target.label);

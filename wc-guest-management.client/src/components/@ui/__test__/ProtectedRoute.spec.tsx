@@ -9,20 +9,14 @@ type Props = React.ComponentProps<typeof ProtectedRoute>;
 
 describe('ProtectedRoute', () => {
     it('should redirect to login when token is null', () => {
-        // arrange
         const SomeComponent = () => <div></div>;
-
-        // act
         const { history } = renderWithProviderAndRouter(
             <ProtectedRoute component={SomeComponent} />
         );
-
-        // assert
         expect(history.location.pathname).toBe(routes.LOGIN);
     });
 
     it('should render component when user is logged in', () => {
-        // arrange
         const SomeComponent = () => <div>Target Component</div>;
         const profile: Profile = {
             name: 'Joe',
@@ -30,16 +24,14 @@ describe('ProtectedRoute', () => {
         };
         const token = 'auth_token';
 
-        // act
         const { getByText } = renderWithProviderAndRouter(
             <ProtectedRoute component={SomeComponent} />,
             (store) => {
                 store.dispatch(profileActions.signIn({ me: profile, token }));
             }
         );
-        const actual = getByText('Target Component');
 
-        // assert
+        const actual = getByText('Target Component');
         expect(actual).toBeInTheDocument();
     });
 });

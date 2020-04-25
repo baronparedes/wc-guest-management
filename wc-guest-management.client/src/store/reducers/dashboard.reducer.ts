@@ -1,12 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Guest } from 'Api';
 
-type State = {
+export type DashboardState = {
     data?: Guest[];
     savedGuest?: Guest;
 };
 
-const initialState: State = {};
+const initialState: DashboardState = {};
 
 export const dashboardSlice = createSlice({
     name: 'dashboard',

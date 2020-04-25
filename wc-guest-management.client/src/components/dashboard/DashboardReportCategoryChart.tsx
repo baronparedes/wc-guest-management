@@ -3,7 +3,7 @@ import { ResponsiveBar } from '@nivo/bar';
 import { ColorSchemeId } from '@nivo/colors';
 import { DashboardLineItem } from 'Api';
 import RoundedPanel from 'components/@ui/RoundedPanel';
-import useChartData from 'hooks/useChartData';
+import { useChartData } from 'hooks/useChartData';
 import React from 'react';
 
 type Props = {

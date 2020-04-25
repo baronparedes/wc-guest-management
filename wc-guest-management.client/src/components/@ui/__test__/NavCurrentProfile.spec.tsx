@@ -8,7 +8,6 @@ import { profileActions } from 'store/reducers/profile.reducer';
 
 describe('NavCurrentProfile', () => {
     function renderLoggedIn(profile: Profile, token: string) {
-        //act
         const { getByText, container, history, store } = renderWithProviderAndRouter(
             <NavCurrentProfile />,
             (store) => {
@@ -37,17 +36,14 @@ describe('NavCurrentProfile', () => {
     });
 
     it('should display current profile', () => {
-        // arrange
         const profile: Profile = {
             name: 'Joe',
             username: 'Joe@Test.com',
         };
         const token = 'auth_token';
 
-        // act
         const target = renderLoggedIn(profile, token);
 
-        // assert
         expect(target.navbarText).toBeInTheDocument();
         expect(target.navbarText).toContainElement(target.welcomeText);
         expect(target.navbarText).toContainElement(target.profileText);
@@ -58,18 +54,15 @@ describe('NavCurrentProfile', () => {
     });
 
     it('should redirect to login when Sign Out button is clicked', () => {
-        // arrange
         const profile: Profile = {
             name: 'Joe',
             username: 'Joe@Test.com',
         };
         const token = 'auth_token';
 
-        // act
         const { history, signOutButton } = renderLoggedIn(profile, token);
         fireEvent.click(signOutButton);
 
-        // assert
         expect(history.location.pathname).toBe(routes.LOGIN);
     });
 });

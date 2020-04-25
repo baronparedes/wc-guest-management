@@ -1,8 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Profile } from 'Api';
 import { AppThunk } from 'store';
+import localStore from 'store/local';
 
-type State = {
+export type ProfileState = {
     me?: Profile;
     token?: string;
 };
@@ -10,7 +11,7 @@ type State = {
 const WC_PROFILE_KEY = 'WC_PROFILE_KEY';
 
 export const getProfileFromLocalStorage = () => {
-    const state = localStorage.getItem(WC_PROFILE_KEY);
+    const state = localStore.getItem(WC_PROFILE_KEY);
     if (state) {
         return {
             ...JSON.parse(state),
@@ -19,13 +20,13 @@ export const getProfileFromLocalStorage = () => {
     return {};
 };
 
-const initialState: State = getProfileFromLocalStorage();
+const initialState: ProfileState = getProfileFromLocalStorage();
 
 export const profileSlice = createSlice({
     name: 'profile',
     initialState,
     reducers: {
-        signIn: (state, action: PayloadAction<State>) => {
+        signIn: (state, action: PayloadAction<ProfileState>) => {
             state.me = action.payload.me;
             state.token = action.payload.token;
         },
@@ -36,14 +37,14 @@ export const profileSlice = createSlice({
     },
 });
 
-const signIn = (payload: State): AppThunk => (dispatch) => {
+const signIn = (payload: ProfileState): AppThunk => (dispatch) => {
     const state = JSON.stringify(payload);
-    localStorage.setItem(WC_PROFILE_KEY, state);
+    localStore.setItem(WC_PROFILE_KEY, state);
     dispatch(actions.signIn(payload));
 };
 
 const signOut = (): AppThunk => (dispatch) => {
-    localStorage.removeItem(WC_PROFILE_KEY);
+    localStore.removeItem(WC_PROFILE_KEY);
     dispatch(actions.signOut());
 };
 
