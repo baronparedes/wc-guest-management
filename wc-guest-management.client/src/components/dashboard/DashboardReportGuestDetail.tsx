@@ -13,7 +13,9 @@ const DashboardReportGuestDetail = (props: Props) => {
         setCriteria(e.currentTarget.value);
     };
     const handleOnClick = () => {
-        props.onSearch && props.onSearch(criteria);
+        if (criteria && criteria.trim() !== '') {
+            props.onSearch && props.onSearch(criteria);
+        }
     };
     return (
         <RoundedPanel>

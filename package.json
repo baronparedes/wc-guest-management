@@ -30,7 +30,9 @@
     },
     "homepage": "https://github.com/baronparedes/wc-guest-management#readme",
     "devDependencies": {
+        "@types/faker": "^4.1.11",
         "@types/jest": "^25.2.1",
-        "concurrently": "^5.1.0"
+        "concurrently": "^5.1.0",
+        "faker": "^4.1.0"
     }
 }

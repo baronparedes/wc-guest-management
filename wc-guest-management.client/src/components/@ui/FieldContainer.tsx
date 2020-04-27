@@ -5,6 +5,7 @@ type Props = {
     label?: React.ReactNode;
     as?: React.ElementType;
     className?: string;
+    controlId?: string;
 };
 
 const FieldContainer: React.FC<Props & ColProps> = (props) => {

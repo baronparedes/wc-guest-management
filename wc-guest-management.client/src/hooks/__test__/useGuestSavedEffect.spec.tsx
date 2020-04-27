@@ -1,5 +1,5 @@
 import { act } from '@testing-library/react-hooks';
-import { getCurrentDateFormatted } from '@utils/dates';
+import { generateFakeGuest } from '@utils/fake-models';
 import { renderHookWithProvider } from '@utils/test-renderers';
 import { useGuestSavedEffect } from 'hooks/useGuestSavedEffect';
 import { dashboardActions } from 'store/reducers/dashboard.reducer';
@@ -16,26 +16,12 @@ describe('useGuestSavedEffect', () => {
         const { store } = renderHookWithProvider(() => useGuestSavedEffect(cb));
 
         act(() => {
-            store.dispatch(
-                dashboardActions.guestSaved({
-                    guest: 'test-guest-1',
-                    tableNumber: 1,
-                    visitDate: getCurrentDateFormatted(),
-                    volunteer: 'test-volunteer-1',
-                })
-            );
+            store.dispatch(dashboardActions.guestSaved(generateFakeGuest()));
         });
         expect(cb).toHaveBeenCalledTimes(1);
 
         act(() => {
-            store.dispatch(
-                dashboardActions.guestSaved({
-                    guest: 'test-guest-2',
-                    tableNumber: 2,
-                    visitDate: getCurrentDateFormatted(),
-                    volunteer: 'test-volunteer-2',
-                })
-            );
+            store.dispatch(dashboardActions.guestSaved(generateFakeGuest()));
         });
         expect(cb).toHaveBeenCalledTimes(2);
     });

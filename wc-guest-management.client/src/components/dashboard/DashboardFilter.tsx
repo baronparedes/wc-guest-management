@@ -1,4 +1,4 @@
-import { getCurrentDateFormatted } from '@utils/dates';
+import { getCurrentDateFormatted, getCurrentDateTimeFormatted } from '@utils/dates';
 import FieldContainer from 'components/@ui/FieldContainer';
 import React from 'react';
 import { Button, Col, Form } from 'react-bootstrap';
@@ -22,12 +22,11 @@ const DashboardFilter = (props: Props) => {
         props.onRefresh && props.onRefresh(formData.fromDate, formData.toDate);
     };
     return (
-        <Form onSubmit={handleSubmit(onSubmit)}>
+        <Form onSubmit={handleSubmit(onSubmit)} aria-label="form">
             <Form.Row className="d-print-none">
                 <Col className="text-right">
                     <span className="text-muted mr-2">
-                        data as of {new Date().toLocaleDateString()}{' '}
-                        {new Date().toLocaleTimeString()}
+                        data as of {getCurrentDateTimeFormatted()}
                     </span>
                     <Button
                         variant="primary"
@@ -39,21 +38,32 @@ const DashboardFilter = (props: Props) => {
                 </Col>
             </Form.Row>
             <Form.Row>
-                <FieldContainer as={Col} sm={12} md={6} label="from">
+                <FieldContainer as={Col} sm={12} md={6} label="from" controlId="fromDate">
                     <Form.Control
                         disabled={props.disabled}
-                        required
-                        ref={register}
+                        ref={register({
+                            required: true,
+                            max: {
+                                value: now,
+                                message: `Value should ${now} or earlier`,
+                            },
+                        })}
                         name="fromDate"
                         size="lg"
                         type="date"
                         max={now}
+                        required
                     />
                 </FieldContainer>
-                <FieldContainer as={Col} sm={12} md={6} label="to">
+                <FieldContainer as={Col} sm={12} md={6} label="to" controlId="toDate">
                     <Form.Control
                         disabled={props.disabled}
-                        ref={register}
+                        ref={register({
+                            max: {
+                                value: now,
+                                message: `Value should ${now} or earlier`,
+                            },
+                        })}
                         name="toDate"
                         size="lg"
                         type="date"

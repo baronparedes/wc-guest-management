@@ -26,20 +26,18 @@ const DashboardReportTotal = (props: DashboardReportTotalProps) => {
                 text="dark">
                 <Card.Header
                     style={{
-                        color: props.headerTextColor
-                            ? props.headerTextColor
-                            : '#FFFFFF'
+                        color: props.headerTextColor ? props.headerTextColor : '#FFFFFF',
                     }}>
                     <h6>{props.title}</h6>
                 </Card.Header>
                 <Card.Body
                     style={{
                         backgroundColor: '#ffffff',
-                        border: 'none'
+                        border: 'none',
                     }}>
                     <Card.Text>
-                        <strong style={{ fontSize: '2em' }}>
-                            {props.total}
+                        <strong style={{ fontSize: '2em' }} data-testid={props.title}>
+                            <label>{props.total}</label>
                         </strong>
                     </Card.Text>
                 </Card.Body>

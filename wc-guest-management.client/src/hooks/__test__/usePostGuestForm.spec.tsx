@@ -1,19 +1,12 @@
 import { act, cleanup, renderHook } from '@testing-library/react-hooks';
-import { getCurrentDateFormatted } from '@utils/dates';
+import { generateFakeGuest } from '@utils/fake-models';
 import { renderHookWithProviderAndRestful } from '@utils/test-renderers';
-import { Guest } from 'Api';
 import { PostGuestFormProps, usePostGuestForm } from 'hooks/usePostGuestForm';
 import nock from 'nock';
 
 describe('usePostGuestForm', () => {
     const base = 'http://localhost';
-    const expectedData: Guest = {
-        _id: 'test-id',
-        guest: 'test-guest',
-        tableNumber: 1,
-        visitDate: getCurrentDateFormatted(),
-        volunteer: 'test-volunteer',
-    };
+    const expectedData = generateFakeGuest();
     const onPreSubmit = jest.fn(() => {
         return expectedData;
     });
@@ -43,7 +36,10 @@ describe('usePostGuestForm', () => {
 
     it('should post data to api server then notify store', async () => {
         nock(base)
-            .put('/api/guest/test-id', JSON.stringify({ guestData: expectedData }))
+            .put(
+                `/api/guest/${expectedData._id}`,
+                JSON.stringify({ guestData: expectedData })
+            )
             .reply(200, expectedData);
 
         const { result, store, waitForNextUpdate } = renderHookWithProviderAndRestful(
@@ -65,7 +61,10 @@ describe('usePostGuestForm', () => {
 
     it('should error when posting data to api server', async () => {
         nock(base)
-            .put('/api/guest/test-id', JSON.stringify({ guestData: expectedData }))
+            .put(
+                `/api/guest/${expectedData._id}`,
+                JSON.stringify({ guestData: expectedData })
+            )
             .reply(500, 'err');
 
         const { result, store, waitForNextUpdate } = renderHookWithProviderAndRestful(

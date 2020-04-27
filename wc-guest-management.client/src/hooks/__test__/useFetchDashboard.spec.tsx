@@ -2,6 +2,7 @@ import { cleanup, renderHook } from '@testing-library/react-hooks';
 import { getCurrentDateFormatted } from '@utils/dates';
 import { renderHookWithRestful } from '@utils/test-renderers';
 import { GetDashboardReportQueryParams, Guest } from 'Api';
+import * as faker from 'faker';
 import { DashboardCriteria, useFetchDashboard } from 'hooks/useFetchDashboard';
 import nock from 'nock';
 
@@ -12,18 +13,18 @@ describe('useFetchDashboard', () => {
         fromDate: now,
         toDate: now,
     };
-    const searchCriteria = 'search-criteria';
+    const searchCriteria = faker.lorem.word();
     const dashboardCriteria: DashboardCriteria = {
         category: 'age',
-        index: 'test-index',
+        index: faker.lorem.word(),
         slot: '9 AM',
     };
     const guests: Guest[] = [
         {
-            guest: 'test-guest',
+            guest: `${faker.name.firstName()} ${faker.name.lastName()}`,
             tableNumber: 1,
             visitDate: getCurrentDateFormatted(),
-            volunteer: 'test-volunteer',
+            volunteer: `${faker.name.firstName()} ${faker.name.lastName()}`,
         },
     ];
 
