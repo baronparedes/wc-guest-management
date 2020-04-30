@@ -1,20 +1,15 @@
 import logo from '@assets/img/wc-logo-transparent.png';
 import { Activity, Slot } from '@models';
 import { formatDate } from '@utils/dates';
-import { Guest } from 'Api';
 import BoxStacked from 'components/@ui/BoxStacked';
 import ErrorInfo from 'components/@ui/ErrorInfo';
 import FieldChecklist from 'components/@ui/FieldChecklist';
 import FieldContainer from 'components/@ui/FieldContainer';
 import { DarkCol, IndentedCol } from 'components/@ui/StyledCol';
-import {
-    GuestButtonModalProps,
-    withEditGuestButtonModal,
-} from 'hoc/withEditGuestButtonModal';
+import { GuestButtonModalProps } from 'hoc/withEditGuestButtonModal';
 import { usePostGuestForm } from 'hooks/usePostGuestForm';
 import React from 'react';
 import { Button, Col, Container, Form, Image, Row } from 'react-bootstrap';
-import { FaIdCardAlt } from 'react-icons/fa';
 
 type FormProps = {
     age?: number | null;
@@ -147,16 +142,4 @@ const GuestQuickForm = (props: GuestButtonModalProps) => {
     );
 };
 
-const FormWithModal = withEditGuestButtonModal(GuestQuickForm);
-export const GuestQuickFormWithButtonModal = (props: Guest) => {
-    return (
-        <FormWithModal
-            title="guest essential data"
-            header="guest essential data"
-            guest={props}
-            variant="dark">
-            <FaIdCardAlt />
-        </FormWithModal>
-    );
-};
 export default GuestQuickForm;

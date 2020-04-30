@@ -21,9 +21,7 @@ describe('DashboardReportTotals', () => {
                 { count: faker.random.number(), slot: '6 PM' },
             ],
         };
-        const { debug, getByText, getByTestId } = render(
-            <DashboardReportTotals data={data} />
-        );
+        const { getByText, getByTestId } = render(<DashboardReportTotals data={data} />);
 
         expect(getByText(/total guests/i)).toBeInTheDocument();
         expect(getByTestId(/total guests/i).textContent).toBe(data.totalGuests.toString());

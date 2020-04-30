@@ -79,6 +79,14 @@ export function renderWithProvider(
     };
 }
 
+export function renderWithRestful(ui: React.ReactElement, base: string) {
+    const { RestfulWrapper } = getRestfulWrapper(base);
+    const target = render(ui, { wrapper: RestfulWrapper });
+    return {
+        ...target,
+    };
+}
+
 export function renderWithRouter(
     ui: React.ReactElement,
     setupHistory?: (history: ReturnType<typeof createMemoryHistory>) => void

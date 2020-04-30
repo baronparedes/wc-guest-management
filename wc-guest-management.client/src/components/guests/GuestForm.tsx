@@ -6,14 +6,10 @@ import ErrorInfo from 'components/@ui/ErrorInfo';
 import FieldChecklist from 'components/@ui/FieldChecklist';
 import FieldContainer from 'components/@ui/FieldContainer';
 import { BorderedLeftCol, DarkCol, IndentedCol } from 'components/@ui/StyledCol';
-import {
-    GuestButtonModalProps,
-    withEditGuestButtonModal,
-} from 'hoc/withEditGuestButtonModal';
+import { GuestButtonModalProps } from 'hoc/withEditGuestButtonModal';
 import { usePostGuestForm } from 'hooks/usePostGuestForm';
 import React from 'react';
 import { Button, Col, Container, Form, Image, Row } from 'react-bootstrap';
-import { FaIdCard } from 'react-icons/fa';
 
 const GuestForm = (props: GuestButtonModalProps) => {
     const { loading, error, handleSubmit, onSubmit, register } = usePostGuestForm<Guest>({
@@ -233,17 +229,4 @@ const GuestForm = (props: GuestButtonModalProps) => {
     );
 };
 
-const FormWithModal = withEditGuestButtonModal(GuestForm);
-export const GuestFormWithButtonModal = (props: Guest) => {
-    return (
-        <FormWithModal
-            title="guest data"
-            header="guest data"
-            guest={props}
-            variant="warning"
-            modalsize="xl">
-            <FaIdCard />
-        </FormWithModal>
-    );
-};
 export default GuestForm;

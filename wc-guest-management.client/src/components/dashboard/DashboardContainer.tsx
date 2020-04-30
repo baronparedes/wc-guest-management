@@ -6,7 +6,7 @@ import React, { useEffect, useState } from 'react';
 import DashboardFilter from './DashboardFilter';
 import DashboardReportContainer from './DashboardReportContainer';
 
-const DashboardGuestsContainer = () => {
+const DashboardContainer = () => {
     const [query, setQuery] = useState<GetDashboardReportQueryParams>();
     const { loading, error, data, refetch } = useGetDashboardReport({
         queryParams: query,
@@ -41,4 +41,4 @@ const DashboardGuestsContainer = () => {
     );
 };
 
-export default DashboardGuestsContainer;
+export default DashboardContainer;

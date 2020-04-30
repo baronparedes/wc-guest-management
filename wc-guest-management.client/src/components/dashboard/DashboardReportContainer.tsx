@@ -37,7 +37,7 @@ const DashboardReportContainer: React.FC<Props> = (props) => {
         setToggle(true);
     };
     const handleOnSearch = (search?: string) => {
-        if (search && search !== '') {
+        if (search && search.trim() !== '') {
             setSearchCriteria(search);
             setAction('criteria');
             setToggle(true);

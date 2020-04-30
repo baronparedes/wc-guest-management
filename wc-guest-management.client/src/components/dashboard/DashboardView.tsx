@@ -1,13 +1,13 @@
 import DisplayLabel from 'components/@ui/DisplayLabel';
 import React from 'react';
 import { Container } from 'react-bootstrap';
-import DashboardGuestsContainer from './DashboardGuestsContainer';
+import DashboardContainer from './DashboardContainer';
 
 const DashboardView = () => {
     return (
         <Container>
             <DisplayLabel>dashboard</DisplayLabel>
-            <DashboardGuestsContainer />
+            <DashboardContainer />
         </Container>
     );
 };
