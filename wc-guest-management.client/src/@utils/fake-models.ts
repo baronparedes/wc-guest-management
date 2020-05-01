@@ -1,5 +1,5 @@
 import { formatDate } from '@utils/dates';
-import { DashboardMetric, DashboardReport, Guest } from 'Api';
+import { AuthResult, DashboardMetric, DashboardReport, Guest, Profile } from 'Api';
 import * as faker from 'faker';
 
 export function generateFakeGuest(): Guest {
@@ -54,5 +54,20 @@ export function generateFakeDashboardReport(): DashboardReport {
                 ],
             },
         ],
+    };
+}
+
+export function generateFakeProfile(): Profile {
+    return {
+        name: faker.name.findName(),
+        username: faker.random.words(1),
+        _id: faker.random.uuid(),
+    };
+}
+
+export function generateFakeAuthResult(): AuthResult {
+    return {
+        profile: generateFakeProfile(),
+        token: faker.random.alphaNumeric(100),
     };
 }

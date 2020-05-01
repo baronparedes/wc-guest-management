@@ -27,9 +27,9 @@ describe('DashboardContainer', () => {
     async function assertInitialLoad() {
         nock(base).get('/api/dashboard').reply(200, mockedDashboardData);
         const target = renderWithRestful(<DashboardContainer />, base);
-        expect(target.getByRole('loading')).toBeInTheDocument();
+        expect(target.getByRole('progressbar')).toBeInTheDocument();
         await waitFor(() => {
-            expect(target.queryByRole('loading')).not.toBeInTheDocument();
+            expect(target.queryByRole('progressbar')).not.toBeInTheDocument();
             expect(target.getByTestId('dashboard-data').textContent).toBe(
                 JSON.stringify(mockedDashboardData)
             );
@@ -74,9 +74,9 @@ describe('DashboardContainer', () => {
             .reply(200, mockedDashboardDataRefreshed);
 
         fireEvent.click(getByText(/refresh/i));
-        await waitFor(() => expect(getByRole('loading')).toBeInTheDocument());
+        await waitFor(() => expect(getByRole('progressbar')).toBeInTheDocument());
         await waitFor(() => {
-            expect(queryByRole('loading')).not.toBeInTheDocument();
+            expect(queryByRole('progressbar')).not.toBeInTheDocument();
             expect(getByTestId('dashboard-data').textContent).toBe(
                 JSON.stringify(mockedDashboardDataRefreshed)
             );
@@ -90,9 +90,9 @@ describe('DashboardContainer', () => {
             <DashboardContainer />,
             base
         );
-        expect(getByRole('loading')).toBeInTheDocument();
+        expect(getByRole('progressbar')).toBeInTheDocument();
         await waitFor(() => {
-            expect(queryByRole('loading')).not.toBeInTheDocument();
+            expect(queryByRole('progressbar')).not.toBeInTheDocument();
             expect(queryByTestId('dashboard-data')).not.toBeInTheDocument();
             expect(getByRole('error').textContent).toBe('err');
         });
@@ -113,9 +113,9 @@ describe('DashboardContainer', () => {
             .reply(500, 'err');
 
         fireEvent.click(getByText(/refresh/i));
-        await waitFor(() => expect(getByRole('loading')).toBeInTheDocument());
+        await waitFor(() => expect(getByRole('progressbar')).toBeInTheDocument());
         await waitFor(() => {
-            expect(queryByRole('loading')).not.toBeInTheDocument();
+            expect(queryByRole('progressbar')).not.toBeInTheDocument();
             expect(getByTestId('dashboard-data').textContent).toBe(
                 JSON.stringify(mockedDashboardData)
             );

@@ -46,6 +46,30 @@ export function getRouterWrapper(
     };
 }
 
+export function renderWithProviderAndRouterAndRestful(
+    ui: React.ReactElement,
+    base: string,
+    setupStore?: (store: ReturnType<typeof createStore>) => void,
+    setupHistory?: (history: ReturnType<typeof createMemoryHistory>) => void
+) {
+    const { store, ProviderWrapper } = getProviderWrapper(setupStore);
+    const { history, RouterWrapper } = getRouterWrapper(setupHistory);
+    const { RestfulWrapper } = getRestfulWrapper(base);
+    const Wrapper: React.FC<any> = (props) => (
+        <ProviderWrapper>
+            <RouterWrapper>
+                <RestfulWrapper>{props.children}</RestfulWrapper>
+            </RouterWrapper>
+        </ProviderWrapper>
+    );
+    const target = render(ui, { wrapper: Wrapper });
+    return {
+        ...target,
+        store,
+        history,
+    };
+}
+
 export function renderWithProviderAndRouter(
     ui: React.ReactElement,
     setupStore?: (store: ReturnType<typeof createStore>) => void,
@@ -56,6 +80,27 @@ export function renderWithProviderAndRouter(
     const Wrapper: React.FC<any> = (props) => (
         <ProviderWrapper>
             <RouterWrapper>{props.children}</RouterWrapper>
+        </ProviderWrapper>
+    );
+    const target = render(ui, { wrapper: Wrapper });
+
+    return {
+        ...target,
+        store,
+        history,
+    };
+}
+
+export function renderWithProviderAndRestful(
+    ui: React.ReactElement,
+    base: string,
+    setupStore?: (store: ReturnType<typeof createStore>) => void
+) {
+    const { store, ProviderWrapper } = getProviderWrapper(setupStore);
+    const { RestfulWrapper } = getRestfulWrapper(base);
+    const Wrapper: React.FC<any> = (props) => (
+        <ProviderWrapper>
+            <RestfulWrapper>{props.children}</RestfulWrapper>
         </ProviderWrapper>
     );
     const target = render(ui, { wrapper: Wrapper });

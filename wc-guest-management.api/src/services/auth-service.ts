@@ -24,7 +24,9 @@ export default class AuthService {
         const credentials = new Buffer(basicAuth, 'base64').toString('ascii');
         const [username, password] = credentials.split(':');
         const profile = await this.profileService.getProfile(username, password);
-        const token = jwt.sign(profile, config.JWT_ACCESS_TOKEN);
+        const token = jwt.sign(profile, config.JWT_ACCESS_TOKEN, {
+            expiresIn: '30d',
+        });
         const result = {
             profile,
             token,
@@ -49,9 +51,13 @@ export default class AuthService {
             if (!token) {
                 reject(new Error('Unauthorized'));
             }
-            const verified = (err: any, decoded: Profile) => {
+            const verified = (err: jwt.VerifyErrors, decoded: Profile) => {
                 if (err) {
-                    reject(err);
+                    if (err instanceof jwt.TokenExpiredError) {
+                        reject(new Error('Your login session has expired, please relogin'));
+                    } else {
+                        reject(err);
+                    }
                     return;
                 }
                 if (this.isProfileInScope(decoded, scopes)) resolve(decoded);

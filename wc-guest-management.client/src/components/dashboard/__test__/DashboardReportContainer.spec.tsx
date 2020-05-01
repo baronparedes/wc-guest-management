@@ -99,8 +99,10 @@ describe('DashboardReportContainer', () => {
             const id = `${title}-${index}-${slot}`;
             fireEvent.click(target.getByTestId(id));
             await waitFor(() => expect(target.getByRole('dialog')).toBeInTheDocument());
-            await waitFor(() => expect(target.getByRole('loading')).toBeInTheDocument());
-            await waitForElementToBeRemoved(() => target.queryByRole('loading'));
+            await waitFor(() =>
+                expect(target.getByRole('progressbar')).toBeInTheDocument()
+            );
+            await waitForElementToBeRemoved(() => target.queryByRole('progressbar'));
             responseCode === 500 &&
                 (await waitFor(() =>
                     expect(target.getByRole('error')).toBeInTheDocument()
@@ -144,8 +146,10 @@ describe('DashboardReportContainer', () => {
         fireEvent.click(target.getByText(/search/i, { selector: 'button' }));
 
         await waitFor(() => expect(target.queryByRole('dialog')).toBeInTheDocument());
-        await waitFor(() => expect(target.getByRole('loading')).toBeInTheDocument());
-        await waitFor(() => expect(target.queryByRole('loading')).not.toBeInTheDocument());
+        await waitFor(() => expect(target.getByRole('progressbar')).toBeInTheDocument());
+        await waitFor(() =>
+            expect(target.queryByRole('progressbar')).not.toBeInTheDocument()
+        );
 
         return {
             ...target,

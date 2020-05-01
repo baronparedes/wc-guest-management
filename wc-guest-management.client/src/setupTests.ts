@@ -4,3 +4,17 @@
 // learn more: https://github.com/testing-library/jest-dom
 import '@testing-library/jest-dom/extend-expect';
 import 'mutationobserver-shim'; //for testing react-hook-form
+
+const originalError = console.error;
+beforeAll(() => {
+    console.error = (...args: string[]) => {
+        if (/Warning.*not wrapped in act/.test(args[0])) {
+            return;
+        }
+        originalError.call(console, ...args);
+    };
+});
+
+afterAll(() => {
+    console.error = originalError;
+});

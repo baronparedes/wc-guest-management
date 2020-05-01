@@ -18,7 +18,7 @@ const Brand: React.FC<{
                 )}
                 src={logo}
                 height={props.height}
-                alt="wc logo"
+                alt="brand"
             />
         </div>
     );

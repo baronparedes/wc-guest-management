@@ -7,7 +7,7 @@ type Props = {
 
 const Loading = (props: Props) => {
     return (
-        <div className="text-center d-block" role="loading">
+        <div className="text-center d-block" role="progressbar">
             <FaSpinner className="fa-spin" size={props.size} />
         </div>
     );

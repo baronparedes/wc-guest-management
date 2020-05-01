@@ -33,18 +33,18 @@ const LoginForm = () => {
         const credentials = new Buffer(
             `${formData.username}:${formData.password}`
         ).toString('base64');
-        mutate(undefined, {
-            headers: {
-                Authorization: `Basic ${credentials}`,
-            },
-        }).then((data) => {
-            dispatch(
-                profileActions.signIn({
-                    me: data.profile,
-                    token: data.token,
-                })
-            );
-        });
+        mutate(undefined, { headers: { Authorization: `Basic ${credentials}` } })
+            .then((data) => {
+                if (data) {
+                    dispatch(
+                        profileActions.signIn({
+                            me: data.profile,
+                            token: data.token,
+                        })
+                    );
+                }
+            })
+            .catch(() => {});
     };
     if (token) {
         return <Redirect to={routes.DASHBOARD} />;
@@ -53,24 +53,22 @@ const LoginForm = () => {
         <LoginContainer>
             <Brand height="160px" />
             <Form onSubmit={handleSubmit(onSubmit)}>
-                <FieldContainer as={Col} label="username">
+                <FieldContainer as={Col} label="username" controlId="username">
                     <Form.Control
                         disabled={loading}
                         required
                         ref={register}
                         name="username"
-                        id="form-username"
                         placeholder="username"
                         size="lg"
                     />
                 </FieldContainer>
-                <FieldContainer as={Col} label="password">
+                <FieldContainer as={Col} label="password" controlId="password">
                     <Form.Control
                         disabled={loading}
                         required
                         ref={register}
                         name="password"
-                        id="form-password"
                         type="password"
                         placeholder="password"
                         size="lg"
