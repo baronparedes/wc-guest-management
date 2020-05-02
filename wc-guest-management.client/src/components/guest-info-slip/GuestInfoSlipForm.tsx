@@ -7,11 +7,13 @@ import { Button, Col, Form } from 'react-bootstrap';
 import useForm from 'react-hook-form';
 import ConfirmedGuests from './ConfirmedGuests';
 
+const now = getCurrentDateFormatted();
 const initialState: InfoSlip = {
-    visitDate: getCurrentDateFormatted(),
+    visitDate: now,
     guests: '',
     volunteer: '',
     tableNumber: undefined,
+    worshipTime: getCurrentTimeSlot(),
 };
 
 const GuestInfoSlipForm = () => {
@@ -21,7 +23,6 @@ const GuestInfoSlipForm = () => {
     const { handleSubmit, register, reset } = useForm<InfoSlip>({
         defaultValues: {
             ...initialState,
-            worshipTime: getCurrentTimeSlot(),
         },
     });
     const onSubmit = (formData: InfoSlip) => {
@@ -29,8 +30,14 @@ const GuestInfoSlipForm = () => {
             print: false,
             infoSlip: formData,
         };
-        setName(formData.volunteer);
-        mutate(body).then(setQueued);
+        mutate(body)
+            .then((data) => {
+                setName(formData.volunteer);
+                setQueued(data);
+            })
+            .catch((err) => {
+                console.error(err);
+            });
     };
     const handleOnReset = () => {
         reset(initialState);
@@ -40,35 +47,56 @@ const GuestInfoSlipForm = () => {
         return <ConfirmedGuests guests={queued} ok={handleOnReset} volunteer={name} />;
     }
     return (
-        <Form onSubmit={handleSubmit(onSubmit)}>
+        <Form onSubmit={handleSubmit(onSubmit)} role="form">
             <Form.Row>
-                <FieldContainer as={Col} sm={12} md={4} label="visit date">
+                <FieldContainer
+                    as={Col}
+                    sm={12}
+                    md={4}
+                    label="visit date"
+                    controlId="visitDate">
                     <Form.Control
                         required
-                        ref={register}
+                        ref={register({
+                            required: true,
+                            max: {
+                                value: now,
+                                message: `Value should be ${now} or earlier`,
+                            },
+                        })}
                         name="visitDate"
                         size="lg"
                         type="date"
                         max={initialState.visitDate}
                     />
                 </FieldContainer>
-                <FieldContainer as={Col} sm={12} md={4} label="time slot">
+                <FieldContainer
+                    as={Col}
+                    sm={12}
+                    md={4}
+                    label="time slot"
+                    controlId="timeSlot">
                     <Form.Control
-                        ref={register}
+                        required
+                        ref={register({ required: true })}
                         as="select"
                         name="worshipTime"
-                        size="lg"
-                        required>
+                        size="lg">
                         <option>9 AM</option>
                         <option>12 NN</option>
                         <option>3 PM</option>
                         <option>6 PM</option>
                     </Form.Control>
                 </FieldContainer>
-                <FieldContainer as={Col} sm={12} md={4} label="table number">
+                <FieldContainer
+                    as={Col}
+                    sm={12}
+                    md={4}
+                    label="table number"
+                    controlId="talbeNumber">
                     <Form.Control
                         required
-                        ref={register}
+                        ref={register({ required: true })}
                         name="tableNumber"
                         size="lg"
                         type="number"
@@ -76,19 +104,19 @@ const GuestInfoSlipForm = () => {
                     />
                 </FieldContainer>
             </Form.Row>
-            <FieldContainer label="volunteer">
+            <FieldContainer label="volunteer" controlId="volunteer">
                 <Form.Control
                     required
-                    ref={register}
+                    ref={register({ required: true })}
                     name="volunteer"
                     size="lg"
                     placeholder="volunteer"
                 />
             </FieldContainer>
-            <FieldContainer label="guests">
+            <FieldContainer label="guests" controlId="guests">
                 <Form.Control
                     required
-                    ref={register}
+                    ref={register({ required: true })}
                     name="guests"
                     size="lg"
                     placeholder="guests"

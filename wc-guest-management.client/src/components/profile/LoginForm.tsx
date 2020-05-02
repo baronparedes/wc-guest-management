@@ -52,12 +52,12 @@ const LoginForm = () => {
     return (
         <LoginContainer>
             <Brand height="160px" />
-            <Form onSubmit={handleSubmit(onSubmit)}>
+            <Form onSubmit={handleSubmit(onSubmit)} role="form">
                 <FieldContainer as={Col} label="username" controlId="username">
                     <Form.Control
                         disabled={loading}
                         required
-                        ref={register}
+                        ref={register({ required: true })}
                         name="username"
                         placeholder="username"
                         size="lg"
@@ -67,7 +67,7 @@ const LoginForm = () => {
                     <Form.Control
                         disabled={loading}
                         required
-                        ref={register}
+                        ref={register({ required: true })}
                         name="password"
                         type="password"
                         placeholder="password"

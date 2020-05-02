@@ -1,5 +1,13 @@
+import { Slot } from '@models';
 import { formatDate } from '@utils/dates';
-import { AuthResult, DashboardMetric, DashboardReport, Guest, Profile } from 'Api';
+import {
+    AuthResult,
+    DashboardMetric,
+    DashboardReport,
+    Guest,
+    InfoSlip,
+    Profile,
+} from 'Api';
 import * as faker from 'faker';
 
 export function generateFakeGuest(): Guest {
@@ -69,5 +77,28 @@ export function generateFakeAuthResult(): AuthResult {
     return {
         profile: generateFakeProfile(),
         token: faker.random.alphaNumeric(100),
+    };
+}
+
+export function getRandomTimeSlot(): Slot {
+    const slots: Slot[] = ['9 AM', '12 NN', '3 PM', '6 PM'];
+    return slots[Math.floor(Math.random() * slots.length)];
+}
+
+export function generateFakeInfoSlip(guestCount = 1): InfoSlip {
+    let guests = '';
+    let i = 0;
+    while (guestCount !== i) {
+        guests += faker.name.findName();
+        if (i !== 0) guests += '\n';
+        i++;
+    }
+
+    return {
+        visitDate: formatDate(faker.date.recent(5)),
+        volunteer: faker.name.findName(),
+        tableNumber: faker.random.number(),
+        worshipTime: getRandomTimeSlot(),
+        guests: guests,
     };
 }

@@ -44,6 +44,18 @@ describe('LoginForm', () => {
         };
     }
 
+    async function enterInputThenSubmitForm(name: string, value: string) {
+        const { getByText, getByLabelText, getByRole } = renderWithProvider(<LoginForm />);
+
+        const regex = new RegExp(name, 'i');
+        const input = getByLabelText(regex) as HTMLInputElement;
+        fireEvent.change(input, { target: { value: value } });
+        await waitFor(() => expect(input.value).toBe(value));
+
+        fireEvent.click(getByText(/sign in/i));
+        expect((getByRole('form') as HTMLFormElement).checkValidity()).toBe(false);
+    }
+
     afterEach(() => {
         cleanup();
         nock.cleanAll();
@@ -70,5 +82,13 @@ describe('LoginForm', () => {
             expect(store.getState().profile.token).toBe(mockedAuthResult.token);
         });
         await waitFor(() => expect(history.location.pathname).toBe(routes.DASHBOARD));
+    });
+
+    it('should require username before signing in', async () => {
+        await enterInputThenSubmitForm('password', faker.random.alphaNumeric(10));
+    });
+
+    it('should require password before signing in', async () => {
+        await enterInputThenSubmitForm('username', faker.name.findName());
     });
 });

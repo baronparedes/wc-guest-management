@@ -45,7 +45,7 @@ const DashboardFilter = (props: Props) => {
                             required: true,
                             max: {
                                 value: now,
-                                message: `Value should ${now} or earlier`,
+                                message: `Value should be ${now} or earlier`,
                             },
                         })}
                         name="fromDate"
@@ -61,7 +61,7 @@ const DashboardFilter = (props: Props) => {
                         ref={register({
                             max: {
                                 value: now,
-                                message: `Value should ${now} or earlier`,
+                                message: `Value should be ${now} or earlier`,
                             },
                         })}
                         name="toDate"
