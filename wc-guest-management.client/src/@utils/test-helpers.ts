@@ -1,3 +1,4 @@
+import { Slot } from '@models';
 import { InfoSlip } from 'Api';
 import faker from 'faker';
 import { formatDate, getCurrentDateFormatted, getCurrentTimeSlot } from './dates';
@@ -7,17 +8,20 @@ type ValidationRules = {
     validationType: ValidationType;
     invalidValue: string;
 };
+
 export type TargetInput = {
     label: string;
     value: string;
     initialState: string;
     validationRules?: ValidationRules[];
 };
+
 export type TargetInvalidInput = {
     label: string;
     invalidValue: string;
     description: string;
 };
+
 function getTestDescription(label: string) {
     return {
         required: () => `should a be a required field [${label}]`,
@@ -84,5 +88,18 @@ export function buildGuestInfoSlipTargets(infoSlip: InfoSlip) {
     formBuilder.append('guests', infoSlip.guests as string, '', [
         { invalidValue: '', validationType: 'required' },
     ]);
+    return formBuilder.build();
+}
+
+export function buildGuestFilterTargets(criteria?: string, fromDate?: string, slot?: Slot) {
+    const formBuilder = new TestFormBuilder();
+    formBuilder.append('fromDate', fromDate ?? '', getCurrentDateFormatted(), [
+        { invalidValue: '', validationType: 'required' },
+        { invalidValue: formatDate(faker.date.future()), validationType: 'max' },
+    ]);
+    formBuilder.append('slot', slot ?? 'all slots', 'all slots', [
+        { invalidValue: '', validationType: 'required' },
+    ]);
+    formBuilder.append('criteria', criteria ?? '', '');
     return formBuilder.build();
 }

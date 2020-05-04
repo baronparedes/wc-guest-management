@@ -16,7 +16,7 @@ type FormProps = {
 };
 
 const GuestFilter = (props: Props & FormProps) => {
-    const emptySlot = 'all slots';
+    const allSlots = 'all slots';
     const now = getCurrentDateFormatted();
     const { handleSubmit, register } = useForm<FormProps>({
         defaultValues: {
@@ -27,27 +27,33 @@ const GuestFilter = (props: Props & FormProps) => {
     });
     const onSubmit = (formData: FormProps) => {
         let slot: Slot | undefined = undefined;
-        if (formData.slot !== emptySlot) {
+        if (formData.slot !== allSlots) {
             slot = formData.slot as Slot;
         }
         props.onRefresh && props.onRefresh(formData.criteria, formData.fromDate, slot);
     };
     return (
-        <Form onSubmit={handleSubmit(onSubmit)}>
+        <Form onSubmit={handleSubmit(onSubmit)} role="form">
             <Form.Row>
                 <Form.Group as={Col} sm={12} md={3} controlId="fromDate">
                     <Form.Control
                         required
-                        ref={register}
+                        ref={register({ required: true })}
                         name="fromDate"
                         size="lg"
                         type="date"
                         max={now}
+                        alt="from date"
                     />
                 </Form.Group>
                 <Form.Group as={Col} sm={12} md={3} controlId="slot">
-                    <Form.Control ref={register} as="select" name="slot" size="lg" required>
-                        <option>{emptySlot}</option>
+                    <Form.Control
+                        required
+                        ref={register({ required: true })}
+                        as="select"
+                        name="slot"
+                        size="lg">
+                        <option>{allSlots}</option>
                         <option>9 AM</option>
                         <option>12 NN</option>
                         <option>3 PM</option>
@@ -60,7 +66,8 @@ const GuestFilter = (props: Props & FormProps) => {
                             ref={register}
                             name="criteria"
                             size="lg"
-                            placeholder="search criteria"
+                            placeholder="criteria"
+                            alt="criteria"
                         />
                         <InputGroup.Append>
                             <Button

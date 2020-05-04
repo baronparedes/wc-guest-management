@@ -35,9 +35,7 @@ const GuestInfoSlipForm = () => {
                 setName(formData.volunteer);
                 setQueued(data);
             })
-            .catch((err) => {
-                console.error(err);
-            });
+            .catch((err) => {});
     };
     const handleOnReset = () => {
         reset(initialState);
