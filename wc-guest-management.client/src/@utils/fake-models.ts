@@ -23,7 +23,7 @@ export function generateFakeGuest(): Guest {
 
 export function generateFakeGuests(count: number = 5): Guest[] {
     const guests: Guest[] = [];
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < count; i++) {
         guests.push(generateFakeGuest());
     }
     return guests;
