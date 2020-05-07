@@ -47,7 +47,7 @@ describe('DashboardContainer', () => {
     });
 
     beforeEach(() => {
-        const mocked = jest.spyOn(useGuestSavedEffect, 'useGuestSavedEffect') as jest.Mock;
+        const mocked = jest.spyOn(useGuestSavedEffect, 'useGuestSavedEffect');
         mocked.mockImplementation(mockedUseGuestSavedEffect);
     });
 

@@ -14,7 +14,7 @@ describe('DashboardReportCategoryChart', () => {
                 '9 AM': faker.random.number(),
             },
         ];
-        const mockedUseChartData = jest.spyOn(useChartData, 'useChartData') as jest.Mock;
+        const mockedUseChartData = jest.spyOn(useChartData, 'useChartData');
         mockedUseChartData.mockReturnValueOnce({
             keys: ['9 AM'],
             chartData: mockedChartData,

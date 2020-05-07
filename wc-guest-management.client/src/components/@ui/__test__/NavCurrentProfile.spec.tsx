@@ -10,8 +10,8 @@ describe('NavCurrentProfile', () => {
     function renderLoggedIn(profile: Profile, token: string) {
         const { getByText, container, history, store } = renderWithProviderAndRouter(
             <NavCurrentProfile />,
-            (store) => {
-                store.dispatch(profileActions.signIn({ me: profile, token: token }));
+            (initStore) => {
+                initStore.dispatch(profileActions.signIn({ me: profile, token: token }));
             }
         );
 

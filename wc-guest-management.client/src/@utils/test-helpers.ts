@@ -30,7 +30,7 @@ function getTestDescription(label: string) {
     };
 }
 
-class TestFormBuilder {
+export class TestFormBuilder {
     private targetInputs: TargetInput[] = [];
     private invalidInputs: TargetInvalidInput[] = [];
 
@@ -82,10 +82,10 @@ export function buildGuestInfoSlipTargets(infoSlip: InfoSlip) {
     formBuilder.append('table number', infoSlip.tableNumber?.toString() ?? '', '', [
         { invalidValue: '', validationType: 'required' },
     ]);
-    formBuilder.append('volunteer', infoSlip.volunteer as string, '', [
+    formBuilder.append('volunteer', infoSlip.volunteer, '', [
         { invalidValue: '', validationType: 'required' },
     ]);
-    formBuilder.append('guests', infoSlip.guests as string, '', [
+    formBuilder.append('guests', infoSlip.guests, '', [
         { invalidValue: '', validationType: 'required' },
     ]);
     return formBuilder.build();

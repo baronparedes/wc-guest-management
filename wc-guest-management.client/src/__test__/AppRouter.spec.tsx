@@ -22,8 +22,8 @@ describe('AppRouter', () => {
     afterEach(jest.resetAllMocks);
 
     function assertRouteComponent(route: string, text: string, header: boolean = false) {
-        const { history, getByText } = renderWithRouter(<AppRouter />, (history) => {
-            history.push(route);
+        const { history, getByText } = renderWithRouter(<AppRouter />, (initHistory) => {
+            initHistory.push(route);
         });
         getByText(text);
         header && getByText('header');
@@ -56,7 +56,7 @@ describe('AppRouter', () => {
             const { history, getByText } = renderWithProviderAndRouter(
                 <AppRouter />,
                 undefined,
-                (history) => history.push(target.route)
+                (initHistory) => initHistory.push(target.route)
             );
             getByText('login-view');
             expect(history.location.pathname).toBe(routes.LOGIN);
@@ -68,7 +68,7 @@ describe('AppRouter', () => {
             const { history, getByText } = renderWithProviderAndRouter(
                 <AppRouter />,
                 (store) => store.dispatch(profileActions.signIn({ token: 'auth_token' })),
-                (history) => history.push(target.route)
+                (initHistory) => initHistory.push(target.route)
             );
             getByText(target.text);
             getByText('header');
