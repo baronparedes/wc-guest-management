@@ -3,8 +3,8 @@ import DisplayText from 'components/@ui/DisplayText';
 import PrintInfo from 'components/@ui/PrintInfo';
 import React from 'react';
 import { ButtonGroup } from 'react-bootstrap';
+import GuestFormQuickWithButtonModal from './GuestFormQuickWithButtonModal';
 import GuestFormWithButtonModal from './GuestFormWithButtonModal';
-import GuestQuickFormWithButtonModal from './GuestQuickFormWithButtonModal';
 
 const GuestListRow: React.FC<Guest> = (props) => {
     return (
@@ -23,7 +23,7 @@ const GuestListRow: React.FC<Guest> = (props) => {
                 <ButtonGroup>
                     <PrintInfo guests={[props]} />
                     <GuestFormWithButtonModal {...props} />
-                    <GuestQuickFormWithButtonModal {...props} />
+                    <GuestFormQuickWithButtonModal {...props} />
                 </ButtonGroup>
             </td>
         </tr>

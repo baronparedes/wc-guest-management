@@ -7,7 +7,7 @@ describe('GuestListTable', () => {
     const mockedGuests = generateFakeGuests();
 
     it('should render', () => {
-        const { getByText, debug } = render(<GuestListTable guests={mockedGuests} />);
+        const { getByText } = render(<GuestListTable guests={mockedGuests} />);
         const headerRow = getByText(/^id$/i).parentElement as HTMLElement;
         expect(within(headerRow).getByText(/table/i)).toBeInTheDocument();
         expect(within(headerRow).getByText(/guest/i)).toBeInTheDocument();
@@ -23,6 +23,7 @@ describe('GuestListTable', () => {
             ).toBeInTheDocument();
             expect(within(guestRow).getByText(g.guest)).toBeInTheDocument();
             expect(within(guestRow).getByText(g.volunteer)).toBeInTheDocument();
+            expect(within(guestRow).getByTitle(/^print info$/i)).toBeInTheDocument();
             expect(within(guestRow).getByTitle(/^guest data$/i)).toBeInTheDocument();
             expect(
                 within(guestRow).getByTitle(/^guest essential data$/i)

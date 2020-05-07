@@ -80,7 +80,7 @@ export function generateFakeAuthResult(): AuthResult {
     };
 }
 
-export function getRandomTimeSlot(): Slot {
+export function getRandomTimeSlot() {
     const slots: Slot[] = ['9 AM', '12 NN', '3 PM', '6 PM'];
     return slots[Math.floor(Math.random() * slots.length)];
 }

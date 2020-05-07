@@ -71,7 +71,7 @@ describe('GuestFilter', () => {
     });
 
     it('should render refresh button disabled', () => {
-        const { getByText, debug } = render(<GuestFilter disabled={true} />);
+        const { getByText } = render(<GuestFilter disabled={true} />);
         expect(getByText(/refresh/i)).toBeDisabled();
     });
 

@@ -1,7 +1,4 @@
-import logo from '@assets/img/wc-logo-transparent.png';
-import { formatDate } from '@utils/dates';
 import { Guest } from 'Api';
-import BoxStacked from 'components/@ui/BoxStacked';
 import ErrorInfo from 'components/@ui/ErrorInfo';
 import FieldChecklist from 'components/@ui/FieldChecklist';
 import FieldContainer from 'components/@ui/FieldContainer';
@@ -9,7 +6,17 @@ import { BorderedLeftCol, DarkCol, IndentedCol } from 'components/@ui/StyledCol'
 import { GuestButtonModalProps } from 'hoc/withEditGuestButtonModal';
 import { usePostGuestForm } from 'hooks/usePostGuestForm';
 import React from 'react';
-import { Button, Col, Container, Form, Image, Row } from 'react-bootstrap';
+import { Col, Container, Form, Row } from 'react-bootstrap';
+import {
+    GuestFormAge,
+    GuestFormLogo,
+    GuestFormSaveButton,
+    GuestFormTableNumber,
+    GuestFormVisitDate,
+    GuestFormVolunteer,
+    GuestFormWelcomeNotes,
+    GuestFormWorshipTime,
+} from './GuestFormInputs';
 
 const GuestForm = (props: GuestButtonModalProps) => {
     const { loading, error, handleSubmit, onSubmit, register } = usePostGuestForm<Guest>({
@@ -27,15 +34,9 @@ const GuestForm = (props: GuestButtonModalProps) => {
     });
     return (
         <Container as={Form} onSubmit={handleSubmit(onSubmit)} disabled={loading}>
-            <BoxStacked className="text-center rounded-md">
-                <label className="m-auto display-2 text-bold">
-                    {props.guest.tableNumber}
-                </label>
-            </BoxStacked>
+            <GuestFormTableNumber tableNumber={props.guest.tableNumber} />
             <Row>
-                <DarkCol className="text-right">
-                    <Image src={logo} height="80px" />
-                </DarkCol>
+                <GuestFormLogo />
             </Row>
             <Row>
                 <FieldContainer
@@ -54,35 +55,18 @@ const GuestForm = (props: GuestButtonModalProps) => {
                         register={register}
                     />
                 </FieldContainer>
-                <FieldContainer as={Col} md={4} sm={6} label="time" className="m-0">
-                    <br />
-                    <FieldChecklist
-                        required
-                        checklist={['9 AM', '12 NN', '3 PM', '6 PM']}
-                        inline
-                        type="radio"
-                        name="worshipTime"
-                        register={register}
-                    />
-                </FieldContainer>
-                <FieldContainer
+                <GuestFormWorshipTime register={register} md={4} sm={6} />
+                <GuestFormVisitDate
                     as={BorderedLeftCol}
                     md={3}
                     sm={6}
-                    label="visit date"
-                    className="text-left m-0">
-                    <div>
-                        <h4 className="font-weight-bold float-left">
-                            {formatDate(new Date(props.guest.visitDate))}
-                        </h4>
-                        <span className="text-muted float-right">{props.guest.series}</span>
-                    </div>
-
+                    visitDate={props.guest.visitDate}
+                    series={props.guest.series}>
                     <input hidden name="visitDate" ref={register} />
                     <input hidden name="tableNumber" ref={register} />
                     <input hidden name="_id" ref={register} />
                     <input hidden name="series" ref={register} />
-                </FieldContainer>
+                </GuestFormVisitDate>
             </Row>
             <Row>
                 <DarkCol className="p-2 mb-3" />
@@ -107,16 +91,7 @@ const GuestForm = (props: GuestButtonModalProps) => {
                         size="lg"
                     />
                 </FieldContainer>
-                <FieldContainer as={Col} md={3} label="age">
-                    <Form.Control
-                        ref={register}
-                        name="age"
-                        id="formAge"
-                        type="number"
-                        placeholder="age"
-                        size="lg"
-                    />
-                </FieldContainer>
+                <GuestFormAge register={register} md={3} />
             </Row>
             <Row>
                 <FieldContainer as={Col} md={6} label="mobile">
@@ -191,27 +166,10 @@ const GuestForm = (props: GuestButtonModalProps) => {
                 <DarkCol className="p-2 mb-3"></DarkCol>
             </Row>
             <Row>
-                <FieldContainer as={Col} label="welcome notes...">
-                    <br />
-                    <FieldChecklist
-                        checklist={['A', 'DNA', 'Prayed', 'Counseled']}
-                        inline
-                        type="radio"
-                        name="action"
-                        register={register}
-                    />
-                </FieldContainer>
+                <GuestFormWelcomeNotes register={register} />
             </Row>
             <Row>
-                <FieldContainer as={Col} label="volunteer">
-                    <Form.Control
-                        ref={register}
-                        name="volunteer"
-                        id="formVolunteer"
-                        placeholder="volunteer"
-                        size="lg"
-                    />
-                </FieldContainer>
+                <GuestFormVolunteer register={register} />
             </Row>
             {error && (
                 <Row>
@@ -219,11 +177,7 @@ const GuestForm = (props: GuestButtonModalProps) => {
                 </Row>
             )}
             <Row>
-                <FieldContainer as={Col} className="text-right">
-                    <Button variant="primary" type="submit" size="lg" disabled={loading}>
-                        Save
-                    </Button>
-                </FieldContainer>
+                <GuestFormSaveButton loading={loading} />
             </Row>
         </Container>
     );

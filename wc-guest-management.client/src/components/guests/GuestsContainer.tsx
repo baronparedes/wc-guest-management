@@ -10,7 +10,6 @@ import GuestList from './GuestList';
 
 const GuestsContainer = () => {
     const [areaToggle, setAreaToggle] = useState(false);
-    const handleOnAreaToggle = () => setAreaToggle(!areaToggle);
     const [query, setQuery] = useState<FetchGuestsQueryParams>({
         fromDate: getCurrentDateFormatted(),
     });
@@ -18,6 +17,7 @@ const GuestsContainer = () => {
         queryParams: query,
         lazy: true,
     });
+    const handleOnAreaToggle = () => setAreaToggle(!areaToggle);
     const handleOnRefresh = (criteria?: string, visitDate?: string, slot?: Slot) => {
         setQuery({
             criteria: criteria,

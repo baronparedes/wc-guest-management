@@ -27,7 +27,10 @@ const GuestListArea = (props: GuestListProps) => {
     function renderGuests(table: number, guests: Guest[], slot?: Slot | null) {
         const volunteer = guests[0].volunteer;
         return (
-            <Card style={{ width: '320px' }} key={`table-${table}`} className="mb-4">
+            <Card
+                style={{ width: '320px' }}
+                key={`table-${table}-${slot}`}
+                className="mb-4">
                 <Card.Header className="bg-primary text-white">
                     <h4>
                         table {table}

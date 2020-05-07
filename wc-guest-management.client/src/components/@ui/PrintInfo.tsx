@@ -17,6 +17,7 @@ const PrintInfo = (props: Props) => {
 
     return (
         <Button
+            title="print info"
             disabled={props.disabled}
             onClick={handleOnPrint}
             className={props.className}>
