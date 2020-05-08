@@ -1,8 +1,3 @@
-import { Slot } from '@models';
-import { InfoSlip } from 'Api';
-import faker from 'faker';
-import { formatDate, getCurrentDateFormatted, getCurrentTimeSlot } from './dates';
-
 type ValidationType = 'required' | 'max' | 'min';
 type ValidationRules = {
     validationType: ValidationType;
@@ -70,36 +65,4 @@ export class TestFormBuilder {
             invalidInputs: this.invalidInputs,
         };
     }
-}
-
-export function buildGuestInfoSlipTargets(infoSlip: InfoSlip) {
-    const formBuilder = new TestFormBuilder();
-    formBuilder.append('visit date', infoSlip.visitDate, getCurrentDateFormatted(), [
-        { invalidValue: '', validationType: 'required' },
-        { invalidValue: formatDate(faker.date.future()), validationType: 'max' },
-    ]);
-    formBuilder.append('time slot', infoSlip.worshipTime as string, getCurrentTimeSlot());
-    formBuilder.append('table number', infoSlip.tableNumber?.toString() ?? '', '', [
-        { invalidValue: '', validationType: 'required' },
-    ]);
-    formBuilder.append('volunteer', infoSlip.volunteer, '', [
-        { invalidValue: '', validationType: 'required' },
-    ]);
-    formBuilder.append('guests', infoSlip.guests, '', [
-        { invalidValue: '', validationType: 'required' },
-    ]);
-    return formBuilder.build();
-}
-
-export function buildGuestFilterTargets(criteria?: string, fromDate?: string, slot?: Slot) {
-    const formBuilder = new TestFormBuilder();
-    formBuilder.append('fromDate', fromDate ?? '', getCurrentDateFormatted(), [
-        { invalidValue: '', validationType: 'required' },
-        { invalidValue: formatDate(faker.date.future()), validationType: 'max' },
-    ]);
-    formBuilder.append('slot', slot ?? 'all slots', 'all slots', [
-        { invalidValue: '', validationType: 'required' },
-    ]);
-    formBuilder.append('criteria', criteria ?? '', '');
-    return formBuilder.build();
 }

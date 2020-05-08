@@ -16,7 +16,7 @@ import { renderWithRestful } from '@utils/test-renderers';
 import { DashboardReport, Guest } from 'Api';
 import DashboardReportCategoryChart from 'components/dashboard/DashboardReportCategoryChart';
 import DashboardReportContainer from 'components/dashboard/DashboardReportContainer';
-import GuestFormQuick from 'components/guests/GuestFormQuick';
+import GuestFormEssential from 'components/guests/GuestFormEssential';
 import faker from 'faker';
 import * as useGuestSavedEffect from 'hooks/useGuestSavedEffect';
 import nock from 'nock';
@@ -26,11 +26,14 @@ type DashboardReportCategoryChartProps = React.ComponentProps<
     typeof DashboardReportCategoryChart
 >;
 
-type GuestFormQuickProps = React.ComponentProps<typeof GuestFormQuick>;
+type GuestFormEssentialProps = React.ComponentProps<typeof GuestFormEssential>;
 
-jest.mock('components/guests/GuestFormQuick', () => (props: GuestFormQuickProps) => {
-    return <div data-testid="guest-quick-form">{JSON.stringify(props.guest)}</div>;
-});
+jest.mock(
+    'components/guests/GuestFormEssential',
+    () => (props: GuestFormEssentialProps) => {
+        return <div data-testid="guest-quick-form">{JSON.stringify(props.guest)}</div>;
+    }
+);
 
 jest.mock(
     'components/dashboard/DashboardReportCategoryChart',

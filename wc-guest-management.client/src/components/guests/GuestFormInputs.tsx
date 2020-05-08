@@ -11,7 +11,7 @@ type FormRegister = {
     register: any;
 };
 
-export const GuestFormLogo = () => {
+export const GuestFormHeader = () => {
     return (
         <DarkCol className="text-right">
             <Image src={logo} height="80px" />
@@ -54,7 +54,12 @@ export const GuestFormWorshipTime: React.FC<FormRegister & ColProps> = ({
     ...colProps
 }) => {
     return (
-        <FieldContainer as={Col} {...colProps} label="time" className="m-0">
+        <FieldContainer
+            as={Col}
+            {...colProps}
+            label="time"
+            className="m-0"
+            controlId="worshipTime">
             <br />
             <FieldChecklist
                 required
@@ -70,7 +75,7 @@ export const GuestFormWorshipTime: React.FC<FormRegister & ColProps> = ({
 
 export const GuestFormWelcomeNotes: React.FC<FormRegister> = ({ register }) => {
     return (
-        <FieldContainer as={Col} label="welcome notes...">
+        <FieldContainer as={Col} label="welcome notes..." controlId="action">
             <br />
             <FieldChecklist
                 required
@@ -86,11 +91,11 @@ export const GuestFormWelcomeNotes: React.FC<FormRegister> = ({ register }) => {
 
 export const GuestFormVolunteer: React.FC<FormRegister> = ({ register }) => {
     return (
-        <FieldContainer as={Col} label="volunteer">
+        <FieldContainer as={Col} label="volunteer" controlId="volunteer">
             <Form.Control
+                required
                 ref={register}
                 name="volunteer"
-                id="formVolunteer"
                 placeholder="volunteer"
                 size="lg"
             />
@@ -103,12 +108,11 @@ export const GuestFormAge: React.FC<FormRegister & ColProps> = ({
     ...colProps
 }) => {
     return (
-        <FieldContainer as={Col} {...colProps} label="age">
+        <FieldContainer as={Col} {...colProps} label="age" controlId="age">
             <Form.Control
                 required
                 ref={register}
                 name="age"
-                id="formAge"
                 type="number"
                 placeholder="age"
                 size="lg"

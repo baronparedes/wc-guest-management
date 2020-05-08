@@ -9,7 +9,7 @@ import React from 'react';
 import { Col, Container, Form, Row } from 'react-bootstrap';
 import {
     GuestFormAge,
-    GuestFormLogo,
+    GuestFormHeader,
     GuestFormSaveButton,
     GuestFormTableNumber,
     GuestFormVisitDate,
@@ -36,7 +36,7 @@ const GuestForm = (props: GuestButtonModalProps) => {
         <Container as={Form} onSubmit={handleSubmit(onSubmit)} disabled={loading}>
             <GuestFormTableNumber tableNumber={props.guest.tableNumber} />
             <Row>
-                <GuestFormLogo />
+                <GuestFormHeader />
             </Row>
             <Row>
                 <FieldContainer

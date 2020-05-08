@@ -8,7 +8,7 @@ import React from 'react';
 import { Col, Container, Form, Row } from 'react-bootstrap';
 import {
     GuestFormAge,
-    GuestFormLogo,
+    GuestFormHeader,
     GuestFormSaveButton,
     GuestFormTableNumber,
     GuestFormVisitDate,
@@ -24,7 +24,7 @@ type FormProps = {
     volunteer?: string;
 };
 
-const GuestFormQuick = (props: GuestButtonModalProps) => {
+const GuestFormEssential = (props: GuestButtonModalProps) => {
     const { loading, error, handleSubmit, onSubmit, register } = usePostGuestForm<
         FormProps
     >({
@@ -50,10 +50,14 @@ const GuestFormQuick = (props: GuestButtonModalProps) => {
     });
 
     return (
-        <Container as={Form} onSubmit={handleSubmit(onSubmit)} disabled={loading}>
+        <Container
+            as={Form}
+            onSubmit={handleSubmit(onSubmit)}
+            disabled={loading}
+            role="form">
             <GuestFormTableNumber tableNumber={props.guest.tableNumber} />
             <Row>
-                <GuestFormLogo />
+                <GuestFormHeader />
             </Row>
             <Row>
                 <GuestFormVisitDate
@@ -70,16 +74,16 @@ const GuestFormQuick = (props: GuestButtonModalProps) => {
                 </FieldContainer>
             </Row>
             <Row>
-                <GuestFormAge register={register} />
+                <GuestFormAge register={register({ required: true })} />
             </Row>
             <Row>
-                <GuestFormWorshipTime register={register} />
+                <GuestFormWorshipTime register={register({ required: true })} />
             </Row>
             <Row>
-                <GuestFormWelcomeNotes register={register} />
+                <GuestFormWelcomeNotes register={register({ required: true })} />
             </Row>
             <Row>
-                <GuestFormVolunteer register={register} />
+                <GuestFormVolunteer register={register({ required: true })} />
             </Row>
             {error && (
                 <Row>
@@ -93,4 +97,4 @@ const GuestFormQuick = (props: GuestButtonModalProps) => {
     );
 };
 
-export default GuestFormQuick;
+export default GuestFormEssential;

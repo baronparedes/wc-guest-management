@@ -1,9 +1,12 @@
 import { fireEvent, render, RenderResult, waitFor, within } from '@testing-library/react';
+import { formatDate, getCurrentDateFormatted, getCurrentTimeSlot } from '@utils/dates';
 import { generateFakeGuests, generateFakeInfoSlip } from '@utils/fake-models';
-import { buildGuestInfoSlipTargets, TargetInput } from '@utils/test-helpers';
+import { TargetInput, TestFormBuilder } from '@utils/test-helpers';
 import { renderWithRestful } from '@utils/test-renderers';
+import { InfoSlip } from 'Api';
 import ConfirmedGuests from 'components/guest-info-slip/ConfirmedGuests';
 import GuestInfoSlipForm from 'components/guest-info-slip/GuestInfoSlipForm';
+import faker from 'faker';
 import nock from 'nock';
 import React from 'react';
 
@@ -20,6 +23,25 @@ jest.mock(
         );
     }
 );
+
+function buildGuestInfoSlipTargets(infoSlip: InfoSlip) {
+    const formBuilder = new TestFormBuilder();
+    formBuilder.append('visit date', infoSlip.visitDate, getCurrentDateFormatted(), [
+        { invalidValue: '', validationType: 'required' },
+        { invalidValue: formatDate(faker.date.future()), validationType: 'max' },
+    ]);
+    formBuilder.append('time slot', infoSlip.worshipTime as string, getCurrentTimeSlot());
+    formBuilder.append('table number', infoSlip.tableNumber?.toString() ?? '', '', [
+        { invalidValue: '', validationType: 'required' },
+    ]);
+    formBuilder.append('volunteer', infoSlip.volunteer, '', [
+        { invalidValue: '', validationType: 'required' },
+    ]);
+    formBuilder.append('guests', infoSlip.guests, '', [
+        { invalidValue: '', validationType: 'required' },
+    ]);
+    return formBuilder.build();
+}
 
 describe('GuestInfoSlipForm', () => {
     const base = 'http://localhost';

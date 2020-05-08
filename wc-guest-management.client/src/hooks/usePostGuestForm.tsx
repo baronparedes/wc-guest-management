@@ -3,8 +3,6 @@ import useForm from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { dashboardActions } from 'store/reducers/dashboard.reducer';
 
-// function useState<S = undefined>(): [S | undefined, Dispatch<SetStateAction<S | undefined>>];
-
 export type PostGuestFormProps<T = undefined> = {
     defaultValues: T;
     id: string;
@@ -14,16 +12,17 @@ export type PostGuestFormProps<T = undefined> = {
 
 export function usePostGuestForm<T = undefined>(props: PostGuestFormProps<T>) {
     const dispatch = useDispatch();
-    const { handleSubmit, register } = useForm<T>({
+    const { handleSubmit, register, reset } = useForm<T>({
         defaultValues: props.defaultValues,
     });
     const { loading, error, mutate } = useUpdateGuestData({
         id: props.id,
     });
     const onSubmit = (formData: T) => {
-        mutate({
+        const body = {
             guestData: props.onPreSubmit(formData),
-        })
+        };
+        mutate(body)
             .then((savedData) => {
                 dispatch(dashboardActions.guestSaved(savedData));
                 props.onFormSaved && props.onFormSaved(savedData);
@@ -36,5 +35,6 @@ export function usePostGuestForm<T = undefined>(props: PostGuestFormProps<T>) {
         handleSubmit,
         onSubmit,
         register,
+        reset,
     };
 }

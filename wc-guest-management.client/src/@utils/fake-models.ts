@@ -1,4 +1,4 @@
-import { Slot } from '@models';
+import { Activity, Slot } from '@models';
 import { formatDate } from '@utils/dates';
 import {
     AuthResult,
@@ -18,6 +18,9 @@ export function generateFakeGuest(): Guest {
         tableNumber: faker.random.number(),
         visitDate: formatDate(faker.date.recent()),
         series: faker.random.number(),
+        age: faker.random.number(80),
+        worshipTime: getRandomTimeSlot(),
+        action: getRandomAction(),
     };
 }
 
@@ -82,7 +85,14 @@ export function generateFakeAuthResult(): AuthResult {
 
 export function getRandomTimeSlot() {
     const slots: Slot[] = ['9 AM', '12 NN', '3 PM', '6 PM'];
-    return slots[Math.floor(Math.random() * slots.length)];
+    const result = faker.random.arrayElement(slots);
+    return result;
+}
+
+export function getRandomAction() {
+    const actions: Activity[] = ['A', 'Counseled', 'DNA', 'Prayed'];
+    const result = faker.random.arrayElement(actions);
+    return result;
 }
 
 export function generateFakeInfoSlip(guestCount = 1): InfoSlip {

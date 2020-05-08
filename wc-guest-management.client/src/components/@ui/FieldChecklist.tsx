@@ -12,7 +12,7 @@ const FieldCheckList = (props: Props & FormCheckProps) => {
     let i = 0;
     return (
         <>
-            {props.checklist.map(item => {
+            {props.checklist.map((item) => {
                 i++;
                 const id = `${props.name}${i}`;
                 return (
@@ -24,7 +24,7 @@ const FieldCheckList = (props: Props & FormCheckProps) => {
                         name={props.name}
                         ref={props.register}
                         key={id}
-                        id={id}
+                        id={item}
                         label={item}
                         value={item}
                     />

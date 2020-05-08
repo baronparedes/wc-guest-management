@@ -1,12 +1,26 @@
+import { Slot } from '@models';
 import { fireEvent, render, RenderResult, waitFor } from '@testing-library/react';
-import { formatDate } from '@utils/dates';
+import { formatDate, getCurrentDateFormatted } from '@utils/dates';
 import { getRandomTimeSlot } from '@utils/fake-models';
-import { buildGuestFilterTargets, TargetInput } from '@utils/test-helpers';
+import { TargetInput, TestFormBuilder } from '@utils/test-helpers';
 import { renderWithRestful } from '@utils/test-renderers';
 import GuestFilter from 'components/guests/GuestFilter';
 import faker from 'faker';
 import nock from 'nock';
 import React from 'react';
+
+function buildGuestFilterTargets(criteria?: string, fromDate?: string, slot?: Slot) {
+    const formBuilder = new TestFormBuilder();
+    formBuilder.append('fromDate', fromDate ?? '', getCurrentDateFormatted(), [
+        { invalidValue: '', validationType: 'required' },
+        { invalidValue: formatDate(faker.date.future()), validationType: 'max' },
+    ]);
+    formBuilder.append('slot', slot ?? 'all slots', 'all slots', [
+        { invalidValue: '', validationType: 'required' },
+    ]);
+    formBuilder.append('criteria', criteria ?? '', '');
+    return formBuilder.build();
+}
 
 describe('GuestFilter', () => {
     const base = 'http://localhost';

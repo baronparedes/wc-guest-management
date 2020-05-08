@@ -2,10 +2,10 @@ import { Guest } from 'Api';
 import { withEditGuestButtonModal } from 'hoc/withEditGuestButtonModal';
 import React from 'react';
 import { FaIdCardAlt } from 'react-icons/fa';
-import GuestFormQuick from './GuestFormQuick';
+import GuestFormEssential from './GuestFormEssential';
 
-const FormWithModal = withEditGuestButtonModal(GuestFormQuick);
-const GuestFormQuickWithButtonModal = (props: Guest) => {
+const FormWithModal = withEditGuestButtonModal(GuestFormEssential);
+const GuestFormEssentialWithButtonModal = (props: Guest) => {
     return (
         <FormWithModal
             title="guest essential data"
@@ -17,4 +17,4 @@ const GuestFormQuickWithButtonModal = (props: Guest) => {
     );
 };
 
-export default GuestFormQuickWithButtonModal;
+export default GuestFormEssentialWithButtonModal;

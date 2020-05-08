@@ -3,7 +3,7 @@ import { DashboardReport, GetDashboardReportQueryParams } from 'Api';
 import ErrorInfo from 'components/@ui/ErrorInfo';
 import Loading from 'components/@ui/Loading';
 import ModalContainer from 'components/@ui/ModalContainer';
-import GuestFormQuick from 'components/guests/GuestFormQuick';
+import GuestFormEssential from 'components/guests/GuestFormEssential';
 import GuestListTable from 'components/guests/GuestListTable';
 import { DashboardCriteria, useFetchDashboard } from 'hooks/useFetchDashboard';
 import { useGuestSavedEffect } from 'hooks/useGuestSavedEffect';
@@ -93,7 +93,7 @@ const DashboardReportContainer: React.FC<Props> = (props) => {
                         searchGuests.data &&
                         searchGuests.data.length === 1 &&
                         action === 'criteria' && (
-                            <GuestFormQuick guest={searchGuests.data[0]} />
+                            <GuestFormEssential guest={searchGuests.data[0]} />
                         )}
                 </ModalContainer>
             )}
