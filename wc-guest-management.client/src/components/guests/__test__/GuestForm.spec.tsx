@@ -3,41 +3,57 @@ import { generateFakeGuest } from '@utils/fake-models';
 import { TestFormBuilder } from '@utils/test-helpers';
 import { renderWithProviderAndRestful } from '@utils/test-renderers';
 import { Guest } from 'Api';
-import GuestFormEssential from 'components/guests/GuestFormEssential';
+import GuestForm from 'components/guests/GuestForm';
 import nock from 'nock';
 import React from 'react';
 
-function buildGuestFormEssentialTargets(guest: Guest) {
+function buildGuestFormTargets(guest: Guest) {
     const formBuilder = new TestFormBuilder();
-    formBuilder.append('age', guest.age?.toString() ?? '', '', [
+    formBuilder.append('volunteer', guest.volunteer, '', [
         { invalidValue: '', validationType: 'required' },
     ]);
-    formBuilder.append('volunteer', guest.volunteer, '', [
+    formBuilder.append('guest', guest.guest, '', [
         { invalidValue: '', validationType: 'required' },
     ]);
     return formBuilder.build();
 }
 
-describe('GuestFormEssential', () => {
+describe('GuestForm', () => {
     const mockedGuest = generateFakeGuest();
     const base = 'http://localhost';
-    const { invalidInputs } = buildGuestFormEssentialTargets(mockedGuest);
+    const { invalidInputs } = buildGuestFormTargets(mockedGuest);
 
     async function assertSubmitForm(result: Guest | string, responseCode = 200) {
         nock(base)
             .put(
                 `/api/guest/${mockedGuest._id}`,
+                // data order being passed should be same with the form
                 JSON.stringify({
                     guestData: {
-                        ...mockedGuest,
-                        age: mockedGuest.age?.toString(), //useForm converts numbers to strings
+                        worshipDay: mockedGuest.worshipDay,
+                        worshipTime: mockedGuest.worshipTime,
+                        visitDate: mockedGuest.visitDate,
+                        tableNumber: mockedGuest.tableNumber.toString(),
+                        _id: mockedGuest._id,
+                        series: mockedGuest.series?.toString(),
+                        guest: mockedGuest.guest,
+                        birthDate: mockedGuest.birthDate ?? '',
+                        age: mockedGuest.age?.toString(),
+                        mobile: mockedGuest.mobile ?? '',
+                        email: mockedGuest.email ?? '',
+                        civilStatus: mockedGuest.civilStatus ?? '',
+                        gender: mockedGuest.gender ?? '',
+                        cityOfResidence: mockedGuest.cityOfResidence ?? '',
+                        cityOfWorkplace: mockedGuest.cityOfWorkplace ?? '',
+                        action: mockedGuest.action,
+                        volunteer: mockedGuest.volunteer,
                     },
                 })
             )
             .delay(100) //to test button being disabled on request
             .reply(responseCode, result);
         const target = renderWithProviderAndRestful(
-            <GuestFormEssential guest={mockedGuest} />,
+            <GuestForm guest={mockedGuest} />,
             base
         );
         const saveButton = target.getByText(/save/i);
@@ -55,7 +71,7 @@ describe('GuestFormEssential', () => {
         invalidValue?: string
     ) {
         const component = renderWithProviderAndRestful(
-            <GuestFormEssential guest={actualGuest} />,
+            <GuestForm guest={actualGuest} />,
             base
         );
         const { getByText, getByRole, getByLabelText } = component;
@@ -83,7 +99,7 @@ describe('GuestFormEssential', () => {
     });
 
     // these are radio buttons
-    it.each(['age', 'worshipTime'])('should be a required field [%s]', async (field) => {
+    it.each(['worshipDay'])('should be a required field [%s]', async (field) => {
         const actualGuest = {
             ...mockedGuest,
             [field]: '',
@@ -92,7 +108,7 @@ describe('GuestFormEssential', () => {
     });
 
     it('should render', () => {
-        renderWithProviderAndRestful(<GuestFormEssential guest={mockedGuest} />, base);
+        renderWithProviderAndRestful(<GuestForm guest={mockedGuest} />, base);
     });
 
     it('should submit form with a valid data', async () => {

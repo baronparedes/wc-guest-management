@@ -33,7 +33,11 @@ const GuestForm = (props: GuestButtonModalProps) => {
         onFormSaved: props.onFormSaved,
     });
     return (
-        <Container as={Form} onSubmit={handleSubmit(onSubmit)} disabled={loading}>
+        <Container
+            as={Form}
+            onSubmit={handleSubmit(onSubmit)}
+            disabled={loading}
+            role="form">
             <GuestFormTableNumber tableNumber={props.guest.tableNumber} />
             <Row>
                 <GuestFormHeader />
@@ -44,6 +48,7 @@ const GuestForm = (props: GuestButtonModalProps) => {
                     md={5}
                     sm={12}
                     className="m-0"
+                    controlId="worshipDay"
                     label="worship service">
                     <br />
                     <FieldChecklist
@@ -52,7 +57,7 @@ const GuestForm = (props: GuestButtonModalProps) => {
                         inline
                         type="radio"
                         name="worshipDay"
-                        register={register}
+                        register={register({ required: true })}
                     />
                 </FieldContainer>
                 <GuestFormWorshipTime register={register} md={4} sm={6} />
@@ -72,21 +77,19 @@ const GuestForm = (props: GuestButtonModalProps) => {
                 <DarkCol className="p-2 mb-3" />
             </Row>
             <Row>
-                <FieldContainer as={Col} md={6} label="guest">
+                <FieldContainer as={Col} md={6} label="guest" controlId="guest">
                     <Form.Control
                         required
-                        ref={register}
+                        ref={register({ required: true })}
                         name="guest"
-                        id="formGuest"
                         placeholder="guest"
                         size="lg"
                     />
                 </FieldContainer>
-                <FieldContainer as={Col} md={3} label="birthdate">
+                <FieldContainer as={Col} md={3} label="birthdate" controlId="birthDate">
                     <Form.Control
                         ref={register}
                         name="birthDate"
-                        id="formBirthDate"
                         placeholder="birthdate"
                         size="lg"
                     />
@@ -94,20 +97,18 @@ const GuestForm = (props: GuestButtonModalProps) => {
                 <GuestFormAge register={register} md={3} />
             </Row>
             <Row>
-                <FieldContainer as={Col} md={6} label="mobile">
+                <FieldContainer as={Col} md={6} label="mobile" controlId="mobile">
                     <Form.Control
                         ref={register}
                         name="mobile"
-                        id="formMobile"
                         placeholder="mobile"
                         size="lg"
                     />
                 </FieldContainer>
-                <FieldContainer as={Col} md={6} label="email">
+                <FieldContainer as={Col} md={6} label="email" controlId="email">
                     <Form.Control
                         ref={register}
                         name="email"
-                        id="formEmail"
                         type="email"
                         placeholder="email"
                         size="lg"
@@ -115,7 +116,11 @@ const GuestForm = (props: GuestButtonModalProps) => {
                 </FieldContainer>
             </Row>
             <Row>
-                <FieldContainer as={Col} md={9} label="civil status">
+                <FieldContainer
+                    as={Col}
+                    md={9}
+                    label="civil status"
+                    controlId="civilStatus">
                     <br />
                     <FieldChecklist
                         checklist={[
@@ -131,7 +136,7 @@ const GuestForm = (props: GuestButtonModalProps) => {
                         name="civilStatus"
                     />
                 </FieldContainer>
-                <FieldContainer as={Col} md={3} label="gender">
+                <FieldContainer as={Col} md={3} label="gender" controlId="gender">
                     <br />
                     <FieldChecklist
                         checklist={['Male', 'Female']}
@@ -143,20 +148,26 @@ const GuestForm = (props: GuestButtonModalProps) => {
                 </FieldContainer>
             </Row>
             <Row>
-                <FieldContainer as={Col} md={6} label="city of residence">
+                <FieldContainer
+                    as={Col}
+                    md={6}
+                    label="city of residence"
+                    controlId="cityOfResidence">
                     <Form.Control
                         ref={register}
                         name="cityOfResidence"
-                        id="formCityOfResidence"
                         placeholder="city of residence"
                         size="lg"
                     />
                 </FieldContainer>
-                <FieldContainer as={Col} md={6} label="city of work">
+                <FieldContainer
+                    as={Col}
+                    md={6}
+                    label="city of work"
+                    controlId="cityOfWorkplace">
                     <Form.Control
                         ref={register}
                         name="cityOfWorkplace"
-                        id="formCityOfWorkplace"
                         placeholder="city of work"
                         size="lg"
                     />
@@ -169,7 +180,7 @@ const GuestForm = (props: GuestButtonModalProps) => {
                 <GuestFormWelcomeNotes register={register} />
             </Row>
             <Row>
-                <GuestFormVolunteer register={register} />
+                <GuestFormVolunteer register={register({ required: true })} />
             </Row>
             {error && (
                 <Row>

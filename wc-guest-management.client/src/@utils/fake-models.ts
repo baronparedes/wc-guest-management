@@ -20,6 +20,7 @@ export function generateFakeGuest(): Guest {
         series: faker.random.number(),
         age: faker.random.number(80),
         worshipTime: getRandomTimeSlot(),
+        worshipDay: getRandomWorshipDay(),
         action: getRandomAction(),
     };
 }
@@ -81,6 +82,12 @@ export function generateFakeAuthResult(): AuthResult {
         profile: generateFakeProfile(),
         token: faker.random.alphaNumeric(100),
     };
+}
+
+export function getRandomWorshipDay() {
+    const days = ['Saturday', 'Sunday'];
+    const result = faker.random.arrayElement(days);
+    return result;
 }
 
 export function getRandomTimeSlot() {
