@@ -5,18 +5,20 @@
     "main": "",
     "scripts": {
         "start-client": "cd wc-guest-management.client && npm start",
-        "start-api": "cd wc-guest-management.api && npm start",
         "install-client": "cd wc-guest-management.client && npm install",
-        "install-api": "cd wc-guest-management.api && npm install",
         "generate-client": "cd wc-guest-management.client && npm run generate",
-        "generate-api": "cd wc-guest-management.api && npm run generate",
         "test-client": "cd wc-guest-management.client && npm run test",
         "test-coverage-client": "cd wc-guest-management.client && npm run test -- --coverage",
+        "start-api": "cd wc-guest-management.api && npm start",
+        "install-api": "cd wc-guest-management.api && npm install",
+        "generate-api": "cd wc-guest-management.api && npm run generate",
+        "test-api": "cd wc-guest-management.api && npm run test",
+        "test-coverage-api": "cd wc-guest-management.api && npm run test -- --coverage",
         "postinstall": "concurrently \"npm run install-api\" \"npm run install-client\"",
         "start": "concurrently \"npm run start-api\" \"npm run start-client\"",
         "pregenerate": "npm run api-generate",
         "generate": "npm run client-generate",
-        "test": "npm run test-client"
+        "test": "npm run test-api"
     },
     "repository": {
         "type": "git",

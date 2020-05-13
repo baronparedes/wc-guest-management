@@ -8,13 +8,13 @@ server.listen(config.PORT);
 server.on('listening', async () => {
     console.info(`Listening on port ${config.PORT}`);
     mongoose
-        .connect(config.MONGODB_URI, {
+        .connect(config.MONGO_URL, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
             useFindAndModify: true,
             useCreateIndex: true,
-            user: config.MONGODB_USER,
-            pass: config.MONGODB_PWD,
+            user: config.MONGO_USER,
+            pass: config.MONGO_PWD,
             connectTimeoutMS: 3000,
         })
         .catch((err) => {
