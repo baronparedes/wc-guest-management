@@ -23,7 +23,7 @@
         "prestart": "npm run generate",
         "start": "react-scripts start",
         "build": "react-scripts build",
-        "test": "react-scripts test",
+        "test": "react-scripts test --env=jsdom --testResultsProcessor ./node_modules/jest-junit-reporter",
         "eject": "react-scripts eject"
     },
     "eslintConfig": {
@@ -56,6 +56,7 @@
         "@types/react-router-dom": "^5.1.4",
         "@types/styled-components": "^4.4.3",
         "isomorphic-fetch": "^2.2.1",
+        "jest-junit-reporter": "^1.1.0",
         "mutationobserver-shim": "^0.3.5",
         "nock": "^12.0.3",
         "node-sass": "^4.14.0",
