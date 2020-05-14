@@ -2,7 +2,10 @@
     "compilerOptions": {
         "target": "esnext",
         "moduleResolution": "node",
-        "experimentalDecorators": true
+        "experimentalDecorators": true,
+        "outDir": "./build",
+        "sourceMap": true
+
     },
     "include": [
         "src/**/*.ts"

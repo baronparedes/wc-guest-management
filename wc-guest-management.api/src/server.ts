@@ -1,11 +1,8 @@
-import * as http from 'http';
 import * as mongoose from 'mongoose';
 import app from './app';
 import config from './config';
 
-const server = http.createServer(app);
-server.listen(config.PORT);
-server.on('listening', async () => {
+app.listen(config.PORT, () => {
     console.info(`Listening on port ${config.PORT}`);
     mongoose
         .connect(config.MONGO_URL, {
@@ -28,3 +25,5 @@ server.on('listening', async () => {
         console.error(err);
     });
 });
+
+export { app };
