@@ -15,17 +15,12 @@ steps:
   inputs:
     versionSpec: '12.x'
 
-- task: Npm@1
-  displayName: 'wc-guest-management install [client]'
-  inputs:
-    command: 'custom'
-    customCommand: 'run install-client'
-
-- task: Npm@1
-  displayName: 'wc-guest-management tests [client]'
-  inputs:
-    command: 'custom'
-    customCommand: 'run test-client'
+- script: |
+    npm run install-client
+    npm run test-client
+  displayName: 'wc-guest-management test-client'
+  timeoutInMinutes: 5
+  
 
 - task: PublishTestResults@2
   inputs:
