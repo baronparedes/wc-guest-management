@@ -21,9 +21,8 @@ steps:
   displayName: 'wc-guest-management test-client'
   timeoutInMinutes: 5
   
-
 - task: PublishTestResults@2
   inputs:
     testResultsFormat: 'JUnit'
-    testResultsFiles: './wc-guest-management.client/**/test-*.xml'
+    testResultsFiles: '**/TEST-*.xml'
     failTaskOnFailedTests: true
