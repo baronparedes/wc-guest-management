@@ -11,18 +11,23 @@ pool:
 
 steps:
 - task: NodeTool@0
+  displayName: 'Install Node.js'
   inputs:
     versionSpec: '12.x'
-  displayName: 'Install Node.js'
 
-- script: |
-    npm run install-client
-    npm run test-client
-    npm run build-client
-  displayName: 'wc-guest-management build client app'
-  timeoutInMinutes: 5
+- task: Npm@1
+  displayName: 'wc-guest-management install [client]'
+  inputs:
+    command: 'install'
+
+- task: Npm@1
+  displayName: 'wc-guest-management tests [client]'
+  inputs:
+    command: 'custom'
+    customCommand: 'install-client'
 
 - task: PublishTestResults@2
   inputs:
     testResultsFormat: 'JUnit'
-    testResultsFiles: '**/TEST-*.xml'
+    testResultsFiles: './wc-guest-management.client/**/test-*.xml'
+    failTaskOnFailedTests: true
