@@ -21,11 +21,14 @@ steps:
   displayName: 'wc-guest-management test-client'
   timeoutInMinutes: 5
 
-- script: ls
-  
+- script: |
+    cd wc-guest-management.client
+    ls
+  displayName: 'wc-guest-management client directory list'
+
 - task: PublishTestResults@2
   inputs:
     testResultsFormat: 'JUnit'
-    testResultsFiles: '/wc-guest-management.client/**/test-*.xml'
+    testResultsFiles: '**/TEST-*.xml'
     failTaskOnFailedTests: true
   displayName: 'Publish Test Results - Client'
