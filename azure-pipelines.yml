@@ -16,16 +16,13 @@ steps:
   displayName: 'Install Node.js'
 
 - script: |
-    npm run install
-  displayName: 'Install dependencies'
-  timeoutInMinutes: 5
-
-- script: |
+    npm run install-client
     npm run test-coverage-client
   displayName: 'Run Tests for wc-guest-management.client'
   timeoutInMinutes: 5
 
 - script: |
+    npm run install-api
     npm run test-coverage-api
   displayName: 'Run Tests for wc-guest-management.api'
   timeoutInMinutes: 5
