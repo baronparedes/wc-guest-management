@@ -8,7 +8,7 @@
         "install-client": "cd wc-guest-management.client && npm install",
         "generate-client": "cd wc-guest-management.client && npm run generate",
         "build-client": "cd wc-guest-management.client && npm run build",
-        "test-client": "cd wc-guest-management.client && npm run test",
+        "test-client": "cd wc-guest-management.client && npm run test -- --watchAll=false",
         "test-coverage-client": "cd wc-guest-management.client && npm run test -- --coverage",
         "start-api": "cd wc-guest-management.api && npm start",
         "install-api": "cd wc-guest-management.api && npm install",
