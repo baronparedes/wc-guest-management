@@ -24,7 +24,6 @@ steps:
 - task: PublishTestResults@2
   inputs:
     testResultsFormat: 'JUnit'
-    testResultsFiles: '**/TEST-*.xml'
-    searchFolder: '$(System.DefaultWorkingDirectory)/wc-guest-management.client'
+    testResultsFiles: '/wc-guest-management.client/**/test-*.xml'
     failTaskOnFailedTests: true
   displayName: 'Publish Test Results - Client'
