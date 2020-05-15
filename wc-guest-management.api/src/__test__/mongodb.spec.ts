@@ -1,29 +1,18 @@
-import { MongoMemoryServer } from 'mongodb-memory-server';
-import mongoose from 'mongoose';
-
-// May require additional time for downloading MongoDB binaries
-jasmine.DEFAULT_TIMEOUT_INTERVAL = 600000;
-
-let mongoServer: MongoMemoryServer;
-const opts = { useMongoClient: true }; // remove this option if you use mongoose 5 and above
+import * as mongoose from 'mongoose';
+import { startDb, stopDb } from '../@utils/test-helper';
 
 beforeAll(async () => {
-    mongoServer = new MongoMemoryServer();
-    const mongoUri = await mongoServer.getUri();
-    await mongoose.connect(mongoUri, opts, (err) => {
-        if (err) console.error(err);
-    });
+    await startDb();
 });
 
 afterAll(async () => {
-    await mongoose.disconnect();
-    await mongoServer.stop();
+    await stopDb();
 });
 
 describe('...', () => {
     it('...', async () => {
         const User = mongoose.model('TestUser', new mongoose.Schema({ name: String }));
-        const count = User.count;
+        const count = await User.countDocuments();
         expect(count).toEqual(0);
     });
 });

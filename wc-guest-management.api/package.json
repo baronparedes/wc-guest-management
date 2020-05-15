@@ -41,7 +41,7 @@
         "prestart": "npm run generate",
         "start": "nodemon -x ts-node src/server.ts",
         "generate": "tsoa routes && tsoa swagger",
-        "test": "jest --watch"
+        "test": "jest --runInBand"
     },
     "keywords": [],
     "author": "",
