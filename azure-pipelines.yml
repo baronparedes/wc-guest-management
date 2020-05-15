@@ -17,7 +17,7 @@ steps:
 
 - script: |
     npm run install-client
-    npm run test-client
+    npm run test-coverage-client
   displayName: 'wc-guest-management test-client'
   timeoutInMinutes: 5
   
@@ -28,3 +28,8 @@ steps:
     searchFolder: '$(System.DefaultWorkingDirectory)/wc-guest-management.client'
     failTaskOnFailedTests: true
   displayName: 'Publish Test Results - Client'
+
+- task: PublishCodeCoverageResults@1
+  inputs:
+    codeCoverageTool: Cobertura
+    summaryFileLocation: $(System.DefaultWorkingDirectory)/wc-guest-management.client/coverage/cobertura-coverage.xml

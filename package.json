@@ -9,7 +9,7 @@
         "generate-client": "cd wc-guest-management.client && npm run generate",
         "build-client": "cd wc-guest-management.client && npm run build",
         "test-client": "cd wc-guest-management.client && npm run test -- --watchAll=false",
-        "test-coverage-client": "cd wc-guest-management.client && npm run test -- --coverage",
+        "test-coverage-client": "cd wc-guest-management.client && npm run test -- --coverage --watchAll=false --coverageReporters=cobertura",
         "start-api": "cd wc-guest-management.api && npm start",
         "install-api": "cd wc-guest-management.api && npm install",
         "generate-api": "cd wc-guest-management.api && npm run generate",
