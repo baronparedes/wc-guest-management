@@ -16,6 +16,11 @@ steps:
   displayName: 'Install Node.js'
 
 - script: |
+    cd $(System.DefaultWorkingDirectory)
+    ls
+  displayName: 'default working directory list'
+
+- script: |
     npm run install-client
     npm run test-client
   displayName: 'wc-guest-management test-client'
