@@ -11,9 +11,9 @@ pool:
 
 steps:
 - task: NodeTool@0
-  displayName: 'Install Node.js'
   inputs:
     versionSpec: '12.x'
+  displayName: 'Install Node.js'
 
 - script: |
     npm run install-client
@@ -21,9 +21,10 @@ steps:
   displayName: 'wc-guest-management test-client'
   timeoutInMinutes: 5
   
-
 - task: PublishTestResults@2
   inputs:
     testResultsFormat: 'JUnit'
-    testResultsFiles: './wc-guest-management.client/**/test-*.xml'
+    testResultsFiles: '**/TEST-*.xml'
+    searchFolder: '$(System.DefaultWorkingDirectory)/wc-guest-management.client'
     failTaskOnFailedTests: true
+  displayName: 'Publish Test Results - Client'
