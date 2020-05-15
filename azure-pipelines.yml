@@ -18,13 +18,14 @@ steps:
 - task: Npm@1
   displayName: 'wc-guest-management install [client]'
   inputs:
-    command: 'install'
+    command: 'custom'
+    customCommand: 'install-client'
 
 - task: Npm@1
   displayName: 'wc-guest-management tests [client]'
   inputs:
     command: 'custom'
-    customCommand: 'install-client'
+    customCommand: 'test-client'
 
 - task: PublishTestResults@2
   inputs:
