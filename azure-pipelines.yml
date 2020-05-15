@@ -16,20 +16,10 @@ steps:
   displayName: 'Install Node.js'
 
 - script: |
-    cd $(System.DefaultWorkingDirectory)
-    ls
-  displayName: 'default working directory list'
-
-- script: |
     npm run install-client
     npm run test-client
-  displayName: 'wc-guest-management test-client'
+  displayName: 'Run Tests - wc-guest-management.client'
   timeoutInMinutes: 5
-
-- script: |
-    cd wc-guest-management.client
-    ls
-  displayName: 'wc-guest-management client directory list'
 
 - task: PublishTestResults@2
   inputs:
@@ -37,4 +27,4 @@ steps:
     testResultsFiles: './test-report.xml'
     searchFolder: '$(System.DefaultWorkingDirectory)/wc-guest-management.client'
     failTaskOnFailedTests: true
-  displayName: 'Publish Test Results - Client'
+  displayName: 'Publish Test Results - wc-guest-management.client'
