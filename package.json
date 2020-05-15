@@ -13,13 +13,12 @@
         "start-api": "cd wc-guest-management.api && npm start",
         "install-api": "cd wc-guest-management.api && npm install",
         "generate-api": "cd wc-guest-management.api && npm run generate",
-        "test-api": "cd wc-guest-management.api && npm run test",
-        "test-coverage-api": "cd wc-guest-management.api && npm run test -- --coverage",
+        "test-api": "cd wc-guest-management.api && npm run test -- --watchAll=false",
+        "test-coverage-api": "cd wc-guest-management.api && npm run test -- --coverage --watchAll=false --coverageReporters=cobertura",
         "postinstall": "concurrently \"npm run install-api\" \"npm run install-client\"",
         "start": "concurrently \"npm run start-api\" \"npm run start-client\"",
         "pregenerate": "npm run api-generate",
-        "generate": "npm run client-generate",
-        "test": "npm run test-api"
+        "generate": "npm run client-generate"
     },
     "repository": {
         "type": "git",

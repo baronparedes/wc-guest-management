@@ -16,9 +16,18 @@ steps:
   displayName: 'Install Node.js'
 
 - script: |
-    npm run install-client
+    npm run install
+  displayName: 'Install dependencies'
+  timeoutInMinutes: 5
+
+- script: |
     npm run test-coverage-client
-  displayName: 'wc-guest-management test-client'
+  displayName: 'Run Tests for wc-guest-management.client'
+  timeoutInMinutes: 5
+
+- script: |
+    npm run test-coverage-api
+  displayName: 'Run Tests for wc-guest-management.api'
   timeoutInMinutes: 5
 
 - task: PublishTestResults@2
@@ -33,3 +42,18 @@ steps:
   inputs:
     codeCoverageTool: Cobertura
     summaryFileLocation: $(System.DefaultWorkingDirectory)/wc-guest-management.client/coverage/cobertura-coverage.xml
+  displayName: 'Publish Test Coverage - Client'
+
+- task: PublishTestResults@2
+  inputs:
+    testResultsFormat: 'JUnit'
+    testResultsFiles: './test-report.xml'
+    searchFolder: '$(System.DefaultWorkingDirectory)/wc-guest-management.api'
+    failTaskOnFailedTests: true
+  displayName: 'Publish Test Results - Api'
+
+- task: PublishCodeCoverageResults@1
+  inputs:
+    codeCoverageTool: Cobertura
+    summaryFileLocation: $(System.DefaultWorkingDirectory)/wc-guest-management.api/coverage/cobertura-coverage.xml
+  displayName: 'Publish Test Coverage - Api'
