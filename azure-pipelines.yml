@@ -20,6 +20,7 @@ steps:
     npm run test-client
     npm run build-client
   displayName: 'wc-guest-management build client app'
+  timeoutInMinutes: 5
 
 - task: PublishTestResults@2
   inputs:
