@@ -5,11 +5,8 @@ export default class ProfileService {
 
     public async getProfile(username: string, password: string): Promise<Profile> {
         const profile = await ProfileModel.findOne({ username: username });
-        if (!profile) {
-            throw new Error('Profile does not exist');
-        }
-        if (profile.password !== password) {
-            throw new Error('Invalid password');
+        if (!profile || profile.password !== password) {
+            throw new Error('Username or Password is invalid');
         }
         return {
             _id: profile._id,

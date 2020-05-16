@@ -35,6 +35,7 @@ export default class AuthService {
     }
 
     public isProfileInScope(profile: Profile, targetScopes?: string[]) {
+        // TODO: Role based accounts
         if (targetScopes) {
             for (let scope of targetScopes) {
                 if (!profile.scopes.includes(scope)) {
