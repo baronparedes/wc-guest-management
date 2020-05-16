@@ -1,4 +1,4 @@
-import { Guest, GuestDocumentQuery } from '../@models/guest';
+import { Guest } from '../@models/guest';
 import {
     DashboardCategory,
     DashboardCategoryCriteria,
@@ -10,25 +10,27 @@ import {
 } from '../@types/models';
 
 export default class DashboardService {
-    private createActivityCriteria(label: string): DashboardCategoryCriteria {
+    private createActivityCriteria(
+        label: string,
+        action?: string
+    ): DashboardCategoryCriteria {
         return {
             label: label.toLowerCase(),
             criteria: (g) => g.action === label,
-            documentQuery: (q) => q.where({ action: label }),
+            documentQuery: (q) => q.where({ action: action ?? label }),
         };
     }
 
     public getActivityCriterias(): DashboardCategoryCriteria[] {
         const result: DashboardCategoryCriteria[] = [
-            this.createActivityCriteria('Accepted'),
-            this.createActivityCriteria('DNA'),
+            this.createActivityCriteria('Accepted', 'A'),
+            this.createActivityCriteria('Not Accepted', 'DNA'),
             this.createActivityCriteria('Counseled'),
             this.createActivityCriteria('Prayed'),
-            this.createActivityCriteria('Accepted'),
             {
                 label: 'na',
-                criteria: (guest: Guest) => !guest.action,
-                documentQuery: (q: GuestDocumentQuery) =>
+                criteria: (guest) => !guest.action,
+                documentQuery: (q) =>
                     q.or([
                         { action: null },
                         { action: { $exists: false } },
