@@ -6,6 +6,7 @@
         "outDir": "./build",
         "sourceMap": true,
         "baseUrl": "src",
+        "downlevelIteration": true
     },
     "include": [
         "src/**/*.ts"

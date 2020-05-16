@@ -9,7 +9,7 @@ describe('AuthService', () => {
         username: faker.internet.userName(),
     };
 
-    const setupAuthService = () => {
+    function setupAuthService() {
         const username = faker.internet.userName();
         const password = faker.internet.password();
         const credentials = `${username}:${password}`;
@@ -21,22 +21,44 @@ describe('AuthService', () => {
             encodedCredentials,
             target,
         };
-    };
+    }
+
+    async function setupAuthentication() {
+        const getProfileSpy = jest
+            .spyOn(ProfileService.prototype, 'getProfile')
+            .mockReturnValueOnce(new Promise((resolve) => resolve(mockedProfile)));
+        const { target, encodedCredentials, username, password } = setupAuthService();
+        const actual = await target.authenticate(`Basic ${encodedCredentials}`);
+        expect(getProfileSpy).toBeCalledTimes(1);
+        expect(getProfileSpy).toBeCalledWith(username, password);
+        return {
+            target,
+            actual,
+        };
+    }
 
     afterEach(() => {
         jest.clearAllMocks();
     });
 
     it('should authenticate a valid profile', async () => {
-        const getProfileSpy = jest
-            .spyOn(ProfileService.prototype, 'getProfile')
-            .mockReturnValueOnce(new Promise((resolve) => resolve(mockedProfile)));
-        const { target, encodedCredentials, username, password } = setupAuthService();
-        const actual = await target.authenticate(`Basic ${encodedCredentials}`);
+        const { actual } = await setupAuthentication();
         expect(actual.profile).toStrictEqual(mockedProfile);
         expect(actual.token).toBeTruthy();
-        expect(getProfileSpy).toBeCalledTimes(1);
-        expect(getProfileSpy).toBeCalledWith(username, password);
+    });
+
+    it('should verify an authorized token', async () => {
+        const { target, actual } = await setupAuthentication();
+        const authorized = await target.verifyAuthorization(`Bearer ${actual.token}`);
+        expect(authorized.name).toBe(mockedProfile.name);
+        expect(authorized.username).toBe(mockedProfile.username);
+    });
+
+    it('should reject invalid token', async () => {
+        const target = new AuthService();
+        await expect(
+            target.verifyAuthorization(`Bearer ${faker.random.alphaNumeric(64)}`)
+        ).rejects.toThrow();
     });
 
     it('should throw an error when profile is invalid', async () => {

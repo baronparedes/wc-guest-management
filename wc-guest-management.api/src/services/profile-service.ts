@@ -3,6 +3,7 @@ import { Profile, ProfileModel } from '../@models/profile';
 export default class ProfileService {
     constructor() {}
 
+    //TODO: Use bcrypt
     public async getProfile(username: string, password: string): Promise<Profile> {
         const profile = await ProfileModel.findOne({ username: username });
         if (!profile || profile.password !== password) {

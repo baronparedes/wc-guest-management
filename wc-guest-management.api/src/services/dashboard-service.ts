@@ -10,147 +10,67 @@ import {
 } from '../@types/models';
 
 export default class DashboardService {
+    private createActivityCriteria(label: string): DashboardCategoryCriteria {
+        return {
+            label: label.toLowerCase(),
+            criteria: (g) => g.action === label,
+            documentQuery: (q) => q.where({ action: label }),
+        };
+    }
+
     public getActivityCriterias(): DashboardCategoryCriteria[] {
         const result: DashboardCategoryCriteria[] = [
-            {
-                label: 'accepted',
-                criteria: (guest: Guest) => {
-                    return guest.action === 'A';
-                },
-                documentQuery: (q: GuestDocumentQuery) => {
-                    return q.where({
-                        action: 'A',
-                    });
-                },
-            },
-            {
-                label: 'not accepted',
-                criteria: (guest: Guest) => {
-                    return guest.action === 'DNA';
-                },
-                documentQuery: (q: GuestDocumentQuery) => {
-                    return q.where({
-                        action: 'DNA',
-                    });
-                },
-            },
-            {
-                label: 'counseled',
-                criteria: (guest: Guest) => {
-                    return guest.action === 'Counseled';
-                },
-                documentQuery: (q: GuestDocumentQuery) => {
-                    return q.where({
-                        action: 'Counseled',
-                    });
-                },
-            },
-            {
-                label: 'prayed',
-                criteria: (guest: Guest) => {
-                    return guest.action === 'Prayed';
-                },
-                documentQuery: (q: GuestDocumentQuery) => {
-                    return q.where({
-                        action: 'Prayed',
-                    });
-                },
-            },
+            this.createActivityCriteria('Accepted'),
+            this.createActivityCriteria('DNA'),
+            this.createActivityCriteria('Counseled'),
+            this.createActivityCriteria('Prayed'),
+            this.createActivityCriteria('Accepted'),
             {
                 label: 'na',
-                criteria: (guest: Guest) => {
-                    return !guest.action;
-                },
-                documentQuery: (q: GuestDocumentQuery) => {
-                    return q.or([
+                criteria: (guest: Guest) => !guest.action,
+                documentQuery: (q: GuestDocumentQuery) =>
+                    q.or([
                         { action: null },
                         { action: { $exists: false } },
                         { action: '' },
-                    ]);
-                },
+                    ]),
             },
         ];
         return result;
+    }
+
+    private createAgeBetweenCriteria(
+        label: string,
+        lower: number,
+        upper: number
+    ): DashboardCategoryCriteria {
+        return {
+            label,
+            criteria: (guest) => lower <= guest.age && guest.age <= upper,
+            documentQuery: (q) => q.where({ age: { $gte: lower, $lte: upper } }),
+        };
     }
 
     public getAgeCriterias(): DashboardCategoryCriteria[] {
         const result: DashboardCategoryCriteria[] = [
             {
                 label: '<=20',
-                criteria: (guest: Guest) => {
-                    return guest.age < 20;
-                },
-                documentQuery: (q: GuestDocumentQuery) => {
-                    return q.where({
-                        age: {
-                            $lte: 20,
-                        },
-                    });
-                },
+                criteria: (guest) => guest.age < 20,
+                documentQuery: (q) => q.where({ age: { $lte: 20 } }),
             },
-            {
-                label: '21-30',
-                criteria: (guest: Guest) => {
-                    return 21 <= guest.age && guest.age <= 30;
-                },
-                documentQuery: (q: GuestDocumentQuery) => {
-                    return q.where({
-                        age: {
-                            $gte: 21,
-                            $lte: 30,
-                        },
-                    });
-                },
-            },
-            {
-                label: '31-40',
-                criteria: (guest: Guest) => {
-                    return 31 <= guest.age && guest.age <= 40;
-                },
-                documentQuery: (q: GuestDocumentQuery) => {
-                    return q.where({
-                        age: {
-                            $gte: 31,
-                            $lte: 40,
-                        },
-                    });
-                },
-            },
-            {
-                label: '41-50',
-                criteria: (guest: Guest) => {
-                    return 41 <= guest.age && guest.age <= 50;
-                },
-                documentQuery: (q: GuestDocumentQuery) => {
-                    return q.where({
-                        age: {
-                            $gte: 41,
-                            $lte: 50,
-                        },
-                    });
-                },
-            },
+            this.createAgeBetweenCriteria('21-30', 21, 30),
+            this.createAgeBetweenCriteria('31-40', 31, 40),
+            this.createAgeBetweenCriteria('41-50', 41, 50),
+
             {
                 label: '>50',
-                criteria: (guest: Guest) => {
-                    return guest.age > 50;
-                },
-                documentQuery: (q: GuestDocumentQuery) => {
-                    return q.where({
-                        age: {
-                            $gt: 50,
-                        },
-                    });
-                },
+                criteria: (guest) => guest.age > 50,
+                documentQuery: (q) => q.where({ age: { $gt: 50 } }),
             },
             {
                 label: 'na',
-                criteria: (guest: Guest) => {
-                    return !guest.age;
-                },
-                documentQuery: (q: GuestDocumentQuery) => {
-                    return q.or([{ age: null }, { age: { $exists: false } }]);
-                },
+                criteria: (guest) => !guest.age,
+                documentQuery: (q) => q.or([{ age: null }, { age: { $exists: false } }]),
             },
         ];
         return result;

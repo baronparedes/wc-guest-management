@@ -46,7 +46,10 @@ export default class AuthService {
         return true;
     }
 
-    public async verifyAuthorization(encodedCredentials: string, scopes?: string[]) {
+    public async verifyAuthorization(
+        encodedCredentials: string,
+        scopes?: string[]
+    ): Promise<Profile> {
         const token = this.getAuthCredentials(encodedCredentials);
         return new Promise((resolve, reject) => {
             if (!token) {
