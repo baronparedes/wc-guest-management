@@ -16,7 +16,7 @@ export default class GuestService {
         this.dashboardService = new DashboardService();
     }
 
-    public queryByCategory(
+    private queryByCategory(
         query: GuestDocumentQuery,
         category?: ReportCategory,
         index?: string,
@@ -44,7 +44,7 @@ export default class GuestService {
         return query;
     }
 
-    public queryByDashboardCategory(
+    private queryByDashboardCategory(
         query: GuestDocumentQuery,
         criterias: DashboardCategoryCriteria[],
         index?: string,
@@ -62,14 +62,14 @@ export default class GuestService {
         return query;
     }
 
-    public queryBySlot(query: GuestDocumentQuery, slot?: Slot) {
+    private queryBySlot(query: GuestDocumentQuery, slot?: Slot) {
         if (slot) {
             query = query.where({ worshipTime: slot });
         }
         return query;
     }
 
-    public queryByDateRange(
+    private queryByDateRange(
         query: GuestDocumentQuery,
         fromDate?: Date,
         toDate?: Date
@@ -88,7 +88,7 @@ export default class GuestService {
         return query;
     }
 
-    public queryByCriteria(query: GuestDocumentQuery, criteria?: string) {
+    private queryByCriteria(query: GuestDocumentQuery, criteria?: string) {
         if (criteria) {
             const orQueries = [];
             const expression = new RegExp(criteria, 'i');
@@ -139,7 +139,12 @@ export default class GuestService {
     }
 
     public async updateGuest(id: string, guestData: Guest): Promise<Guest> {
-        return GuestModel.updateOne({ _id: id }, { ...guestData });
+        const result = await GuestModel.findOneAndUpdate(
+            { _id: id },
+            { ...guestData },
+            { new: true }
+        );
+        return result;
     }
 
     private getDayOfWeek(date: Date) {

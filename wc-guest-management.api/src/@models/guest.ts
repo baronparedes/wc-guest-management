@@ -1,6 +1,5 @@
 import * as mongoose from 'mongoose';
 import { Activity, Slot } from '../@types/models';
-import { getNextSequence } from './sequence';
 
 export interface Guest {
     _id?: string;
@@ -49,10 +48,10 @@ const GuestSchema = new mongoose.Schema({
     series: { type: Number, required: true },
 });
 
-GuestSchema.pre<Guest & mongoose.Document>('save', async (next) => {
-    if (!this.createdDate) this.createdDate = new Date();
-    if (!this.series) this.series = await getNextSequence('guest');
-    next();
-});
+// GuestSchema.pre<Guest & mongoose.Document>('save', async (next) => {
+//     if (!this.createdDate) this.createdDate = new Date();
+//     if (!this.series) this.series = await getNextSequence('guest');
+//     next();
+// });
 
 export const GuestModel = mongoose.model<GuestDocument>('guest', GuestSchema);

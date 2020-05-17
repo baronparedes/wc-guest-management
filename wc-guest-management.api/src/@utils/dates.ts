@@ -16,3 +16,9 @@ export function getCurrentTimeSlot(): Slot {
     if (hour < 18) return '3 PM';
     return '6 PM';
 }
+
+export function getPreviousDate(daysAgo: number) {
+    let prevDate = new Date();
+    prevDate.setDate(new Date().getDate() - daysAgo);
+    return prevDate;
+}

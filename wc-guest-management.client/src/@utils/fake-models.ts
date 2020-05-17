@@ -106,8 +106,8 @@ export function generateFakeInfoSlip(guestCount = 1): InfoSlip {
     let guests = '';
     let i = 0;
     while (guestCount !== i) {
-        guests += faker.name.findName();
         if (i !== 0) guests += '\n';
+        guests += faker.name.findName();
         i++;
     }
 
