@@ -7,26 +7,6 @@ import { startDb, stopDb } from '../../@utils/test-helper';
 import GuestService from '../guest-service';
 
 describe('GuestService', () => {
-    const guestCount = 2;
-    const mockedInfoSlip = generateFakeInfoSlip(guestCount);
-    async function seedData() {
-        const seed = generateFakeGuest();
-        const guest = await GuestModel.create(seed);
-        return guest;
-    }
-
-    afterEach(async () => {
-        await GuestModel.deleteMany({});
-    });
-
-    beforeAll(async () => {
-        await startDb();
-    });
-
-    afterAll(async () => {
-        await stopDb();
-    });
-
     function assertGuest(a: Guest, e: Guest) {
         expect(a._id).toBeDefined();
         expect(a.tableNumber).toBe(e.tableNumber);
@@ -49,9 +29,12 @@ describe('GuestService', () => {
     }
 
     async function welcomeGuests(target: GuestService, ...infoSlips: InfoSlip[]) {
+        const results: Guest[][] = [];
         for (let info of infoSlips) {
-            await target.welcomeGuests(info);
+            const result = await target.welcomeGuests(info);
+            results.push(result);
         }
+        return results;
     }
 
     type InfoSlipProps = {
@@ -68,8 +51,31 @@ describe('GuestService', () => {
         });
     }
 
+    function assertGuestResults(actual: Guest[], expected: Guest[]) {
+        actual.forEach((a) => {
+            const e = expected.find((_) => _.guest === a.guest);
+            if (!e) {
+                fail(`${a.guest} was not found in list of expected guests.`);
+            }
+            assertGuest(a, e);
+        });
+    }
+
+    afterEach(async () => {
+        await GuestModel.deleteMany({});
+    });
+
+    beforeAll(async () => {
+        await startDb();
+    });
+
+    afterAll(async () => {
+        await stopDb();
+    });
+
     it('should be able to update guest data', async () => {
-        const seed = await seedData();
+        const guestData = generateFakeGuest();
+        const seed = await GuestModel.create(guestData);
         const updatedGuest: Guest = generateFakeGuest();
         updatedGuest._id = seed._id;
         const target = new GuestService();
@@ -79,17 +85,19 @@ describe('GuestService', () => {
 
     describe('should be able to log welcomed guests', () => {
         it('when valid guests', async () => {
+            const expectedCount = 2;
+            const data = generateFakeInfoSlip(expectedCount);
             const target = new GuestService();
-            const actual = await target.welcomeGuests(mockedInfoSlip);
-            expect(actual.length).toBe(guestCount);
+            const actual = await target.welcomeGuests(data);
+            expect(actual.length).toBe(expectedCount);
             actual.forEach((a) => {
-                assertInfoSlip(a, mockedInfoSlip);
+                assertInfoSlip(a, data);
             });
         });
 
         it('when invalid guests', async () => {
             const data = {
-                ...mockedInfoSlip,
+                ...generateFakeInfoSlip(1),
                 guests: '',
             };
             const target = new GuestService();
@@ -101,15 +109,78 @@ describe('GuestService', () => {
 
     describe('should be able to fetch all guests', () => {
         it('all', async () => {
-            const data = { ...mockedInfoSlip, visitDate: getCurrentDateFormatted() };
+            const expectedCount = 2;
+            const data = {
+                ...generateFakeInfoSlip(expectedCount),
+                visitDate: getCurrentDateFormatted(),
+            };
             const target = new GuestService();
             await target.welcomeGuests(data);
             const actual = await target.fetchGuests();
-            expect(actual.length).toBe(guestCount);
+            expect(actual.length).toBe(expectedCount);
             actual.forEach((a) => {
                 assertInfoSlip(a, data);
             });
         });
+
+        it.each`
+            category      | index             | activity       | age
+            ${'age'}      | ${'<=20'}         | ${undefined}   | ${faker.random.number({ min: 1, max: 20 })}
+            ${'age'}      | ${'21-30'}        | ${undefined}   | ${faker.random.number({ min: 21, max: 30 })}
+            ${'age'}      | ${'31-40'}        | ${undefined}   | ${faker.random.number({ min: 31, max: 40 })}
+            ${'age'}      | ${'41-50'}        | ${undefined}   | ${faker.random.number({ min: 41, max: 50 })}
+            ${'age'}      | ${'>50'}          | ${undefined}   | ${faker.random.number({ min: 51, max: 120 })}
+            ${'activity'} | ${'Accepted'}     | ${'A'}         | ${undefined}
+            ${'activity'} | ${'Not Accepted'} | ${'DNA'}       | ${undefined}
+            ${'activity'} | ${'Counseled'}    | ${'Counseled'} | ${undefined}
+            ${'activity'} | ${'Prayed'}       | ${'Prayed'}    | ${undefined}
+        `(
+            `by dashboard $category category - $index`,
+            async ({ category, index, activity, age }) => {
+                const recent = faker.date.recent(faker.random.number(10));
+                const expectedCount = 5;
+                const slot = '9 AM';
+                const [infoSlip1, infoSlip2, infoSlip3] = generateInfoSlips(
+                    { count: expectedCount, visitDate: formatDate(recent) },
+                    { count: 10, visitDate: formatDate(recent) },
+                    { count: 10, visitDate: formatDate(recent) }
+                );
+                infoSlip2.worshipTime = '12 NN';
+                infoSlip3.worshipTime = '3 PM';
+
+                const target = new GuestService();
+                const [seeds] = await welcomeGuests(
+                    target,
+                    infoSlip1,
+                    infoSlip2,
+                    infoSlip3
+                );
+                const expected: Guest[] = [];
+
+                for (let seed of seeds) {
+                    const updatedGuest: Guest = {
+                        ...generateFakeGuest(),
+                        _id: seed._id,
+                        visitDate: seed.visitDate,
+                        age: age,
+                        action: activity,
+                        worshipTime: slot,
+                    };
+                    const result = await target.updateGuest(seed._id, updatedGuest);
+                    expected.push(result);
+                }
+
+                const actual = await target.fetchGuestsByCategory(
+                    new Date(formatDate(recent)),
+                    new Date(getCurrentDateFormatted()),
+                    category,
+                    index,
+                    slot
+                );
+                expect(actual.length).toBe(expectedCount);
+                assertGuestResults(actual, expected);
+            }
+        );
 
         it('by visit date and by slot', async () => {
             const recent = faker.date.recent(faker.random.number(10));
@@ -125,8 +196,7 @@ describe('GuestService', () => {
             infoSlip3.worshipTime = '3 PM';
 
             const target = new GuestService();
-            await welcomeGuests(target, infoSlip1, infoSlip2, infoSlip3);
-
+            const [expected] = await welcomeGuests(target, infoSlip1, infoSlip2, infoSlip3);
             const actual = await target.fetchGuests(
                 new Date(formatDate(recent)),
                 undefined,
@@ -134,6 +204,7 @@ describe('GuestService', () => {
                 slot
             );
             expect(actual.length).toBe(expectedCount);
+            assertGuestResults(actual, expected);
         });
 
         it('by visit date and by guest', async () => {
@@ -145,7 +216,7 @@ describe('GuestService', () => {
                 { count: 10, visitDate: formatDate(recent) }
             );
             const target = new GuestService();
-            await welcomeGuests(target, infoSlip1, infoSlip2, infoSlip3);
+            const [expected] = await welcomeGuests(target, infoSlip1, infoSlip2, infoSlip3);
 
             const actual = await target.fetchGuests(
                 new Date(formatDate(recent)),
@@ -153,6 +224,7 @@ describe('GuestService', () => {
                 infoSlip1.guests
             );
             expect(actual.length).toBe(expectedCount);
+            assertGuestResults(actual, expected);
         });
 
         it('by visit date and by volunteer', async () => {
@@ -164,7 +236,7 @@ describe('GuestService', () => {
                 { count: 10, visitDate: formatDate(recent) }
             );
             const target = new GuestService();
-            await welcomeGuests(target, infoSlip1, infoSlip2, infoSlip3);
+            const [expected] = await welcomeGuests(target, infoSlip1, infoSlip2, infoSlip3);
 
             const actual = await target.fetchGuests(
                 new Date(formatDate(recent)),
@@ -172,6 +244,27 @@ describe('GuestService', () => {
                 infoSlip1.volunteer
             );
             expect(actual.length).toBe(expectedCount);
+            assertGuestResults(actual, expected);
+        });
+
+        it('by visit date and by series', async () => {
+            const recent = faker.date.recent(faker.random.number(10));
+            const expectedCount = 1;
+            const [infoSlip1, infoSlip2, infoSlip3] = generateInfoSlips(
+                { count: expectedCount, visitDate: formatDate(recent) },
+                { count: 10, visitDate: formatDate(recent) },
+                { count: 10, visitDate: formatDate(recent) }
+            );
+            const target = new GuestService();
+            const [expected] = await welcomeGuests(target, infoSlip1, infoSlip2, infoSlip3);
+
+            const actual = await target.fetchGuests(
+                new Date(formatDate(recent)),
+                undefined,
+                expected[0].series?.toString()
+            );
+            expect(actual.length).toBe(expectedCount);
+            assertGuestResults(actual, expected);
         });
 
         it('by visit date - recently', async () => {
@@ -183,10 +276,11 @@ describe('GuestService', () => {
                 { count: 10, visitDate: formatDate(faker.date.past()) }
             );
             const target = new GuestService();
-            await welcomeGuests(target, infoSlip1, infoSlip2, infoSlip3);
+            const [expected] = await welcomeGuests(target, infoSlip1, infoSlip2, infoSlip3);
 
             const actual = await target.fetchGuests(new Date(formatDate(recent)));
             expect(actual.length).toBe(expectedCount);
+            assertGuestResults(actual, expected);
         });
 
         it('by visit date - last 5 days up to today', async () => {
@@ -198,10 +292,12 @@ describe('GuestService', () => {
                 { count: 10, visitDate: formatDate(faker.date.past()) }
             );
             const target = new GuestService();
-            await welcomeGuests(target, infoSlip1, infoSlip2, infoSlip3);
+            const [e1, e2] = await welcomeGuests(target, infoSlip1, infoSlip2, infoSlip3);
+            const expected = [...e1, ...e2];
 
             const actual = await target.fetchGuests(fiveDaysAgo, new Date());
             expect(actual.length).toBe(expectedCount);
+            assertGuestResults(actual, expected);
         });
     });
 });

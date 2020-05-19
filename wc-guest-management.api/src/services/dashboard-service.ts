@@ -21,7 +21,32 @@ export default class DashboardService {
         };
     }
 
-    public getActivityCriterias(): DashboardCategoryCriteria[] {
+    private createAgeBetweenCriteria(
+        label: string,
+        lower: number,
+        upper: number
+    ): DashboardCategoryCriteria {
+        return {
+            label,
+            criteria: (guest) => lower <= guest.age && guest.age <= upper,
+            documentQuery: (q) => q.where({ age: { $gte: lower, $lte: upper } }),
+        };
+    }
+
+    public getCriterias(category: ReportCategory): DashboardCategoryCriteria[] {
+        const factory = [
+            { category: 'age' as ReportCategory, criterias: this.getAgeCriterias() },
+            {
+                category: 'activity' as ReportCategory,
+                criterias: this.getActivityCriterias(),
+            },
+        ];
+        const result = factory.find((f) => f.category === category);
+        if (result) return result.criterias;
+        return undefined;
+    }
+
+    private getActivityCriterias(): DashboardCategoryCriteria[] {
         const result: DashboardCategoryCriteria[] = [
             this.createActivityCriteria('Accepted', 'A'),
             this.createActivityCriteria('Not Accepted', 'DNA'),
@@ -41,19 +66,7 @@ export default class DashboardService {
         return result;
     }
 
-    private createAgeBetweenCriteria(
-        label: string,
-        lower: number,
-        upper: number
-    ): DashboardCategoryCriteria {
-        return {
-            label,
-            criteria: (guest) => lower <= guest.age && guest.age <= upper,
-            documentQuery: (q) => q.where({ age: { $gte: lower, $lte: upper } }),
-        };
-    }
-
-    public getAgeCriterias(): DashboardCategoryCriteria[] {
+    private getAgeCriterias(): DashboardCategoryCriteria[] {
         const result: DashboardCategoryCriteria[] = [
             {
                 label: '<=20',

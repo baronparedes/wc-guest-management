@@ -42,7 +42,7 @@
         "prestart": "npm run generate",
         "start": "nodemon -x ts-node src/server.ts",
         "generate": "tsoa routes && tsoa swagger",
-        "test": "jest --runInBand --testResultsProcessor ./node_modules/jest-junit-reporter"
+        "test": "jest --runInBand --testResultsProcessor ./node_modules/jest-junit-reporter --watchAll"
     },
     "keywords": [],
     "author": "",
@@ -56,7 +56,7 @@
             "dbName": "jest"
         },
         "binary": {
-            "version": "4.0.3",
+            "version": "4.2.6",
             "skipMD5": true
         },
         "autoStart": false

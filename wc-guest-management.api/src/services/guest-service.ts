@@ -23,24 +23,9 @@ export default class GuestService {
         slot?: Slot
     ): GuestDocumentQuery {
         if (category && index && slot) {
-            switch (category) {
-                case 'age':
-                    return this.queryByDashboardCategory(
-                        query,
-                        this.dashboardService.getAgeCriterias(),
-                        index,
-                        slot
-                    );
-                case 'activity':
-                    return this.queryByDashboardCategory(
-                        query,
-                        this.dashboardService.getActivityCriterias(),
-                        index,
-                        slot
-                    );
-            }
+            const dashboardCriterias = this.dashboardService.getCriterias(category);
+            return this.queryByDashboardCategory(query, dashboardCriterias, index, slot);
         }
-
         return query;
     }
 
@@ -56,14 +41,12 @@ export default class GuestService {
                 query = criteria.documentQuery(query);
             }
         }
-        if (slot && slot !== 'NA') {
-            query = query.where({ worshipTime: slot });
-        }
+        query = this.queryBySlot(query, slot);
         return query;
     }
 
     private queryBySlot(query: GuestDocumentQuery, slot?: Slot) {
-        if (slot) {
+        if (slot && slot !== 'NA') {
             query = query.where({ worshipTime: slot });
         }
         return query;
@@ -115,8 +98,7 @@ export default class GuestService {
     }
 
     public async fetchGuestsByDateRange(fromDate?: Date, toDate?: Date): Promise<Guest[]> {
-        const query = this.queryByDateRange(GuestModel.find(), fromDate, toDate);
-        return query;
+        return this.fetchGuests(fromDate, toDate);
     }
 
     public async fetchGuests(
