@@ -16,7 +16,7 @@ export default class DashboardService {
     ): DashboardCategoryCriteria {
         return {
             label: label.toLowerCase(),
-            criteria: (g) => g.action === label,
+            criteria: (g) => g.action === (action ?? label),
             documentQuery: (q) => q.where({ action: action ?? label }),
         };
     }
