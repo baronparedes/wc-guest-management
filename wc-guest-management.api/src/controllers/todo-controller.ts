@@ -1,12 +1,4 @@
-import {
-    BodyProp,
-    Controller,
-    Delete,
-    Get,
-    Post,
-    Put,
-    Route
-} from 'tsoa';
+import { BodyProp, Controller, Delete, Get, Post, Put, Route } from 'tsoa';
 import { Todo, TodoModel } from '../@models/todo';
 
 @Route('/api/todo')
@@ -24,21 +16,16 @@ export class TodoControler extends Controller {
     }
 
     @Post()
-    public async create(
-        @BodyProp() description: string
-    ): Promise<Todo> {
+    public async create(@BodyProp() description: string): Promise<Todo> {
         const todo = new TodoModel({ description });
         await todo.save();
         return todo as Todo;
     }
 
     @Put('/{id}')
-    public async update(
-        id: string,
-        @BodyProp() description: string
-    ): Promise<void> {
+    public async update(id: string, @BodyProp() description: string): Promise<void> {
         await TodoModel.findByIdAndUpdate(id, {
-            $set: { description }
+            $set: { description },
         });
     }
 
