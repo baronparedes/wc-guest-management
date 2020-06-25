@@ -19,5 +19,5 @@ export function getCurrentTimeSlot(): Slot {
 
 export function getCurrentDateTimeFormatted(date?: Date) {
     const now = date ?? new Date();
-    return `${formatDate(now)} ${now.toLocaleTimeString()}}`;
+    return `${formatDate(now)} ${now.toLocaleTimeString()}`;
 }
